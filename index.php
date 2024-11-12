@@ -1,5 +1,7 @@
 <?php 
 
+    include 'src/connection.php';
+
     // Metavlites 
     $greeting = "Hello World!";
     $studentName = "Alex Mavrotheris";
@@ -16,5 +18,18 @@
     // A simple calculation using variables
     $yearOfBirth = $currentYear - 23;  // Assume the student is 20 years old
     echo "<p>You were born in the year: " . $yearOfBirth . "</p>";  // Calculate and display year of birth
+
+   
+
+    // Test the database connection
+    $conn = connectDatabase();
+
+    if ($conn->ping()) {
+        echo "Database connection successful!";
+    } else {
+        echo "Database connection failed: " . $conn->error;
+    }
+
+    $conn->close();
 
 ?>
