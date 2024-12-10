@@ -1,0 +1,103 @@
+<?php
+// Assuming you have a PDO connection set up as $pdo
+// Include the PDO connection setup here if needed
+
+// 1. Register a new user
+function registerUser($username, $password, $email) {
+    global $pdo;
+
+    // Hash the password before storing it
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+    // Prepare and execute the SQL query to insert the user
+    $sql = "INSERT INTO users (username, password, email, created_at) VALUES (?, ?, ?, NOW())";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$username, $hashedPassword, $email]);
+
+    return $pdo->lastInsertId(); // Return the user ID
+}
+
+// 2. Login user
+function loginUser($username, $password) {
+    global $pdo;
+
+    // Retrieve the user based on the username
+    $sql = "SELECT * FROM users WHERE username = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$username]);
+    $user = $stmt->fetch();
+
+    if ($user && password_verify($password, $user['password'])) {
+        // If password matches, start a session
+        session_start();
+        $_SESSION['user_id'] = $user['user_id'];
+        $_SESSION['username'] = $user['username'];
+        return true;
+    }
+
+    return false; // Invalid credentials
+}
+
+// 3. Logout user
+function logoutUser() {
+    // Destroy the session to log out the user
+    session_start();
+    session_unset();
+    session_destroy();
+}
+
+// 4. Check if the user is logged in
+function checkSession() {
+    session_start();
+
+    // Check if the user session is active
+    if (isset($_SESSION['user_id'])) {
+        return true; // User is logged in
+    }
+
+    return false; // User is not logged in
+}
+
+// 5. Reset password (send reset link)
+function resetPassword($email) {
+    global $pdo;
+
+    // Check if the email exists in the database
+    $sql = "SELECT * FROM users WHERE email = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$email]);
+    $user = $stmt->fetch();
+
+    if ($user) {
+        // Generate a password reset token (this would usually involve more security like an expiry time)
+        $token = bin2hex(random_bytes(16));
+
+        // Store the token in the database (or send via email for password reset)
+        $sql = "UPDATE users SET reset_token = ? WHERE user_id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$token, $user['user_id']]);
+
+        // Send reset link to the user's email (you can customize this to send an actual email)
+        // Example:
+        // mail($user['email'], 'Password Reset Link', "Click here to reset your password: <link>?token=$token");
+
+        return true; // Password reset link sent (or token stored)
+    }
+
+    return false; // Email not found in the system
+}
+
+// 6. Update user password
+function updatePassword($userId, $newPassword) {
+    global $pdo;
+
+    // Hash the new password before updating
+    $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+
+    // Prepare and execute the SQL query to update the password
+    $sql = "UPDATE users SET password = ? WHERE user_id = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$hashedPassword, $userId]);
+
+    return true; // Password updated successfully
+}
