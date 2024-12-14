@@ -74,10 +74,11 @@ function handleRequest() {
     // Check if the action parameter is set
     if (isset($_GET['action'])) {
         $action = $_GET['action'];
+
         switch ($action) {
             case 'getUserProfile':
                 if (isset($_GET['userId'])) {
-                    $userId = (int) $_GET['userId']; // Casting to int for safety
+                    $userId = (int) $_GET['userId'];
                     echo json_encode(getUserProfile($userId));
                 } else {
                     echo json_encode(['error' => 'userId parameter is missing']);
@@ -85,22 +86,22 @@ function handleRequest() {
                 break;
 
             case 'updateUserProfile':
-                if (isset($_GET['userId'], $_GET['username'], $_GET['email'])) {
-                    $userId = (int) $_GET['userId'];
-                    $username = $_GET['username'];
-                    $email = $_GET['email'];
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userId'], $_POST['username'], $_POST['email'])) {
+                    $userId = (int) $_POST['userId'];
+                    $username = $_POST['username'];
+                    $email = $_POST['email'];
                     echo json_encode(updateUserProfile($userId, $username, $email));
                 } else {
-                    echo json_encode(['error' => 'Missing required parameters']);
+                    echo json_encode(['error' => 'Missing required parameters or wrong HTTP method']);
                 }
                 break;
 
             case 'deleteUser':
-                if (isset($_GET['userId'])) {
+                if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && isset($_GET['userId'])) {
                     $userId = (int) $_GET['userId'];
                     echo json_encode(deleteUser($userId));
                 } else {
-                    echo json_encode(['error' => 'userId parameter is missing']);
+                    echo json_encode(['error' => 'userId parameter is missing or wrong HTTP method']);
                 }
                 break;
 

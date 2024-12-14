@@ -5,6 +5,19 @@ header('Content-Type: application/json');
 require_once './api/config/connection.php';
 
 
+
+function testPDOConnection($pdo) {
+    try {
+        // Try to execute a simple query to check the connection
+        $pdo->query("SELECT 1");
+        return json_encode(['status' => 'connected']);
+    } catch (PDOException $e) {
+        // If there is an error, return not connected
+        return json_encode(['status' => 'not connected', 'error' => $e->getMessage()]);
+    }
+}
+
+
 function createGame($userId, $gameType, $maxPlayers) {
     global $pdo;
 
@@ -404,7 +417,7 @@ function getLobbyDetails($lobbyId) {
 
 function getUserProfile($pdo, $userId) {
     try {
-        $sql = "SELECT id, username, email, created_at FROM users WHERE id = ?";
+        $sql = "SELECT id, name, email, created_at FROM users WHERE id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$userId]);
         return $stmt->fetch(PDO::FETCH_ASSOC); // Return the user's profile data
