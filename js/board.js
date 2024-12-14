@@ -29,6 +29,44 @@ function renderBoard(board) {
     });
 }
 
+// Render the board
+function renderBoard(boardState) {
+    const boardContainer = $('#board');
+    boardContainer.empty(); // Clear the previous board
+
+    boardState.forEach(row => {
+        row.forEach(cell => {
+            const div = $('<div></div>');
+
+             // Assign a class based on the cell value
+             switch (cell.value) {
+                case 0:
+                    div.addClass('cell W'); // White
+                    break;
+                case 1:
+                    div.addClass('cell R'); // Red
+                    break;
+                case 2:
+                    div.addClass('cell B'); // Blue
+                    break;
+                case 3:
+                    div.addClass('cell G'); // Green
+                    break;
+                case 4:
+                    div.addClass('cell Y'); // Yellow
+                    break;
+                default:
+                    div.addClass('cell empty'); // Default if value doesn't match
+                    break;
+            }
+
+            //div.addClass('cell ' + cell.block); // Add class for block type or empty
+            //div.text(`${cell.x},${cell.y}`); // Optionally show coordinates
+            boardContainer.append(div);
+        });
+    });
+}
+
 // Fetch the current turn info
 function fetchTurn() {
     $.ajax({

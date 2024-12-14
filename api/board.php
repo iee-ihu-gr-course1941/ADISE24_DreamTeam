@@ -9,7 +9,12 @@ require_once './config/connection.php';
  *
  * @return array
  */
-function fetch_board() {
+function fetch_board() {  
+
+
+
+
+
     $pdo = getDatabaseConnection();
     try {
         $stmt = $pdo->prepare("CALL fetch_board() ");

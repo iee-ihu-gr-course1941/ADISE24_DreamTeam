@@ -19,7 +19,7 @@ function getNextPlayerTurn($gameId) {
         $stmt->execute([$gameId]);
         $players = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-        $currentIndex = array_search($currentTurn, $players);
+        $currentIndex = array_search ($currentTurn, $players);
         $nextIndex = ($currentIndex + 1) % count($players);
 
         return $players[$nextIndex]; // Return the next player's ID

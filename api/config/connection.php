@@ -5,7 +5,7 @@
  * @return PDO
  */
 function getDatabaseConnection() {
-    $host = 'localhost';
+    $host = '139.138.206.194';
     $db = 'blokus'; // Replace with your database name
     $user = 'root'; // Replace with your database username
     $pass = '';     // Replace with your database password

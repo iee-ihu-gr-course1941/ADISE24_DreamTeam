@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 require_once './config/connection.php';
 
 function createGame($userId, $gameType, $maxPlayers) {
-    global $pdo;
+    $pdo = getDatabaseConnection(); // Get the PDO connection here
 
     $stmt = $pdo->prepare("INSERT INTO games (player1_id, game_status, created_at) 
                            VALUES (?, 'waiting', NOW())");
@@ -21,7 +21,7 @@ function createGame($userId, $gameType, $maxPlayers) {
 }
 
 function joinGame($userId, $gameId) {
-    global $pdo;
+    $pdo = getDatabaseConnection(); // Get the PDO connection here
 
     // Check if the game exists and is not full
     $stmt = $pdo->prepare("SELECT * FROM games WHERE id = ? AND game_status = 'waiting'");
@@ -43,7 +43,7 @@ function joinGame($userId, $gameId) {
 }
 
 function getGameDetails($gameId) {
-    global $pdo;
+    $pdo = getDatabaseConnection(); // Get the PDO connection here
 
     $stmt = $pdo->prepare("SELECT * FROM games WHERE id = ?");
     $stmt->execute([$gameId]);
@@ -72,7 +72,7 @@ function getGameDetails($gameId) {
 }
 
 function getAvailableGames() {
-    global $pdo;
+    $pdo = getDatabaseConnection(); // Get the PDO connection here
 
     $stmt = $pdo->prepare("SELECT id, player1_id, game_status FROM games WHERE game_status = 'waiting'");
     $stmt->execute();
@@ -91,7 +91,7 @@ function getAvailableGames() {
 }
 
 function leaveGame($userId, $gameId) {
-    global $pdo;
+    $pdo = getDatabaseConnection(); // Get the PDO connection here
 
     // Check if the user is part of the game
     $stmt = $pdo->prepare("SELECT * FROM games WHERE id = ? AND (player1_id = ? OR player2_id = ?)");
@@ -110,7 +110,7 @@ function leaveGame($userId, $gameId) {
 }
 
 function startGame($gameId) {
-    global $pdo;
+    $pdo = getDatabaseConnection(); // Get the PDO connection here
 
     $stmt = $pdo->prepare("SELECT * FROM games WHERE id = ?");
     $stmt->execute([$gameId]);
@@ -133,7 +133,7 @@ function startGame($gameId) {
 }
 
 function endGame($gameId) {
-    global $pdo;
+    $pdo = getDatabaseConnection(); // Get the PDO connection here
 
     // Fetch game details
     $stmt = $pdo->prepare("SELECT * FROM games WHERE id = ?");
@@ -158,7 +158,7 @@ function endGame($gameId) {
 }
 
 function getGameState($gameId) {
-    global $pdo;
+    $pdo = getDatabaseConnection(); // Get the PDO connection here
 
     // Retrieve game state
     $stmt = $pdo->prepare("SELECT * FROM game_state WHERE game_id = ?");
@@ -177,7 +177,7 @@ function getGameState($gameId) {
 }
 
 function updateGameState($gameId, $moveData) {
-    global $pdo;
+    $pdo = getDatabaseConnection(); // Get the PDO connection here
 
     // Update the game state with the new move data
     $stmt = $pdo->prepare("UPDATE game_state SET current_turn = ?, board_state = ? WHERE game_id = ?");
@@ -187,7 +187,7 @@ function updateGameState($gameId, $moveData) {
 }
 
 function getGameHistory($gameId) {
-    global $pdo;
+    $pdo = getDatabaseConnection(); // Get the PDO connection here
 
     $stmt = $pdo->prepare("SELECT * FROM moves WHERE game_id = ? ORDER BY move_timestamp ASC");
     $stmt->execute([$gameId]);
@@ -206,4 +206,113 @@ function getGameHistory($gameId) {
 
     return $history;
 }
+
+/**
+ * Handle incoming request and perform actions based on query parameters
+ */
+function handleRequest() {
+    // Check if the action parameter is set
+    if (isset($_GET['action'])) {
+        $action = $_GET['action'];
+        switch ($action) {
+            case 'createGame':
+                if (isset($_GET['userId'], $_GET['gameType'], $_GET['maxPlayers'])) {
+                    $userId = (int) $_GET['userId'];
+                    $gameType = $_GET['gameType'];
+                    $maxPlayers = (int) $_GET['maxPlayers'];
+                    echo json_encode(createGame($userId, $gameType, $maxPlayers));
+                } else {
+                    echo json_encode(['error' => 'Missing required parameters']);
+                }
+                break;
+
+            case 'joinGame':
+                if (isset($_GET['userId'], $_GET['gameId'])) {
+                    $userId = (int) $_GET['userId'];
+                    $gameId = (int) $_GET['gameId'];
+                    echo json_encode(joinGame($userId, $gameId));
+                } else {
+                    echo json_encode(['error' => 'Missing required parameters']);
+                }
+                break;
+
+            case 'getGameDetails':
+                if (isset($_GET['gameId'])) {
+                    $gameId = (int) $_GET['gameId'];
+                    echo json_encode(getGameDetails($gameId));
+                } else {
+                    echo json_encode(['error' => 'gameId parameter is missing']);
+                }
+                break;
+
+            case 'getAvailableGames':
+                echo json_encode(getAvailableGames());
+                break;
+
+            case 'leaveGame':
+                if (isset($_GET['userId'], $_GET['gameId'])) {
+                    $userId = (int) $_GET['userId'];
+                    $gameId = (int) $_GET['gameId'];
+                    echo json_encode(leaveGame($userId, $gameId));
+                } else {
+                    echo json_encode(['error' => 'Missing required parameters']);
+                }
+                break;
+
+            case 'startGame':
+                if (isset($_GET['gameId'])) {
+                    $gameId = (int) $_GET['gameId'];
+                    echo json_encode(startGame($gameId));
+                } else {
+                    echo json_encode(['error' => 'gameId parameter is missing']);
+                }
+                break;
+
+            case 'endGame':
+                if (isset($_GET['gameId'])) {
+                    $gameId = (int) $_GET['gameId'];
+                    echo json_encode(endGame($gameId));
+                } else {
+                    echo json_encode(['error' => 'gameId parameter is missing']);
+                }
+                break;
+
+            case 'getGameState':
+                if (isset($_GET['gameId'])) {
+                    $gameId = (int) $_GET['gameId'];
+                    echo json_encode(getGameState($gameId));
+                } else {
+                    echo json_encode(['error' => 'gameId parameter is missing']);
+                }
+                break;
+
+            case 'updateGameState':
+                if (isset($_GET['gameId'], $_GET['moveData'])) {
+                    $gameId = (int) $_GET['gameId'];
+                    $moveData = json_decode($_GET['moveData'], true); // Assuming moveData is sent as JSON
+                    echo json_encode(updateGameState($gameId, $moveData));
+                } else {
+                    echo json_encode(['error' => 'Missing required parameters']);
+                }
+                break;
+
+            case 'getGameHistory':
+                if (isset($_GET['gameId'])) {
+                    $gameId = (int) $_GET['gameId'];
+                    echo json_encode(getGameHistory($gameId));
+                } else {
+                    echo json_encode(['error' => 'gameId parameter is missing']);
+                }
+                break;
+
+            default:
+                echo json_encode(['error' => 'Invalid action']);
+                break;
+        }
+    } else {
+        echo json_encode(['error' => 'Action parameter is missing']);
+    }
+}
+
+handleRequest();
 ?>
