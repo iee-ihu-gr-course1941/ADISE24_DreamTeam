@@ -1,5 +1,7 @@
 # README: Blokus Online Game
 
+https://iee-ihu-gr-course1941.github.io/ADISE24_DreamTeam/
+
 Αυτό το έργο αφορά την ανάπτυξη ενός online παιχνιδιού **Blokus** σύμφωνα με τις απαιτήσεις που έχουν καθοριστεί από την εργασία της πανεπιστημιακής μας ομάδας. Το παιχνίδι επιτρέπει στους χρήστες να παίξουν έναντι άλλου μέσω ενός GUI (Graphical User Interface) με την υποστήριξη Web API και χρήσης τεχνολογιών όπως PHP, MySQL, AJAX και jQuery.
 
 ## 1. Εισαγωγή
