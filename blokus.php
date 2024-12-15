@@ -59,7 +59,7 @@ function handle_users($method, $input) {
 // Handler for 'user' endpoint (show a specific user)
 function handle_user($method, $identifier, $input) {
     if ($method == 'GET') {
-        show_user($identifier);  // Assuming you have a function to show a specific user
+        getUserProfile($identifier);  // Assuming you have a function to show a specific user
     } else {
         header('HTTP/1.1 405 Method Not Allowed');
     }
@@ -74,4 +74,3 @@ function handle_status($method) {
     }
 }
 ?>
-
