@@ -110,7 +110,7 @@ $segments = getPathSegments();
 $basePath = 'ADISE24_DreamTeam/lib/accounts';
 
 // Check if the request matches the base path
-if ($segments[0] === 'accounts') {
+if ($segments[0] === 'accouts') {
     if ($method === 'GET') {
         if (count($segments) === 1) {
             // If no additional segment, call show_users()
