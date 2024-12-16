@@ -1,15 +1,10 @@
 <?php
 
 require_once 'dbconnect.php';
+require_once 'helper.php';	
 
 header('Content-Type: application/json');
 
-// Function to parse the URL (path parameter from query string)
-function getPathSegments() {
-    $path = isset($_GET['path']) ? $_GET['path'] : '';
-    $segments = explode('/', trim($path, '/'));
-    return $segments;
-}
 
 
 

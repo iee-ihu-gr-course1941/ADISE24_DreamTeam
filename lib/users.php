@@ -1,125 +1,144 @@
 <?php
 
 require_once 'dbconnect.php';
+require_once 'helper.php';
 
 header('Content-Type: application/json');
 
-// Function to parse the URL (path parameter from query string)
-function getPathSegments() {
-    $path = isset($_GET['path']) ? $_GET['path'] : '';
-    $segments = explode('/', trim($path, '/'));
-    return $segments;
+
+function registerUser($username, $password, $email) {
+    try {
+        $pdo = getDatabaseConnection();
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO users (username, password, email) VALUES (:username, :password, :email)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':username' => $username,
+            ':password' => $hashedPassword,
+            ':email' => $email,
+        ]);
+
+        return ['success' => true, 'message' => 'User registered successfully'];
+    } catch (PDOException $e) {
+        return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
+    }
 }
 
-
-
-/**
- * Retrieve user profile details
- */
-function getUserProfile($userId) {
-    $pdo = getDatabaseConnection(); // Get the PDO connection here
+function loginUser($username, $password) {
+    session_start();
+    
     try {
-        $sql = "SELECT id, username, email, created_at FROM users WHERE id = ?";
+        $pdo = getDatabaseConnection();
+        $sql = "SELECT id, password FROM users WHERE username = :username";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$userId]);
+        $stmt->execute([':username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($user) {
-            echo json_encode($user, JSON_PRETTY_PRINT); // Return the user's profile data as JSON
+
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
+            return ['success' => true, 'message' => 'Login successful'];
         } else {
-            echo json_encode(['error' => 'User not found']);
+            return ['success' => false, 'message' => 'Invalid username or password'];
         }
     } catch (PDOException $e) {
-        echo json_encode(['error' => 'Error in getUserProfile: ' . $e->getMessage()]);
+        return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
     }
 }
 
-/**
- * Update user profile details
- */
-function updateUserProfile($userId, $username, $email) {
-    $pdo = getDatabaseConnection(); // Get the PDO connection here
+
+function logoutUser() {
+    session_start();
+    session_unset();
+    session_destroy();
+
+    return ['success' => true, 'message' => 'User logged out successfully'];
+}
+
+
+function checkSession() {
+    session_start();
+
+    if (isset($_SESSION['user_id'])) {
+        return ['loggedIn' => true, 'user_id' => $_SESSION['user_id']];
+    } else {
+        return ['loggedIn' => false];
+    }
+}
+function resetPassword($email) {
     try {
-        $sql = "UPDATE users SET username = ?, email = ? WHERE id = ?";
+        $pdo = getDatabaseConnection();
+        $sql = "SELECT id FROM users WHERE email = :email";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$username, $email, $userId]);
-        return ['success' => $stmt->rowCount() > 0];
+        $stmt->execute([':email' => $email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            $resetToken = bin2hex(random_bytes(16));
+            $sql = "UPDATE users SET reset_token = :token, reset_expiry = :expiry WHERE id = :id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':token' => $resetToken,
+                ':expiry' => date('Y-m-d H:i:s', strtotime('+1 hour')),
+                ':id' => $user['id'],
+            ]);
+
+            // Replace this with your email-sending logic
+            mail($email, "Password Reset Request", "Use this link to reset your password: https://your-site.com/reset?token=$resetToken");
+
+            return ['success' => true, 'message' => 'Password reset email sent'];
+        } else {
+            return ['success' => false, 'message' => 'Email not found'];
+        }
     } catch (PDOException $e) {
-        return ['error' => 'Error in updateUserProfile: ' . $e->getMessage()];
+        return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
     }
 }
 
-/**
- * Delete user account
- */
-function deleteUser($userId) {
-    $pdo = getDatabaseConnection(); // Get the PDO connection here
+function updatePassword($userId, $newPassword) {
     try {
-        $sql = "DELETE FROM users WHERE id = ?";
+        $pdo = getDatabaseConnection();
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+        $sql = "UPDATE users SET password = :password WHERE id = :id";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$userId]);
-        return ['success' => $stmt->rowCount() > 0];
+        $stmt->execute([
+            ':password' => $hashedPassword,
+            ':id' => $userId,
+        ]);
+
+        return ['success' => true, 'message' => 'Password updated successfully'];
     } catch (PDOException $e) {
-        return ['error' => 'Error in deleteUser: ' . $e->getMessage()];
+        return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
     }
 }
 
-/**
- * Retrieve user's game statistics
- */
-function getUserGameStats($userId) {
-    $pdo = getDatabaseConnection(); // Get the PDO connection here
-    try {
-        $sql = "SELECT 
-                    COUNT(CASE WHEN player1_id = ? AND winner_id = player1_id THEN 1 END) AS wins,
-                    COUNT(CASE WHEN player2_id = ? AND winner_id = player2_id THEN 1 END) AS losses,
-                    COUNT(game_id) AS total_games
-                FROM games 
-                WHERE player1_id = ? OR player2_id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$userId, $userId, $userId, $userId]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        return ['error' => 'Error in getUserGameStats: ' . $e->getMessage()];
-    }
-}
 
-// RESTful Functions
-function show_users() {
-    $pdo = getDatabaseConnection();
-    $sql = 'SELECT username, piece_color FROM players';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode($res, JSON_PRETTY_PRINT);
-}
-
-function show_user($piece_color) {
-    $pdo = getDatabaseConnection();
-    $sql = 'SELECT username, piece_color FROM players WHERE piece_color = ?';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$piece_color]);
-    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode($res, JSON_PRETTY_PRINT);
-}
 
 // Main Controller
 $method = $_SERVER['REQUEST_METHOD'];
 $segments = getPathSegments();
 
 // Adjust paths for your directory structure
-$basePath = 'ADISE24_DreamTeam/lib/users';
+$basePath = 'ADISE24_DreamTeam/lib/accounts';
 
 // Check if the request matches the base path
 if ($segments[0] === 'users') {
     if ($method === 'GET') {
         if (count($segments) === 1) {
             // If no additional segment, call show_users()
-            show_users();
+           // show_users();
         } elseif (count($segments) === 2) {
             // If additional segment, call getUserProfile($userId)
             $userId = $segments[1];
-            getUserProfile($userId);
-        } else {
+          //  getUserProfile($userId);
+        } elseif (count($segments) == 3){
+		$userName = $segment[1];
+		$pass = $segment[2];
+		loginUser($userName,$pass);
+	}  
+
+	else {
             http_response_code(404);
             echo json_encode(["error" => "Invalid endpoint"]);
         }
