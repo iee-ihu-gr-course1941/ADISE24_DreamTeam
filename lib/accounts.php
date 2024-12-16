@@ -107,10 +107,10 @@ $method = $_SERVER['REQUEST_METHOD'];
 $segments = getPathSegments();
 
 // Adjust paths for your directory structure
-$basePath = 'ADISE24_DreamTeam/lib/acounts';
+$basePath = 'ADISE24_DreamTeam/lib/accounts';
 
 // Check if the request matches the base path
-if ($segments[0] === 'acounts') {
+if ($segments[0] === 'accounts') {
     if ($method === 'GET') {
         if (count($segments) === 1) {
             // If no additional segment, call show_users()
