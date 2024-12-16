@@ -2,6 +2,7 @@
 require_once "lib/dbconnect.php";
 require_once "lib/accounts.php";   // Assuming you have user-related functions
 require_once "lib/users.php";
+require_once "lib/version.php";
 
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -19,6 +20,9 @@ if (isset($_SERVER['HTTP_X_TOKEN'])) {
 
 // Main routing logic
 switch ($r = array_shift($request)) {
+    case 'v1':
+        handle_version($method);
+    break;
 	case 'accounts':
         	// Handle 'users' path
 		switch ($b = array_shift($request)) {
@@ -53,6 +57,15 @@ switch ($r = array_shift($request)) {
         exit;
 }
 
+function handle_version($method){
+    if ($method == 'GET') {
+        getApiVersion();  // Assuming you have a function to show users
+    } else {
+        header('HTTP/1.1 405 Method Not Allowed');
+    }
+}
+
+
 // Handler for 'users' endpoint (show all users)
 function handle_accounts($method, $input) {
     if ($method == 'GET') {
@@ -72,7 +85,7 @@ function handle_account($method, $identifier, $input) {
 }
 
 function handle_user($method, $identifier, $input){
-	if ($methos == 'GET'){
+	if ($method == 'GET'){
 		loginuser();
 	}else { 
 		header('HTTP/1.1 405 Methos Not Allowed ');
