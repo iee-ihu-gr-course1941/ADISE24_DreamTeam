@@ -5,9 +5,6 @@ require_once 'helper.php';
 
 header('Content-Type: application/json');
 
-
-
-
 /**
  * Retrieve user profile details
  */
@@ -95,36 +92,6 @@ function show_user($piece_color) {
     $stmt->execute([$piece_color]);
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($res, JSON_PRETTY_PRINT);
-}
-
-// Main Controller
-$method = $_SERVER['REQUEST_METHOD'];
-$segments = getPathSegments();
-
-// Adjust paths for your directory structure
-$basePath = 'ADISE24_DreamTeam/lib/accounts';
-
-// Check if the request matches the base path
-if ($segments[0] === 'accouts') {
-    if ($method === 'GET') {
-        if (count($segments) === 1) {
-            // If no additional segment, call show_users()
-            show_users();
-        } elseif (count($segments) === 2) {
-            // If additional segment, call getUserProfile($userId)
-            $userId = $segments[1];
-            getUserProfile($userId);
-        } else {
-            http_response_code(404);
-            echo json_encode(["error" => "Invalid endpoint"]);
-        }
-    } else {
-        http_response_code(405);
-        echo json_encode(["error" => "Method not allowed"]);
-    }
-} else {
-    http_response_code(404);
-    echo json_encode(["error" => "Endpoint not found"]);
 }
 
 ?>

@@ -5,7 +5,7 @@ require_once 'helper.php';
 
 header('Content-Type: application/json');
 
-
+// Functions for handling user operations
 function registerUser($username, $password, $email) {
     try {
         $pdo = getDatabaseConnection();
@@ -46,7 +46,6 @@ function loginUser($username, $password) {
     }
 }
 
-
 function logoutUser() {
     session_start();
     session_unset();
@@ -54,7 +53,6 @@ function logoutUser() {
 
     return ['success' => true, 'message' => 'User logged out successfully'];
 }
-
 
 function checkSession() {
     session_start();
@@ -65,6 +63,7 @@ function checkSession() {
         return ['loggedIn' => false];
     }
 }
+
 function resetPassword($email) {
     try {
         $pdo = getDatabaseConnection();
@@ -112,4 +111,53 @@ function updatePassword($userId, $newPassword) {
         return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
     }
 }
+
+
+// Main Controller - API Handler
+$method = $_SERVER['REQUEST_METHOD'];
+$segments = getPathSegments();
+
+// Check if the request matches the base path
+if ($segments[0] === 'users') {
+    // Handle POST requests for login, register, reset password, etc.
+    if ($method === 'POST') {
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if ($data && isset($data['action'])) {
+            switch ($data['action']) {
+                case 'login':
+                    echo json_encode(loginUser($data['username'], $data['password']));
+                    break;
+                case 'register':
+                    echo json_encode(registerUser($data['username'], $data['password'], $data['email']));
+                    break;
+                case 'reset_password':
+                    echo json_encode(resetPassword($data['email']));
+                    break;
+                case 'update_password':
+                    echo json_encode(updatePassword($data['user_id'], $data['new_password']));
+                    break;
+                default:
+                    http_response_code(400);
+                    echo json_encode(["success" => false, "message" => "Invalid action", "data" => null]);
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(["success" => false, "message" => "Action not specified or invalid", "data" => null]);
+        }
+    }
+    // Handle GET requests to check session
+    elseif ($method === 'GET') {
+        echo json_encode(checkSession());
+    } 
+    else {
+        http_response_code(405); // Method not allowed
+        echo json_encode(["success" => false, "message" => "Method not allowed", "data" => null]);
+    }
+} else {
+    http_response_code(404);
+    echo json_encode(["success" => false, "message" => "Endpoint not found", "data" => null]);
+}
+
 ?>
+

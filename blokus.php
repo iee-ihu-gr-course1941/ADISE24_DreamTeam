@@ -1,8 +1,8 @@
 <?php
 require_once "lib/dbconnect.php";
-//require_once "lib/helper_function.php";  
-require_once "lib/users.php";   
-require_once "lib/accounts.php";
+require_once "lib/accounts.php";   // Assuming you have user-related functions
+require_once "lib/users.php";
+
 
 $method = $_SERVER['REQUEST_METHOD'];
 $request = explode('/', trim($_SERVER['PATH_INFO'],'/'));
@@ -19,31 +19,23 @@ if (isset($_SERVER['HTTP_X_TOKEN'])) {
 
 // Main routing logic
 switch ($r = array_shift($request)) {
-    case 'users':
-        // Handle 'users' path
-        switch ($b = array_shift($request)) {
-            case '':
-                // Show all users
-               // handle_users($method, $input);
-                break;
-            default:
+	case 'accounts':
+        	// Handle 'users' path
+		switch ($b = array_shift($request)) {
+			 case '':
+               		 // Show all users
+               		 handle_accounts($method, $input);
+               		 break;
+           	 default:
                 // Show user by a specific identifier (e.g., color or ID)
-               // handle_user($method, $b, $input);
-                break;
+               	 handle_account($method, $b, $input);
+               break;
         }
         break;
-    case 'accounts':
-        // Handle 'accounts' path
-        switch ($b = array_shift($request)) {
-            case '':
-                // Show all users
-                handle_accounts($method, $input);
-                break;
-            default:
-                // Show user by a specific identifier (e.g., color or ID)
-                handle_account($method, $b, $input);
-                break;
-        }
+//	case 'users':
+//		handle_user($method, $input);
+//	break;
+	
 
     case 'status':
         // Handle 'status' path
@@ -79,10 +71,19 @@ function handle_account($method, $identifier, $input) {
     }
 }
 
+function handle_user($method, $identifier, $input){
+	if ($methos == 'GET'){
+		loginuser();
+	}else { 
+		header('HTTP/1.1 405 Methos Not Allowed ');
+	}
+}
+
+
 // Handler for 'status' endpoint
 function handle_status($method) {
     if ($method == 'GET') {
-     //   show_status();  // Assuming you have a function to show status
+        show_status();  // Assuming you have a function to show status
     } else {
         header('HTTP/1.1 405 Method Not Allowed');
     }
