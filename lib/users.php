@@ -5,7 +5,6 @@ require_once 'helper.php';
 
 header('Content-Type: application/json');
 
-
 function registerUser($username, $password, $email) {
     try {
         $pdo = getDatabaseConnection();
@@ -19,9 +18,9 @@ function registerUser($username, $password, $email) {
             ':email' => $email,
         ]);
 
-        return ['success' => true, 'message' => 'User registered successfully'];
+        echo json_encode(['success' => true, 'message' => 'User registered successfully']);
     } catch (PDOException $e) {
-        return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
+        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
 }
 
@@ -34,37 +33,41 @@ function loginUser($username, $password) {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([':username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            return ['success' => true, 'message' => 'Login successful'];
+        
+        if ($user) {
+            // Compare the entered password with the stored password
+            if ($password === $user['password']) {
+                $_SESSION['user_id'] = $user['id'];
+                echo json_encode(['success' => true, 'message' => 'Login successful']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
+            }
         } else {
-            return ['success' => false, 'message' => 'Invalid username or password'];
+            echo json_encode(['success' => false, 'message' => 'User not found']);
         }
     } catch (PDOException $e) {
-        return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
+        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
 }
-
 
 function logoutUser() {
     session_start();
     session_unset();
     session_destroy();
 
-    return ['success' => true, 'message' => 'User logged out successfully'];
+    echo json_encode(['success' => true, 'message' => 'User logged out successfully']);
 }
-
 
 function checkSession() {
     session_start();
 
     if (isset($_SESSION['user_id'])) {
-        return ['loggedIn' => true, 'user_id' => $_SESSION['user_id']];
+        echo json_encode(['loggedIn' => true, 'user_id' => $_SESSION['user_id']]);
     } else {
-        return ['loggedIn' => false];
+        echo json_encode(['loggedIn' => false]);
     }
 }
+
 function resetPassword($email) {
     try {
         $pdo = getDatabaseConnection();
@@ -86,12 +89,12 @@ function resetPassword($email) {
             // Replace this with your email-sending logic
             mail($email, "Password Reset Request", "Use this link to reset your password: https://your-site.com/reset?token=$resetToken");
 
-            return ['success' => true, 'message' => 'Password reset email sent'];
+            echo json_encode(['success' => true, 'message' => 'Password reset email sent']);
         } else {
-            return ['success' => false, 'message' => 'Email not found'];
+            echo json_encode(['success' => false, 'message' => 'Email not found']);
         }
     } catch (PDOException $e) {
-        return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
+        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
 }
 
@@ -107,9 +110,9 @@ function updatePassword($userId, $newPassword) {
             ':id' => $userId,
         ]);
 
-        return ['success' => true, 'message' => 'Password updated successfully'];
+        echo json_encode(['success' => true, 'message' => 'Password updated successfully']);
     } catch (PDOException $e) {
-        return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
+        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
 }
 ?>
