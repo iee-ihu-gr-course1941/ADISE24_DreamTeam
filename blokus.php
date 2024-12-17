@@ -88,6 +88,7 @@ $router->add('GET', 'v1', 'getApiVersion');  // Mapping GET /v1 to getApiVersion
 $router->add('GET', 'accounts', 'show_users');  // Mapping GET /accounts to show_users function
 $router->add('GET', 'accounts/{id}', 'getUserProfile');  // Mapping GET /accounts/{id} to getUserProfile function
 
+
 //user functions
 $router->add('POST', 'users/register', function($input) {
 	registerUser($input['username'], $input['password'], $input['email']);
@@ -97,6 +98,7 @@ $router->add('POST', 'users/login', function($input) {
 });
 $router->add('POST', 'users/logout', 'logoutUser');  // POST /users/logout -> logoutUser function
 $router->add('GET', 'users/session', 'checkSession');  // GET /users/session -> checkSession function
+$router->add('GET', 'users/user', 'getUserProfilef');  // Mapping DELETE /accounts/{id} to deleteUser function
 
 // Handle the request
 $input = json_decode(file_get_contents('php://input'), true);

@@ -68,6 +68,18 @@ function checkSession() {
     }
 }
 
+function isLoggedIn() {
+    session_start();
+
+    if (isset($_SESSION['user_id'])) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
 function resetPassword($email) {
     try {
         $pdo = getDatabaseConnection();
@@ -115,4 +127,36 @@ function updatePassword($userId, $newPassword) {
         echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
 }
+
+
+function getUserProfilef() {
+    session_start();
+
+    $userId = $_SESSION['user_id'];
+
+    $pdo = getDatabaseConnection(); // Get the PDO connection here
+    try {
+        // Modify the query to fetch the season_id, or join with another table if needed
+        $sql = "SELECT users.id, users.username, users.email, users.created_at, season.season_id
+                FROM users
+                LEFT JOIN season ON users.id = season.user_id
+                WHERE users.id = ?";
+        
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($user) {
+            echo json_encode($user, JSON_PRETTY_PRINT); // Return the user's profile data as JSON
+        } else {
+            echo json_encode(['error' => 'User not found']);
+        }
+    } catch (PDOException $e) {
+        echo json_encode(['error' => 'Error in getUserProfile: ' . $e->getMessage()]);
+    }
+}
+
+
+
+
 ?>
