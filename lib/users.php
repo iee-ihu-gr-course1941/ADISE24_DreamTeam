@@ -38,7 +38,6 @@ function loginUser($username, $password) {
             // Compare the entered password with the stored password
             if ($password === $user['password']) {
                 $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_name'] = $username;
                 echo json_encode(['success' => true, 'message' => 'Login successful']);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
@@ -68,17 +67,6 @@ function checkSession() {
         echo json_encode(['loggedIn' => false]);
     }
 }
-
-function isLoggedIn() {
-   // session_start();
-
-    if (isset($_SESSION['user_id'])) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 
 
 function resetPassword($email) {
@@ -128,26 +116,5 @@ function updatePassword($userId, $newPassword) {
         echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
 }
-
-
-function getUserProfilef() {
-    //session_start();
-
-    if (isLoggedIn() == false) {
-        echo json_encode(['error' => 'User not logged in']);
-        
-    }
-
-    echo json_encode(isLoggedIn());
-
-
-
-    $userId = $_SESSION['user_id'];
-    $userName = $_SESSION['user_name'];
-
-    echo json_encode(['user_id' => $userId, 'user_name' => $userName]);
-    
-}
-
 
 ?>

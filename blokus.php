@@ -98,7 +98,7 @@ $router->add('POST', 'users/login', function($input) {
 });
 $router->add('POST', 'users/logout', 'logoutUser');  // POST /users/logout -> logoutUser function
 $router->add('GET', 'users/session', 'checkSession');  // GET /users/session -> checkSession function
-$router->add('GET', 'users/user', 'getUserProfilef');  // Mapping DELETE /accounts/{id} to deleteUser function
+
 
 // Handle the request
 $input = json_decode(file_get_contents('php://input'), true);
