@@ -38,6 +38,7 @@ function loginUser($username, $password) {
             // Compare the entered password with the stored password
             if ($password === $user['password']) {
                 $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_id'] = $username;
                 echo json_encode(['success' => true, 'message' => 'Login successful']);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
@@ -130,41 +131,23 @@ function updatePassword($userId, $newPassword) {
 
 
 function getUserProfilef() {
-    session_start();
+    //session_start();
 
     if (isLoggedIn() == false) {
         echo json_encode(['error' => 'User not logged in']);
         
     }
 
+    echo json_encode('is loogid in = ' + isLoggedIn());
+
 
 
     $userId = $_SESSION['user_id'];
-    echo json_encode(['error' => $userId]);
+    $userName = $_SESSION['user_name'];
 
-    $pdo = getDatabaseConnection(); // Get the PDO connection here
-    try {
-        // Modify the query to fetch the season_id, or join with another table if needed
-        $sql = "SELECT users.id, users.username, users.email, users.created_at, season.season_id
-                FROM users
-                LEFT JOIN season ON users.id = season.user_id
-                WHERE users.id = ?";
-        
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$userId]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if ($user) {
-            echo json_encode($user, JSON_PRETTY_PRINT); // Return the user's profile data as JSON
-        } else {
-            echo json_encode(['error' => 'User not found']);
-        }
-    } catch (PDOException $e) {
-        echo json_encode(['error' => 'Error in getUserProfile: ' . $e->getMessage()]);
-    }
+    echo json_encode(['user_id' => $userId, 'user_name' => $userName]);
+    
 }
-
-
 
 
 ?>
