@@ -38,7 +38,7 @@ function loginUser($username, $password) {
             // Compare the entered password with the stored password
             if ($password === $user['password']) {
                 $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_id'] = $username;
+                $_SESSION['user_name'] = $username;
                 echo json_encode(['success' => true, 'message' => 'Login successful']);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
@@ -70,7 +70,7 @@ function checkSession() {
 }
 
 function isLoggedIn() {
-    session_start();
+   // session_start();
 
     if (isset($_SESSION['user_id'])) {
         return true;
