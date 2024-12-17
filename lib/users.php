@@ -138,7 +138,7 @@ function getUserProfilef() {
         
     }
 
-    echo json_encode('is loogid in = ' + isLoggedIn());
+    echo json_encode(isLoggedIn());
 
 
 
