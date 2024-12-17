@@ -1,0 +1,7 @@
+# Ignore config 
+/config/config.php
+lib/db_upass.php
+
+
+
+

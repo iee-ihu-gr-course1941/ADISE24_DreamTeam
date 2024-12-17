@@ -1,0 +1,23 @@
+# Enable PHP error reporting
+php_flag display_startup_errors on
+php_flag display_errors on
+php_flag html_errors on
+php_flag log_errors on
+php_value error_log /home/student/iee/2020/iee2020202/logs/PHP_errors.log
+
+# Access control for this directory
+<Files "users.php">
+    Require all granted
+</Files>
+
+# URL Rewriting to handle dynamic routes for users.php
+RewriteEngine On
+RewriteRule ^users$ /ADISE24_DreamTeam/lib/users.php [L]
+
+# Only rewrite if the requested URL is not an existing file or directory
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Rewrite all requests to users.php with the original requested path as a query parameter
+RewriteRule ^(.*)$ /~iee2020202/ADISE24_DreamTeam/lib/users.php?path=$1 [QSA,L]
+
