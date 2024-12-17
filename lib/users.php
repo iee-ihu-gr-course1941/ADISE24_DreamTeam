@@ -132,7 +132,15 @@ function updatePassword($userId, $newPassword) {
 function getUserProfilef() {
     session_start();
 
+    if (isLoggedIn() == false) {
+        echo json_encode(['error' => 'User not logged in']);
+        
+    }
+
+
+
     $userId = $_SESSION['user_id'];
+    echo json_encode(['error' => $userId]);
 
     $pdo = getDatabaseConnection(); // Get the PDO connection here
     try {
