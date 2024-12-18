@@ -29,7 +29,7 @@ function loginUser($username, $password) {
     
     try {
         $pdo = getDatabaseConnection();
-        $sql = "SELECT id , username password FROM users WHERE username = :username";
+        $sql = "SELECT id , username, password FROM users WHERE username = :username";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([':username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -50,6 +50,7 @@ function loginUser($username, $password) {
         echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
 }
+
 
 function logoutUser() {
     session_start();
