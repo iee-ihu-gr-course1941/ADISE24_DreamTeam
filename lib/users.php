@@ -29,7 +29,7 @@ function loginUser($username, $password) {
     
     try {
         $pdo = getDatabaseConnection();
-        $sql = "SELECT id, password FROM users WHERE username = :username";
+        $sql = "SELECT id , username password FROM users WHERE username = :username";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([':username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -38,6 +38,7 @@ function loginUser($username, $password) {
             // Compare the entered password with the stored password
             if ($password === $user['password']) {
                 $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
                 echo json_encode(['success' => true, 'message' => 'Login successful']);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
@@ -116,5 +117,6 @@ function updatePassword($userId, $newPassword) {
         echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
 }
+
 
 ?>
