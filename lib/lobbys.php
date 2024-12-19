@@ -1,8 +1,8 @@
 <?php
-header('Content-Type: application/json');
+require_once 'dbconnect.php';
+require_once 'helper.php';
 
-// Include the database connection file
-require_once './config/connection.php';
+header('Content-Type: application/json');
 
 function getLobbys() {
     $pdo = getDatabaseConnection();
