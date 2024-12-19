@@ -27,6 +27,7 @@ require_once "lib/accounts.php";   // Assuming you have user-related functions
 require_once "lib/users.php";
 require_once "lib/version.php";
 //require_once "lib/router.php";
+require_once "lib/lobbys.php";
 
 class Router {
     private $routes = [];
@@ -98,6 +99,9 @@ $router->add('POST', 'users/login', function($input) {
 });
 $router->add('POST', 'users/logout', 'logoutUser');  // POST /users/logout -> logoutUser function
 $router->add('GET', 'users/session', 'checkSession');  // GET /users/session -> checkSession function
+
+//lobby functions
+
 
 
 // Handle the request
