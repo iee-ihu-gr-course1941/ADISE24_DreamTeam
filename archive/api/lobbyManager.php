@@ -1,9 +1,9 @@
 <?php
+
+require_once 'dbconnect.php';
+require_once 'helper.php';
+
 header('Content-Type: application/json');
-
-// Include the database connection file
-require_once './config/connection.php';
-
 
 // 1. List all active game lobbies
 function getLobbies() {
