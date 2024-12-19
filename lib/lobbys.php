@@ -11,7 +11,8 @@ function getLobbys() {
         $sql = 'SELECT * FROM game_lobbies';
         $stmt = $pdo->query($sql);
         $stmt->fetchAll(); // Return the list of active lobbies
-        echo json_encode ([$stmt]);
+        $lobbys = $stmt->fetch(PDO::FETCH_ASSOC);
+        echo json_encode($lobbys, JSON_PRETTY_PRINT);
     } catch (PDOException $e) {
     echo json_encode (['error' => 'Error in getLobbys(): ' . $e->getMessage()]);
     }
