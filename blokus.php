@@ -101,7 +101,7 @@ $router->add('POST', 'users/logout', 'logoutUser');  // POST /users/logout -> lo
 $router->add('GET', 'users/session', 'checkSession');  // GET /users/session -> checkSession function
 
 //lobby functions
-$router->add('GET', 'lobbys', 'getLobbys');
+$router->add('GET', 'lobbys', 'getLobbies');
 
 
 // Handle the request

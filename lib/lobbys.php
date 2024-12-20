@@ -4,20 +4,17 @@ require_once 'helper.php';
 
 header('Content-Type: application/json');
 
-function getLobbys() {
+function getLobbies() {
     $pdo = getDatabaseConnection();
     try {
-        // Fetch all active lobbies where the status is 'waiting'
-        $sql = 'SELECT * FROM game_lobbies';
+        $sql = "SELECT * FROM game_lobbies";
         $stmt = $pdo->query($sql);
-        $stmt->fetchAll(); // Return the list of active lobbies
-        $lobbys = $stmt->fetch(PDO::FETCH_ASSOC);
-        echo json_encode($lobbys, JSON_PRETTY_PRINT);
+        $lobbies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($lobbies, JSON_PRETTY_PRINT);
     } catch (PDOException $e) {
-    echo json_encode (['error' => 'Error in getLobbys(): ' . $e->getMessage()]);
+        echo json_encode(['error' => 'Error in getLobbies(): ' . $e->getMessage()]);
     }
 }
-
 
 
 ?>
