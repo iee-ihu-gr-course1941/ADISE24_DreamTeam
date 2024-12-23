@@ -19,18 +19,30 @@ function getLobbies() {
 function createLobby() {
     $pdo = getDatabaseConnection();
 
-    // Hardcoded userId for testing
-    $userId = 1; // Replace with any valid user ID from your database
+    $userId = 2;
+    $gameType = 'middle';
+    $maxPlayers = 4;
+    $createdAt = date('Y-m-d H:i:s');
 
     try {
-        $sql = "INSERT INTO game_lobbies (player1_id) VALUES (:userId)";
+        $sql = "INSERT INTO game_lobbies (player1_id, game_type, max_players, created_at) 
+                VALUES (:userId, :gameType, :maxPlayers, :createdAt)";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':gameType', $gameType, PDO::PARAM_STR);
+        $stmt->bindParam(':maxPlayers', $maxPlayers, PDO::PARAM_INT);
+        $stmt->bindParam(':createdAt', $createdAt, PDO::PARAM_STR);
         $stmt->execute();
 
         $lobbyId = $pdo->lastInsertId();
 
-        echo json_encode(['lobby_id' => (int)$lobbyId]); 
+        echo json_encode([
+            'lobby_id' => (int)$lobbyId,
+            'player1_id' => $userId,
+            'game_type' => $gameType,
+            'max_players' => $maxPlayers,
+            'created_at' => $createdAt
+        ]);
     } catch (PDOException $e) {
         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
     }
