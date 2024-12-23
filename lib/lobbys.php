@@ -59,7 +59,7 @@ function joinLobby($userId, $lobbyId) {
 function leaveLobby() {
     $pdo = getDatabaseConnection();
     
-    $sql = "DELETE FROM game_lobbies WHERE id = '2'";
+    $sql = "DELETE FROM game_lobbies WHERE id = 2";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$lobbyId]);
 
