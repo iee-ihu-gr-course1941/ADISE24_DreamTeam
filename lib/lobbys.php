@@ -32,4 +32,32 @@ function createLobby($userId) {
     }
 }
 
+function joinLobby($userId, $lobbyId) {
+    $pdo = getDatabaseConnection();
+
+    try {
+        // Check if the lobby exists and is in 'waiting' status
+        $sql = "SELECT * FROM game_lobbies WHERE id = ? AND status = 'waiting'";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$lobbyId]);
+        $lobby = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($lobby) {
+            // Update the lobby to add the player and change the status to 'full' or similar
+            $sql = "UPDATE game_lobbies SET player1_id = ?, status = 'full' WHERE id = ?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$userId, $lobbyId]);
+
+            echo json_encode(['success' => true, 'message' => 'You have joined the lobby']);
+            return;
+        }
+
+        // If the lobby is not available, send an error message
+        echo json_encode(['error' => 'Lobby is not available or already full']);
+    } catch (PDOException $e) {
+        // Handle database errors
+        echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+    }
+}
+
 ?>

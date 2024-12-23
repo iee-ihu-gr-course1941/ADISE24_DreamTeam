@@ -102,11 +102,19 @@ $router->add('GET', 'users/session', 'checkSession');  // GET /users/session -> 
 
 //lobby functions
 $router->add('GET', 'lobbys', 'getLobbies');
-$router->add('GET', 'lobbys/uid', function($input) {
-    if (isset($input['userid']) && is_numeric($input['userid'])) {
-        createLobby((int)$input['userid']);
+$router->add('GET', 'lobbys/uid', function($input) { //Figure out how we can test this one
+    if (isset($input['player1_id']) && is_numeric($input['player1_id'])) {
+        createLobby((int)$input['player1_id']);
     } else {
         echo json_encode(['error' => 'Invalid or missing userid parameter.']);
+    }
+});
+
+$router->add('POST', 'lobbys/join', function($input) {
+    if (isset($input['userId']) && isset($input['lobbyId'])) {
+        joinLobby((int)$input['userId'], (int)$input['lobbyId']);
+    } else {
+        echo json_encode(['error' => 'Missing userId or lobbyId parameters']);
     }
 });
 
