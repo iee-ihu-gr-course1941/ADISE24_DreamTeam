@@ -58,37 +58,43 @@ function joinLobby($userId, $lobbyId) {
 
 function leaveLobby($userId, $lobbyId) {
     $pdo = getDatabaseConnection();
+    
+    $sql = "DELETE FROM game_lobbies WHERE id = '2'";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$lobbyId]);
 
-    try {
-        $sql = "SELECT * FROM game_lobbies WHERE id = ? AND player1_id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$lobbyId, $userId]);
-        $lobby = $stmt->fetch(PDO::FETCH_ASSOC);
+    echo json_encode(['success' => true, 'message' => 'Lobby deleted successfully']);
 
-        if ($lobby) {
-            // If the user is the lobby owner, delete the lobby
-            $sql = "DELETE FROM game_lobbies WHERE id = ?";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([$lobbyId]);
+    // try {
+    //     $sql = "SELECT * FROM game_lobbies WHERE id = ? AND player1_id = ?";
+    //     $stmt = $pdo->prepare($sql);
+    //     $stmt->execute([$lobbyId, $userId]);
+    //     $lobby = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            echo json_encode(['success' => true, 'message' => 'Lobby deleted successfully']);
-            return;
-        } else {
-            // If the user is not the owner, remove them from the lobby
-            $sql = "UPDATE game_lobbies SET player2_id = NULL WHERE id = ? AND player2_id = ?";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([$lobbyId, $userId]);
+    //     if ($lobby) {
+    //         // If the user is the lobby owner, delete the lobby
+    //         $sql = "DELETE FROM game_lobbies WHERE id = ?";
+    //         $stmt = $pdo->prepare($sql);
+    //         $stmt->execute([$lobbyId]);
 
-            if ($stmt->rowCount() > 0) {
-                echo json_encode(['success' => true, 'message' => 'You have left the lobby']);
-                return;
-            }
-        }
+    //         echo json_encode(['success' => true, 'message' => 'Lobby deleted successfully']);
+    //         return;
+    //     } else {
+    //         // If the user is not the owner, remove them from the lobby
+    //         $sql = "UPDATE game_lobbies SET player2_id = NULL WHERE id = ? AND player2_id = ?";
+    //         $stmt = $pdo->prepare($sql);
+    //         $stmt->execute([$lobbyId, $userId]);
 
-        echo json_encode(['error' => 'You are not part of this lobby']);
-    } catch (PDOException $e) {
-        echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
-    }
+    //         if ($stmt->rowCount() > 0) {
+    //             echo json_encode(['success' => true, 'message' => 'You have left the lobby']);
+    //             return;
+    //         }
+    //     }
+
+    //     echo json_encode(['error' => 'You are not part of this lobby']);
+    // } catch (PDOException $e) {
+    //     echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+    // }
 }
 
 ?>
