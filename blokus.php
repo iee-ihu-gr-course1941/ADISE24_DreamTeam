@@ -119,18 +119,18 @@ $router->add('POST', 'lobbys/join', function($input) { //Figure out how we can t
 });
 
 // //works
-// $router->add('POST', 'lobbys/leave', function() {
-//     leaveLobby();
-// });
-
-
-$router->add('POST', 'lobbys/leave', function($input) {
-    if (isset($input['id'])) {
-        leaveLobby((int)$input['id']);
-    } else {
-        echo json_encode(['error' => 'Missing lobbyId parameter']);
-    }
+$router->add('POST', 'lobbys/leave', function() {
+    leaveLobby();
 });
+
+//Issue with parameters
+// $router->add('POST', 'lobbys/leave', function($input) {
+//     if (isset($input['id'])) {
+//         leaveLobby((int)$input['id']);
+//     } else {
+//         echo json_encode(['error' => 'Missing lobbyId parameter']);
+//     }
+// });
 
 // Handle the request
 $input = json_decode(file_get_contents('php://input'), true);
