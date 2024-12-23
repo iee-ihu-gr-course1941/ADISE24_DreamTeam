@@ -103,10 +103,12 @@ $router->add('GET', 'users/session', 'checkSession');  // GET /users/session -> 
 //lobby functions
 $router->add('GET', 'lobbys', 'getLobbies');
 
+//works
 $router->add('POST', 'lobbys/create', function() {
     createLobby(); // No parameters needed as the userId is hardcoded
 });
 
+//Issue with parameters
 // $router->add('GET', 'lobbys/create', function($input) { //Figure out how we can test this one
 //     if (isset($input['player1_id']) && is_numeric($input['player1_id'])) {
 //         createLobby((int)$input['player1_id']);

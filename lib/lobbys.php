@@ -16,6 +16,7 @@ function getLobbies() {
     }
 }
 
+//works
 function createLobby() {
     $pdo = getDatabaseConnection();
 
@@ -48,6 +49,7 @@ function createLobby() {
     }
 }
 
+//Issue with parameters
 // function createLobby($userId) {
 //     $pdo = getDatabaseConnection();
 //     try {
