@@ -78,6 +78,7 @@ function joinLobby($userId, $lobbyId) {
 
 function leaveLobby($lobbyId) {
     $pdo = getDatabaseConnection();
+    $lobbyId = "SELECT id FROM game_lobbies";
 
     try {
         $sql = "DELETE FROM game_lobbies WHERE id = ?";
