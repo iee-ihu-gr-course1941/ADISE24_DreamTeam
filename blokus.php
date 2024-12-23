@@ -118,13 +118,10 @@ $router->add('POST', 'lobbys/join', function($input) { //Figure out how we can t
     }
 });
 
-$router->add('POST', 'lobbys/leave', function($input) {
-    if (isset($input['lobbyId'])) {
-        leaveLobby((int)$input['lobbyId']);
-    } else {
-        echo json_encode(['error' => 'Missing lobbyId parameter']);
-    }
+$router->add('POST', 'lobbys/leave', function() {
+    leaveLobby(); // No parameters needed, as `lobbyId` is hardcoded in the function
 });
+
 
 // $router->add('POST', 'lobbys/leave', function($input) {
 //     if (isset($input['userId']) && isset($input['lobbyId'])) {

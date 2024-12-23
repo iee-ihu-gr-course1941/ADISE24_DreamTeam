@@ -56,14 +56,22 @@ function joinLobby($userId, $lobbyId) {
     }
 }
 
-function leaveLobby($lobbyId) {
+function leaveLobby() {
     $pdo = getDatabaseConnection();
+    
+    // Static lobby ID for testing
+    $lobbyId = 2;
+
     try {
         $sql = "DELETE FROM game_lobbies WHERE id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$lobbyId]);
 
-        echo json_encode(['success' => true, 'message' => 'Lobby deleted successfully']);
+        if ($stmt->rowCount() > 0) {
+            echo json_encode(['success' => true, 'message' => "Lobby with ID $lobbyId deleted successfully"]);
+        } else {
+            echo json_encode(['success' => false, 'message' => "No lobby found with ID $lobbyId"]);
+        }
     } catch (PDOException $e) {
         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
     }
