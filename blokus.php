@@ -102,7 +102,13 @@ $router->add('GET', 'users/session', 'checkSession');  // GET /users/session -> 
 
 //lobby functions
 $router->add('GET', 'lobbys', 'getLobbies');
-
+$router->add('GET', 'lobbys/uid', function($input) {
+    if (isset($input['userid']) && is_numeric($input['userid'])) {
+        createLobby((int)$input['userid']);
+    } else {
+        echo json_encode(['error' => 'Invalid or missing userid parameter.']);
+    }
+});
 
 // Handle the request
 $input = json_decode(file_get_contents('php://input'), true);

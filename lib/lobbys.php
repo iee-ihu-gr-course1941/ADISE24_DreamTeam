@@ -16,5 +16,20 @@ function getLobbies() {
     }
 }
 
+function createLobby($userId) {
+    $pdo = getDatabaseConnection();
+    try {
+        $sql = "INSERT INTO game_lobbies (player1_id) VALUES (:userId)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $lobbyId = $pdo->lastInsertId();
+
+        echo json_encode(['lobby_id' => (int)$lobbyId]); 
+    } catch (PDOException $e) {
+        echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+    }
+}
 
 ?>
