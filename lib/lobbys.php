@@ -76,7 +76,7 @@ function joinLobby($userId, $lobbyId) {
 //     }
 // }
 
-function leaveLobby($lobby) {
+function leaveLobby($lobbyId) {
     $pdo = getDatabaseConnection();
 
     try {

@@ -125,8 +125,8 @@ $router->add('POST', 'lobbys/join', function($input) { //Figure out how we can t
 
 
 $router->add('POST', 'lobbys/leave', function($input) {
-    if (isset($input['lobbyId'])) {
-        leaveLobby((int)$input['lobbyId']);
+    if (isset($input['id'])) {
+        leaveLobby((int)$input['id']);
     } else {
         echo json_encode(['error' => 'Missing lobbyId parameter']);
     }
