@@ -110,9 +110,17 @@ $router->add('GET', 'lobbys/uid', function($input) { //Figure out how we can tes
     }
 });
 
-$router->add('POST', 'lobbys/join', function($input) {
+$router->add('POST', 'lobbys/join', function($input) { //Figure out how we can test this one too
     if (isset($input['userId']) && isset($input['lobbyId'])) {
         joinLobby((int)$input['userId'], (int)$input['lobbyId']);
+    } else {
+        echo json_encode(['error' => 'Missing userId or lobbyId parameters']);
+    }
+});
+
+$router->add('POST', 'lobbys/leave', function($input) {
+    if (isset($input['userId']) && isset($input['lobbyId'])) {
+        leaveLobby((int)$input['userId'], (int)$input['lobbyId']);
     } else {
         echo json_encode(['error' => 'Missing userId or lobbyId parameters']);
     }
