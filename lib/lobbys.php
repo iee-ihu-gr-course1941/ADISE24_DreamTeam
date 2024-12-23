@@ -56,11 +56,28 @@ function joinLobby($userId, $lobbyId) {
     }
 }
 
-function leaveLobby() {
+//works
+// function leaveLobby() {
+//     $pdo = getDatabaseConnection();
+//     $lobbyId = 2;
+
+//     try {
+//         $sql = "DELETE FROM game_lobbies WHERE id = ?";
+//         $stmt = $pdo->prepare($sql);
+//         $stmt->execute([$lobbyId]);
+
+//         if ($stmt->rowCount() > 0) {
+//             echo json_encode(['success' => true, 'message' => "Lobby with ID $lobbyId deleted successfully"]);
+//         } else {
+//             echo json_encode(['success' => false, 'message' => "No lobby found with ID $lobbyId"]);
+//         }
+//     } catch (PDOException $e) {
+//         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+//     }
+// }
+
+function leaveLobby($lobby) {
     $pdo = getDatabaseConnection();
-    
-    // Static lobby ID for testing
-    $lobbyId = 2;
 
     try {
         $sql = "DELETE FROM game_lobbies WHERE id = ?";
@@ -77,39 +94,60 @@ function leaveLobby() {
     }
 }
 
-// function leaveLobby() {
-//     $pdo = getDatabaseConnection();
+// Handle all API requests
+function handleRequest() {
+    // Check if the action parameter is set
+    if (isset($_GET['action'])) {
+        $action = $_GET['action'];
 
-//     try {
-//         $sql = "SELECT * FROM game_lobbies WHERE id = ? AND player1_id = ?";
-//         $stmt = $pdo->prepare($sql);
-//         $stmt->execute([$lobbyId, $userId]);
-//         $lobby = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Handle based on the action
+        switch ($action) {
+            case 'getLobbies':
+                echo json_encode(getLobbies());
+                break;
 
-//         if ($lobby) {
-//             // If the user is the lobby owner, delete the lobby
-//             $sql = "DELETE FROM game_lobbies WHERE id = ?";
-//             $stmt = $pdo->prepare($sql);
-//             $stmt->execute([$lobbyId]);
+            case 'createLobby':
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userId'])) { // Use $_POST for POST data
+                    $userId = (int) $_POST['userId'];
+                    echo json_encode(createLobby($userId));
+                } else {
+                    echo json_encode(['error' => 'User ID is required']);
+                }
+                break;
 
-//             echo json_encode(['success' => true, 'message' => 'Lobby deleted successfully']);
-//             return;
-//         } else {
-//             // If the user is not the owner, remove them from the lobby
-//             $sql = "UPDATE game_lobbies SET player2_id = NULL WHERE id = ? AND player2_id = ?";
-//             $stmt = $pdo->prepare($sql);
-//             $stmt->execute([$lobbyId, $userId]);
+            case 'joinLobby':
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userId'], $_POST['lobbyId'])) {
+                    echo json_encode(joinLobby($_POST['userId'], $_POST['lobbyId']));
+                } else {
+                    echo json_encode(['error' => 'User ID and Lobby ID are required']);
+                }
+                break;
 
-//             if ($stmt->rowCount() > 0) {
-//                 echo json_encode(['success' => true, 'message' => 'You have left the lobby']);
-//                 return;
-//             }
-//         }
+            case 'leaveLobby':
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userId'], $_POST['lobbyId'])) {
+                    echo json_encode(leaveLobby($_POST['userId'], $_POST['lobbyId']));
+                } else {
+                    echo json_encode(['error' => 'User ID and Lobby ID are required']);
+                }
+                break;
 
-//         echo json_encode(['error' => 'You are not part of this lobby']);
-//     } catch (PDOException $e) {
-//         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
-//     }
-// }
+            case 'getLobbyDetails':
+                if (isset($_GET['lobbyId'])) {
+                    echo json_encode(getLobbyDetails($_GET['lobbyId']));
+                } else {
+                    echo json_encode(['error' => 'Lobby ID is required']);
+                }
+                break;
+
+            default:
+                echo json_encode(['error' => 'Invalid action']);
+                break;
+        }
+    } else {
+        echo json_encode(['error' => 'Action parameter is missing']);
+    }
+}
+
+handleRequest();
 
 ?>
