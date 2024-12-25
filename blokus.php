@@ -139,6 +139,9 @@ $router->add('POST', 'lobbys/leave', function() {
 //     }
 // });
 
+//games functions
+
+
 // Handle the request
 $input = json_decode(file_get_contents('php://input'), true);
 $router->routeRequest($input);
