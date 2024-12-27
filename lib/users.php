@@ -11,7 +11,7 @@ function registerUser($username, $email, $password) {
         $pdo = getDatabaseConnection();
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO users (username, password, email) VALUES (:username, :password, :email)";
+        $sql = "INSERT INTO users (username, password_hash, email) VALUES (:username, :password, :email)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             ':username' => $username,
@@ -34,7 +34,7 @@ function loginUser($username, $password) {
         $pdo = getDatabaseConnection();
         
         // Fetch the user details from the database using the provided username
-        $sql = "SELECT user_id , username, password FROM users WHERE username = :username";
+        $sql = "SELECT user_id , username, password_hash FROM users WHERE username = :username";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([':username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -57,37 +57,7 @@ function loginUser($username, $password) {
     }
 }
 
-// **Login Provider (Helper Function to Get User from DB)**
-function loginUserFromDB($username, $password) {
-    try {
-        $pdo = getDatabaseConnection();
-        
-        // SQL query to fetch the user data by username
-        $sql = "SELECT user_id, username, password FROM users WHERE username = :username";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([':username' => $username]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if ($user) {
-            // Use password_verify to compare the entered password with the stored hash
-            if (password_verify($password, $user['password'])) {
-                // Return user data if login is successful
-                return [
-                    'success' => true,
-                    'user_id' => $user['user_id'],
-                    'username' => $user['username']
-                ];
-            } else {
-                return ['success' => false, 'message' => 'Invalid username or password'];
-            }
-        } else {
-            return ['success' => false, 'message' => 'User not found'];
-        }
-    } catch (PDOException $e) {
-        // Log the error and return a failure response
-        return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
-    }
-}
+
 
 // **Logout Function (Destroy User Session)**
 function logoutUser() {
