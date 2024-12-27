@@ -9,13 +9,16 @@ header('Content-Type: application/json');
 function registerUser($username, $password) {
     try {
         $pdo = getDatabaseConnection();
+
+        // Hash the password securely using PHP's password_hash
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO users (username, password_hash) VALUES (:username, :password)";
+        // Call the stored procedure to create the user with the securely hashed password
+        $sql = "CALL CreateUser(:username, :password)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             ':username' => $username,
-            ':password' => $hashedPassword,
+            ':password' => $hashedPassword, // Use the hashed password here
         ]);
 
         echo json_encode(['success' => true, 'message' => 'User registered successfully']);
@@ -23,6 +26,7 @@ function registerUser($username, $password) {
         echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
 }
+
 
 
 // **Login Function (Authenticate User)**
@@ -40,7 +44,7 @@ function loginUser($username, $password) {
         
         if ($user) {
             // Verify the entered password with the stored hashed password
-            if (password_verify($password, $user['password'])) {
+            if (password_verify($password, $user['password_hash'])) {
                 // If login is successful, store the user details in session
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['username'] = $user['username'];
@@ -55,7 +59,6 @@ function loginUser($username, $password) {
         echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
 }
-
 
 
 // **Logout Function (Destroy User Session)**

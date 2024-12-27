@@ -47,6 +47,8 @@ $router->add('POST', 'users/login', function($input) {
 $router->add('POST', 'users/logout', 'logoutUser');  // POST /users/logout -> logoutUser function
 $router->add('GET', 'users/session', 'checkSession');  // GET /users/session -> checkSession function
 
+
+
 //lobby functions
 $router->add('GET', 'lobbys', 'getLobbies');
 
