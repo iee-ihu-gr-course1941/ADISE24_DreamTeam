@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blokus Canvas</title>
+  <style>
+    canvas {
+      display: block;
+      margin: auto;
+      background-color: #f4f4f4;
+      border: 2px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="blokusCanvas" width="800" height="800"></canvas>
+
+  <script>
+    const canvas = document.getElementById("blokusCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const boardSize = 20;
+    const cellSize = 20;
+    const boardOffset = 200;
+
+    // Colors for players
+    const playerColors = ["red", "blue", "green", "yellow"];
+
+    // Draw the Blokus board (20x20 grid)
+    function drawBoard() {
+      ctx.strokeStyle = "#000";
+      for (let i = 0; i <= boardSize; i++) {
+        // Draw vertical lines
+        ctx.beginPath();
+        ctx.moveTo(boardOffset + i * cellSize, boardOffset);
+        ctx.lineTo(boardOffset + i * cellSize, boardOffset + boardSize * cellSize);
+        ctx.stroke();
+
+        // Draw horizontal lines
+        ctx.beginPath();
+        ctx.moveTo(boardOffset, boardOffset + i * cellSize);
+        ctx.lineTo(boardOffset + boardSize * cellSize, boardOffset + i * cellSize);
+        ctx.stroke();
+      }
+    }
+
+    // Draw a player's pieces in a 5x5 grid
+    function drawPlayerPieces(playerIndex, xOffset, yOffset) {
+      const pieceSize = cellSize - 4; // Small pieces to fit inside the cells
+      ctx.fillStyle = playerColors[playerIndex];
+
+      for (let row = 0; row < 5; row++) {
+        for (let col = 0; col < 5; col++) {
+          const x = xOffset + col * cellSize;
+          const y = yOffset + row * cellSize;
+          ctx.fillRect(x + 2, y + 2, pieceSize, pieceSize);
+        }
+      }
+    }
+
+    // Draw all players' pieces
+    function drawPlayersPieces() {
+      // Player 1 (top-left corner)
+      drawPlayerPieces(0, 10, 10);
+
+      // Player 2 (top-right corner)
+      drawPlayerPieces(1, canvas.width - (5 * cellSize) - 10, 10);
+
+      // Player 3 (bottom-left corner)
+      drawPlayerPieces(2, 10, canvas.height - (5 * cellSize) - 10);
+
+      // Player 4 (bottom-right corner)
+      drawPlayerPieces(3, canvas.width - (5 * cellSize) - 10, canvas.height - (5 * cellSize) - 10);
+    }
+
+    // Draw the entire game board
+    function drawGame() {
+      drawBoard();
+      drawPlayersPieces();
+    }
+
+    drawGame();
+  </script>
+</body>
+</html>

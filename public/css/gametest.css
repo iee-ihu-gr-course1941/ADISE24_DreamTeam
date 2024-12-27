@@ -1,0 +1,39 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+  }
+  
+  .board {
+    display: grid;
+    grid-template-columns: repeat(20, 30px);
+    grid-template-rows: repeat(20, 30px);
+    gap: 1px;
+    background-color: #000;
+    border: 2px solid #000;
+  }
+  
+  .board div {
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+  }
+  
+  .pieces {
+    display: flex;
+    flex-wrap: wrap;
+    width: 320px;
+    margin-top: 20px;
+  }
+  
+  .piece {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    background-color: #ff0000;
+    cursor: pointer;
+  }
+  
