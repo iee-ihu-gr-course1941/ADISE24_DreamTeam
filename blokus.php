@@ -114,13 +114,17 @@ $router->add('GET', 'lobbys', 'getLobbies');
     $createdAt = date('Y-m-d H:i:s');*/
 
 //Issue with parameters
- $router->add('GET', 'lobbys/create', function($input) { //Figure out how we can test this one
+ /*$router->add('GET', 'lobbys/create', function($input) { //Figure out how we can test this one
      if (isset($input['player1_id']) && is_numeric($input['player1_id'])) {
         createLobby((int)$input['player1_id']);
      } else {
          echo json_encode(['error' => 'Invalid or missing userid parameter.']);
      }
- });
+ });*/
+
+ $router->add('POST', 'lobbys/create', function($input) { //Figure out how we can test this one too
+    createLobby((int)$input['userId'], $input['gameType'], (int)$input['maxPlayers'], $input['createdAt']);
+});
 
 /*$router->add('POST', 'lobbys/join', function($input) { //Figure out how we can test this one too
     if (isset($input['userId']) && isset($input['lobbyId'])) {
@@ -130,9 +134,7 @@ $router->add('GET', 'lobbys', 'getLobbies');
     }
 });*/
 
-$router->add('POST', 'lobbys/join', function($input) { //Figure out how we can test this one too
-    createLobby((int)$input['userId'], $input['gameType'], (int)$input['maxPlayers'], $input['createdAt']);
-});
+
 
 // //works
 $router->add('POST', 'lobbys/leave', function() {
