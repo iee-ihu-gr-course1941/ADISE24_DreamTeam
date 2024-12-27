@@ -93,7 +93,7 @@ function joinLobby($userId, $lobbyId) {
 //works
 function leaveLobby() {
     $pdo = getDatabaseConnection();
-    $lobbyId = 2;
+    $lobbyId = 4;
 
     try {
         $sql = "DELETE FROM game_lobbies WHERE id = ?";
