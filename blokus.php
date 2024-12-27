@@ -25,6 +25,7 @@ require_once "lib/users.php";
 require_once "lib/version.php";
 require_once "lib/router.php";
 require_once "lib/lobbys.php";
+require_once "lib/boreds.php";
 
 
 // Initialize router
@@ -37,7 +38,8 @@ $router->add('GET', 'accounts', 'show_users');  // Mapping GET /accounts to show
 $router->add('GET', 'accounts/{id}', 'getUserProfile');  // Mapping GET /accounts/{id} to getUserProfile function
 
 
-//user functions
+//////////User Functions//////////
+/////////////////////////////////
 $router->add('POST', 'users/register', function($input) {
 	registerUser($input['username'], $input['password']);
 });
@@ -46,8 +48,14 @@ $router->add('POST', 'users/login', function($input) {
 });
 $router->add('POST', 'users/logout', 'logoutUser');  // POST /users/logout -> logoutUser function
 $router->add('GET', 'users/session', 'checkSession');  // GET /users/session -> checkSession function
+////////////////////////////////
+///////////////////////////////
 
-
+//////////Bored Functions//////////
+/////////////////////////////////
+$router->add('GET', 'boards/{board_id}', 'getBored');  // 
+////////////////////////////////
+///////////////////////////////
 
 //lobby functions
 $router->add('GET', 'lobbys', 'getLobbies');
