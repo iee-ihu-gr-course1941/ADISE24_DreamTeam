@@ -37,14 +37,22 @@ function loginUser($username, $password) {
         $pdo = getDatabaseConnection();
         
         // Fetch the user details from the database using the provided username
-        $sql = "SELECT user_id , username, password_hash FROM users WHERE username = :username";
+        $sql = "SELECT user_id, username, password_hash FROM users WHERE username = :username";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([':username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
+        // Debug: Output the fetched user data
+        echo json_encode(['debug' => 'Fetched user', 'user' => $user]);
+        
         if ($user) {
             // Verify the entered password with the stored hashed password
-            if (password_verify($password, $user['password_hash'])) {
+            $isPasswordCorrect = password_verify($password, $user['password_hash']);
+            
+            // Debug: Output the result of password_verify
+            echo json_encode(['debug' => 'Password verification', 'password_verified' => $isPasswordCorrect]);
+            
+            if ($isPasswordCorrect) {
                 // If login is successful, store the user details in session
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['username'] = $user['username'];
