@@ -42,7 +42,7 @@ $(document).ready(function () {
         const username = $('#reg_username').val();
         const password = $('#reg_password').val();
 
-        $('#debugInfo').append(`<p>Attempting to register with: Username - <b>${username}</b>, Email - <b>${email}</b></p>`);
+        $('#debugInfo').append(`<p>Attempting to register with: Username - <b>${username}</b></p>`);
 
         $.ajax({
             url: 'https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/register',
