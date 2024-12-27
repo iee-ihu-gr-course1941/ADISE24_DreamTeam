@@ -1,35 +1,46 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const gameBoard = document.querySelector(".game-board");
+    const piecesContainer = document.getElementById("pieces-container");
 
-    // Δημιουργία του grid
-    for (let i = 0; i < 400; i++) { // 20x20 grid
-        const cell = document.createElement("div");
-        cell.addEventListener("click", () => {
-            cell.classList.toggle("active"); // Εναλλαγή κατάστασης κελιού
-        });
-        gameBoard.appendChild(cell);
-    }
-
-    // Δημιουργία κομματιών για κάθε παίκτη
-    const players = document.querySelectorAll(".player .pieces");
-    players.forEach((pieceContainer, index) => {
-        for (let i = 0; i < 10; i++) { // 10 κομμάτια ανά παίκτη
-            const piece = document.createElement("div");
-            piece.style.backgroundColor = getColor(index); // Χρώμα ανάλογα με τον παίκτη
-            pieceContainer.appendChild(piece);
+    // Λειτουργία για να φορτώσει το JSON αρχείο
+    const loadPiecesFromJSON = async () => {
+        try {
+            const response = await fetch("pieces.json"); // Φόρτωση JSON αρχείου
+            if (!response.ok) throw new Error("Could not fetch pieces.json");
+            const pieces = await response.json(); // Μετατροπή των δεδομένων σε JSON
+            renderPieces(pieces);
+        } catch (error) {
+            console.error("Error loading JSON file:", error);
         }
-    });
+    };
 
-    // Reset λειτουργικότητα
-    document.getElementById("reset-game").addEventListener("click", () => {
-        document.querySelectorAll(".game-board div").forEach(cell => {
-            cell.classList.remove("active");
+    // Λειτουργία για την απόδοση των κομματιών
+    const renderPieces = (pieces) => {
+        pieces.forEach(piece => {
+            // Δημιουργία wrapper για κάθε κομμάτι
+            const pieceElement = document.createElement("div");
+            pieceElement.className = "piece";
+            pieceElement.style.setProperty("--piece-color", piece.color);
+
+            // Απόδοση του grid της τοπολογίας
+            piece.topology.forEach(row => {
+                row.forEach(cell => {
+                    const cellDiv = document.createElement("div");
+                    if (cell === 1) cellDiv.classList.add("active");
+                    pieceElement.appendChild(cellDiv);
+                });
+            });
+
+            // Προσθήκη draggable behavior
+            pieceElement.setAttribute("draggable", "true");
+            pieceElement.addEventListener("dragstart", (e) => {
+                e.dataTransfer.setData("piece-id", piece.id);
+            });
+
+            // Εισαγωγή στο container
+            piecesContainer.appendChild(pieceElement);
         });
-    });
-});
+    };
 
-// Επιστρέφει διαφορετικό χρώμα για κάθε παίκτη
-function getColor(playerIndex) {
-    const colors = ["#ff4d4d", "#4d79ff", "#4dff4d", "#ffff4d"]; // Κόκκινο, Μπλε, Πράσινο, Κίτρινο
-    return colors[playerIndex] || "#ccc";
-}
+    // Κάλεσμα της loadPiecesFromJSON
+    loadPiecesFromJSON();
+});
