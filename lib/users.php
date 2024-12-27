@@ -36,7 +36,7 @@ function loginUser($username, $password) {
         
         if ($user) {
             // Compare the entered password with the stored password
-            if ($password === $user['password']) {
+            if ($password === $user['password_hash']) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 echo json_encode(['success' => true, 'message' => 'Login successful']);
