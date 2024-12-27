@@ -6,17 +6,16 @@ require_once 'helper.php';
 header('Content-Type: application/json');
 
 // **Registration Function (Register a new user)**
-function registerUser($username, $email, $password) {
+function registerUser($username, $password) {
     try {
         $pdo = getDatabaseConnection();
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO users (username, password_hash, email) VALUES (:username, :password, :email)";
+        $sql = "INSERT INTO users (username, password_hash) VALUES (:username, :password)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             ':username' => $username,
             ':password' => $hashedPassword,
-            ':email' => $email,
         ]);
 
         echo json_encode(['success' => true, 'message' => 'User registered successfully']);
@@ -79,8 +78,12 @@ function checkSession() {
     }
 }
 
+
+
+// FUTER UPDATE fuachers ///
 // **Reset Password Function (Send Password Reset Email)**
-function resetPassword($email) {
+ /*
+ function resetPassword($email) {
     try {
         $pdo = getDatabaseConnection();
         $sql = "SELECT id FROM users WHERE email = :email";
@@ -127,6 +130,6 @@ function updatePassword($userId, $newPassword) {
     } catch (PDOException $e) {
         echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
-}
+} */
 
 ?>

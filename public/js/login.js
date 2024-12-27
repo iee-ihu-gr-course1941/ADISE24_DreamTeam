@@ -40,7 +40,6 @@ $(document).ready(function () {
         e.preventDefault(); // Prevent default form submission
 
         const username = $('#reg_username').val();
-        const email = $('#reg_email').val();
         const password = $('#reg_password').val();
 
         $('#debugInfo').append(`<p>Attempting to register with: Username - <b>${username}</b>, Email - <b>${email}</b></p>`);
@@ -49,7 +48,7 @@ $(document).ready(function () {
             url: 'https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/register',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ username: username, email: email, password: password }),
+            data: JSON.stringify({ username: username, password: password }),
             success: function (response) {
                 $('#debugInfo').append(`<p>Response received from server: <pre>${JSON.stringify(response)}</pre></p>`);
 
