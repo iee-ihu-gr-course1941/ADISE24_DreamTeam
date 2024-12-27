@@ -12,12 +12,16 @@ CREATE TABLE `games` (
   `game_id` INT AUTO_INCREMENT PRIMARY KEY,
   `player1_id` INT NOT NULL,
   `player2_id` INT,
+  'player3_id' INT,
+  'player4_id' INT,
   `game_status` ENUM('waiting', 'in_progress', 'finished') DEFAULT 'waiting',
   `game_type` VARCHAR(50),
   `max_players` INT DEFAULT 2,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (`player1_id`) REFERENCES `users`(`id`),
-  FOREIGN KEY (`player2_id`) REFERENCES `users`(`id`)
+  FOREIGN KEY (`player2_id`) REFERENCES `users`(`id`),
+  FOREIGN KEY (`player3_id`) REFERENCES `users`(`id`),
+  FOREIGN KEY (`player4_id`) REFERENCES `users`(`id`)
 );
 
 -- Table to store game lobbies

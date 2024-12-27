@@ -1,26 +1,21 @@
 $(document).ready(function () {
-    // Handle form submission
-    $('#registrationForm').on('submit', function (e) {
+    // Handle login form submission
+    $('#loginForm').on('submit', function (e) {
         e.preventDefault(); // Prevent default form submission
 
-        // Get the values of username and password
         const username = $('#username').val();
         const password = $('#password').val();
 
-        // Display input values for debugging
         $('#debugInfo').append(`<p>Attempting to log in with: Username - <b>${username}</b></p>`);
 
-        // Send POST request to the server
         $.ajax({
             url: 'https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/login',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({ username: username, password: password }),
             success: function (response) {
-                // Display the response for debugging
                 $('#debugInfo').append(`<p>Response received from server: <pre>${JSON.stringify(response)}</pre></p>`);
 
-                // Handle the server response
                 if (response.success) {
                     $('#debugInfo').append(`<p class="text-success">Login successful. Redirecting to dashboard.html...</p>`);
                     window.location.href = 'dashboard.html';
@@ -29,7 +24,6 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, status, error) {
-                // Display error details for debugging
                 $('#debugInfo').append(`
                     <p class="text-danger">Error during AJAX request:</p>
                     <p>Status: ${xhr.status}</p>
@@ -40,5 +34,50 @@ $(document).ready(function () {
             }
         });
     });
-});
 
+    // Handle register form submission
+    $('#registerForm').on('submit', function (e) {
+        e.preventDefault(); // Prevent default form submission
+
+        const username = $('#reg_username').val();
+        const email = $('#reg_email').val();
+        const password = $('#reg_password').val();
+
+        $('#debugInfo').append(`<p>Attempting to register with: Username - <b>${username}</b>, Email - <b>${email}</b></p>`);
+
+        $.ajax({
+            url: 'https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/register',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ username: username, email: email, password: password }),
+            success: function (response) {
+                $('#debugInfo').append(`<p>Response received from server: <pre>${JSON.stringify(response)}</pre></p>`);
+
+                if (response.success) {
+                    $('#debugInfo').append(`<p class="text-success">Registration successful. You can now log in.</p>`);
+                    $('#registerForm')[0].reset(); // Clear the registration form
+                    $('#registerForm').hide();
+                    $('#loginForm').show();
+                } else {
+                    $('#debugInfo').append(`<p class="text-danger">Registration failed: ${response.message}</p>`);
+                }
+            },
+            error: function (xhr, status, error) {
+                $('#debugInfo').append(`
+                    <p class="text-danger">Error during AJAX request:</p>
+                    <p>Status: ${xhr.status}</p>
+                    <p>Status Text: ${xhr.statusText}</p>
+                    <p>Response Text: <pre>${xhr.responseText}</pre></p>
+                `);
+                alert('An error occurred. Please try again later.');
+            }
+        });
+    });
+
+    // Show register form when "Create an account" link is clicked
+    $('#showRegister').on('click', function (e) {
+        e.preventDefault();
+        $('#loginForm').hide();
+        $('#registerForm').show();
+    });
+});

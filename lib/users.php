@@ -5,7 +5,8 @@ require_once 'helper.php';
 
 header('Content-Type: application/json');
 
-function registerUser($username, $password, $email) {
+// **Registration Function (Register a new user)**
+function registerUser($username, $email, $password) {
     try {
         $pdo = getDatabaseConnection();
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -24,19 +25,24 @@ function registerUser($username, $password, $email) {
     }
 }
 
+
+// **Login Function (Authenticate User)**
 function loginUser($username, $password) {
     session_start();
     
     try {
         $pdo = getDatabaseConnection();
-        $sql = "SELECT user_id , username, password_hash FROM users WHERE username = :username";
+        
+        // Fetch the user details from the database using the provided username
+        $sql = "SELECT user_id , username, password FROM users WHERE username = :username";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([':username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if ($user) {
-            // Compare the entered password with the stored password
-            if ($password === $user['password_hash']) {
+            // Verify the entered password with the stored hashed password
+            if (password_verify($password, $user['password'])) {
+                // If login is successful, store the user details in session
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['username'] = $user['username'];
                 echo json_encode(['success' => true, 'message' => 'Login successful']);
@@ -51,7 +57,39 @@ function loginUser($username, $password) {
     }
 }
 
+// **Login Provider (Helper Function to Get User from DB)**
+function loginUserFromDB($username, $password) {
+    try {
+        $pdo = getDatabaseConnection();
+        
+        // SQL query to fetch the user data by username
+        $sql = "SELECT user_id, username, password FROM users WHERE username = :username";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':username' => $username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($user) {
+            // Use password_verify to compare the entered password with the stored hash
+            if (password_verify($password, $user['password'])) {
+                // Return user data if login is successful
+                return [
+                    'success' => true,
+                    'user_id' => $user['user_id'],
+                    'username' => $user['username']
+                ];
+            } else {
+                return ['success' => false, 'message' => 'Invalid username or password'];
+            }
+        } else {
+            return ['success' => false, 'message' => 'User not found'];
+        }
+    } catch (PDOException $e) {
+        // Log the error and return a failure response
+        return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
+    }
+}
 
+// **Logout Function (Destroy User Session)**
 function logoutUser() {
     session_start();
     session_unset();
@@ -60,6 +98,7 @@ function logoutUser() {
     echo json_encode(['success' => true, 'message' => 'User logged out successfully']);
 }
 
+// **Check Session Function (Check if User is Logged In)**
 function checkSession() {
     session_start();
 
@@ -70,7 +109,7 @@ function checkSession() {
     }
 }
 
-
+// **Reset Password Function (Send Password Reset Email)**
 function resetPassword($email) {
     try {
         $pdo = getDatabaseConnection();
@@ -80,7 +119,7 @@ function resetPassword($email) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            $resetToken = bin2hex(random_bytes(16));
+            $resetToken = bin2hex(random_bytes(16)); // Generate a reset token
             $sql = "UPDATE users SET reset_token = :token, reset_expiry = :expiry WHERE id = :id";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
@@ -101,6 +140,7 @@ function resetPassword($email) {
     }
 }
 
+// **Update Password Function (Update User's Password)**
 function updatePassword($userId, $newPassword) {
     try {
         $pdo = getDatabaseConnection();
@@ -118,6 +158,5 @@ function updatePassword($userId, $newPassword) {
         echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
 }
-
 
 ?>
