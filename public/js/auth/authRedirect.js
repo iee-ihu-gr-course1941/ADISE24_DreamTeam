@@ -24,7 +24,8 @@ function checkLoginStatusAndRedirect() {
 }
 
 // Execute the function when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', checkLoginStatusAndRedirect);
+
+
 
 
 

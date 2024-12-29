@@ -1,72 +1,53 @@
-// Function to fetch and display account information using session
-async function fetchAccountInfo() {
-    try {
-        console.log('Fetching account info...');
-        
-        // Make a request to the session API to get login status and username
-        const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/session', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json', // Optional, in case you need specific headers
-            },
-            credentials: 'same-origin', // Ensures the session cookie is sent to the same origin
-        });
+// Function to fetch user information (username and userId)
+async function fetchUserData() {
+    const usernameElement = document.querySelector('#username');
+    const logoutButton = document.querySelector('#logoutButton');
 
-        console.log('Response status:', response.status);
+    try {
+        // Fetch data from the user API (adjust the URL as needed)
+        const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/session');
 
         if (!response.ok) {
-            throw new Error('Failed to fetch account info');
+            throw new Error('Failed to fetch user data');
         }
 
-        // Parse the JSON response and log it
-        const data = await response.json();
-        console.log('Received data:', data);
+        const userData = await response.json(); // Parse the response
 
-        const usernameElement = document.getElementById('username');
-        const logoutButton = document.getElementById('logoutButton');
+        // Display username and userId in the account section
+        usernameElement.textContent = userData.username;
 
-        // Check if the user is logged in and update the DOM accordingly
-        if (data.loggedIn) {
-            console.log('User is logged in. Username:', data.username);
-            usernameElement.textContent = data.username; // Set the username text
-            logoutButton.style.display = 'block'; // Show logout button
+        // Show the logout button if the user is logged in
+        if (userData.username !== 'Guest') {
+            logoutButton.style.display = 'inline-block';
         } else {
-            console.log('User is not logged in. Showing "Guest".');
-            usernameElement.textContent = 'Guest'; // Default to "Guest" if not logged in
-            logoutButton.style.display = 'none'; // Hide logout button
+            logoutButton.style.display = 'none';
         }
     } catch (error) {
-        // Log any errors that occur during the fetch
-        console.error('Error fetching account information:', error);
+        console.error(error);
+        // In case of an error, show a fallback message
+        usernameElement.textContent = 'Error fetching user data';
     }
 }
 
-// Function to handle logout using session
-async function handleLogout() {
+// Event listener for logout button (can be extended to perform actual logout)
+document.querySelector('#logoutButton')?.addEventListener('click', async () => {
     try {
-        console.log('Attempting to log out...');
-        const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/logout', {
-            method: 'POST',
-            credentials: 'same-origin', // Sends the session cookie to the server
-        });
+        const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/logout', { method: 'POST' });
 
-        if (response.ok) {
-            console.log('Successfully logged out');
-            fetchAccountInfo(); // Refresh account info after logout
-            window.location.href = 'login.html';  // Redirect to login page
-        } else {
-            console.error('Logout failed');
+        if (!response.ok) {
+            throw new Error('Logout failed');
         }
+
+        // On successful logout, reset to guest state
+        document.querySelector('#username').textContent = 'Guest';
+        document.querySelector('#logoutButton').style.display = 'none';
+
+        alert('Successfully logged out!');
     } catch (error) {
-        console.error('Error during logout:', error);
+        console.error(error);
+        alert('Failed to log out');
     }
-}
-
-// Event listener for logout button
-document.getElementById('logoutButton').addEventListener('click', handleLogout);
-
-// Fetch account info when the page loads
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM fully loaded and parsed");
-    fetchAccountInfo();
 });
+
+// Call the fetchUserData function when the page loads
+document.addEventListener('DOMContentLoaded', fetchUserData);
