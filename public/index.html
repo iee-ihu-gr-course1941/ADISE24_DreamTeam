@@ -19,8 +19,34 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- JavaScript to check login status -->
-    <script src="js/checkLoginStatus.js"></script>
+    <script>
+        // Function to check if the user is logged in
+        function checkIfLoggedIn() {
+            fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/session', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json' // You can add more headers if needed
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Redirect based on login status
+                if (data.loggedIn) {
+                    window.location.href = 'dashboard.html'; // Redirect to dashboard if logged in
+                } else {
+                    window.location.href = 'login.html'; // Redirect to login if not logged in
+                }
+            })
+            .catch(error => {
+                console.error('Error checking login status:', error);
+                // Redirect to login page as a fallback if an error occurs
+                window.location.href = 'login.html';
+            });
+        }
 
+        // Call the function on page load to check login status
+        document.addEventListener('DOMContentLoaded', checkIfLoggedIn);
+    </script>
 </body>
 
 </html>
