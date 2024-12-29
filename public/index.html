@@ -23,7 +23,7 @@
         async function checkLoginStatus() {
             try {
                 const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/session', {
-                    credentials: 'include' // Include cookies for authentication
+                   // credentials: 'include' // Include cookies for authentication
                 });
                 const data = await response.json();
 
