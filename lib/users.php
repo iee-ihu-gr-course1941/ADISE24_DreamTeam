@@ -37,20 +37,14 @@ function loginUser($username, $password) {
         $pdo = getDatabaseConnection();
         
         // Fetch the user details from the database using the provided username
-        $sql = "SELECT user_id, username, password_hash FROM users WHERE username = :username";
+        $sql = "CALL GetUserByUsername(:username);";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([':username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        // Debug: Output the fetched user data
-        echo json_encode(['debug' => 'Fetched user', 'user' => $user]);
-        
         if ($user) {
             // Verify the entered password with the stored hashed password
             $isPasswordCorrect = password_verify($password, $user['password_hash']);
-            
-            // Debug: Output the result of password_verify
-            echo json_encode(['debug' => 'Password verification', 'password_verified' => $isPasswordCorrect]);
             
             if ($isPasswordCorrect) {
                 // If login is successful, store the user details in session
@@ -88,59 +82,5 @@ function checkSession() {
         echo json_encode(['loggedIn' => false]);
     }
 }
-
-
-
-// FUTER UPDATE fuachers ///
-// **Reset Password Function (Send Password Reset Email)**
- /*
- function resetPassword($email) {
-    try {
-        $pdo = getDatabaseConnection();
-        $sql = "SELECT id FROM users WHERE email = :email";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([':email' => $email]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user) {
-            $resetToken = bin2hex(random_bytes(16)); // Generate a reset token
-            $sql = "UPDATE users SET reset_token = :token, reset_expiry = :expiry WHERE id = :id";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([
-                ':token' => $resetToken,
-                ':expiry' => date('Y-m-d H:i:s', strtotime('+1 hour')),
-                ':id' => $user['id'],
-            ]);
-
-            // Replace this with your email-sending logic
-            mail($email, "Password Reset Request", "Use this link to reset your password: https://your-site.com/reset?token=$resetToken");
-
-            echo json_encode(['success' => true, 'message' => 'Password reset email sent']);
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Email not found']);
-        }
-    } catch (PDOException $e) {
-        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
-    }
-}
-
-// **Update Password Function (Update User's Password)**
-function updatePassword($userId, $newPassword) {
-    try {
-        $pdo = getDatabaseConnection();
-        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-
-        $sql = "UPDATE users SET password = :password WHERE id = :id";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            ':password' => $hashedPassword,
-            ':id' => $userId,
-        ]);
-
-        echo json_encode(['success' => true, 'message' => 'Password updated successfully']);
-    } catch (PDOException $e) {
-        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
-    }
-} */
 
 ?>
