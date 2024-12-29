@@ -40,7 +40,7 @@ $router->add('GET', 'accounts/{id}', 'getUserProfile');  // Mapping GET /account
 
 ////////////Leaderboard Functions//////////
 ////////////////////////////////////////
-$router->add('GET', 'leaderboard', 'getLeaderboard');  // Mapping GET /v1 to getApiVersion function
+$router->add('GET', 'leaderboard', 'getLeaderboard');  
 ////////////////////////////////////////
 ////////////////////////////////////////
 
