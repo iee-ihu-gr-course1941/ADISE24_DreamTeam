@@ -1,8 +1,9 @@
 // Function to fetch and display account information using session
 async function fetchAccountInfo() {
     try {
-        // Make a request to the session API to get login status and username
         console.log('Fetching account info...');
+        
+        // Make a request to the session API to get login status and username
         const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/session', {
             method: 'GET',
             headers: {
@@ -12,6 +13,7 @@ async function fetchAccountInfo() {
         });
 
         console.log('Response status:', response.status);
+
         if (!response.ok) {
             throw new Error('Failed to fetch account info');
         }
@@ -26,12 +28,12 @@ async function fetchAccountInfo() {
         // Check if the user is logged in and update the DOM accordingly
         if (data.loggedIn) {
             console.log('User is logged in. Username:', data.username);
-            usernameElement.textContent = data.username;
-            logoutButton.style.display = 'block';
+            usernameElement.textContent = data.username; // Set the username text
+            logoutButton.style.display = 'block'; // Show logout button
         } else {
             console.log('User is not logged in. Showing "Guest".');
-            usernameElement.textContent = 'Guest';
-            logoutButton.style.display = 'none';
+            usernameElement.textContent = 'Guest'; // Default to "Guest" if not logged in
+            logoutButton.style.display = 'none'; // Hide logout button
         }
     } catch (error) {
         // Log any errors that occur during the fetch
@@ -64,4 +66,7 @@ async function handleLogout() {
 document.getElementById('logoutButton').addEventListener('click', handleLogout);
 
 // Fetch account info when the page loads
-document.addEventListener('DOMContentLoaded', fetchAccountInfo);
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded and parsed");
+    fetchAccountInfo();
+});
