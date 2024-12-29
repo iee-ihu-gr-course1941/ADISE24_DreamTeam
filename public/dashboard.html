@@ -12,29 +12,30 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center text-primary">Blokus Game</h1>
-        <ul class="nav nav-tabs mt-4" id="blokusTabs" role="tablist">
+        <ul class="nav nav-tabs mt-8 justify-content-left" id="blokusTabs" role="tablist">
             <!-- Tabs -->
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="lobbies-tab" data-bs-toggle="tab" data-bs-target="#lobbies" type="button" role="tab" aria-controls="lobbies" aria-selected="true">
+                <button class="nav-link active bg-danger text-white" id="lobbies-tab" data-bs-toggle="tab" data-bs-target="#lobbies" type="button" role="tab" aria-controls="lobbies" aria-selected="true">
                     Lobbies
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="leaderboard-tab" data-bs-toggle="tab" data-bs-target="#leaderboard" type="button" role="tab" aria-controls="leaderboard" aria-selected="false">
+                <button class="nav-link bg-primary text-white" id="leaderboard-tab" data-bs-toggle="tab" data-bs-target="#leaderboard" type="button" role="tab" aria-controls="leaderboard" aria-selected="false">
                     Leaderboard
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button" role="tab" aria-controls="account" aria-selected="false">
+                <button class="nav-link bg-success text-white" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button" role="tab" aria-controls="account" aria-selected="false">
                     Account
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="create-game-tab" data-bs-toggle="tab" data-bs-target="#create-game" type="button" role="tab" aria-controls="create-game" aria-selected="false">
+                <button class="nav-link bg-warning text-dark" id="create-game-tab" data-bs-toggle="tab" data-bs-target="#create-game" type="button" role="tab" aria-controls="create-game" aria-selected="false">
                     Create Game
                 </button>
             </li>
         </ul>
+        
 
         <div class="tab-content mt-4" id="blokusTabsContent">
             <!-- Lobbies Tab -->
@@ -94,13 +95,13 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/cookies/cookies.js"></script> 
-    <script src="js/auth/authRedirect.js"></script>
+    <!--<script src="js/cookies/cookies.js"></script> 
+    <script src="js/auth/authRedirect.js"></script>-->
     <script src="js/dashboard/lobbys.js"></script>
     <script src="js/dashboard/leaderboard.js"></script>
     <script src="js/dashboard/games.js"></script>
     <script src="js/dashboard/account.js"></script>
-    <script src="js/authRedirect.js"></script>
+ 
 
 
 

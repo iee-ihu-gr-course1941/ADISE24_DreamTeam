@@ -131,3 +131,4 @@ function leaveLobby() {
 // }
 
 // Handle all API requests
+?>
