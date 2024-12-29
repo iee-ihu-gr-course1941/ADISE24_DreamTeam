@@ -17,8 +17,12 @@ $(document).ready(function () {
                 $('#debugInfo').append(`<p>Response received from server: <pre>${JSON.stringify(response)}</pre></p>`);
 
                 if (response.success) {
+                    // Set cookies for user ID and username
+                    document.cookie = `user_id=${response.user_id}; path=/; max-age=3600`; // 1 hour expiration
+                    document.cookie = `username=${response.username}; path=/; max-age=3600`;
+
                     $('#debugInfo').append(`<p class="text-success">Login successful. Redirecting to dashboard.html...</p>`);
-                    window.location.href = 'dashboard.html';
+                    window.location.href = 'dashboard.html'; // Redirect to dashboard after login
                 } else {
                     $('#debugInfo').append(`<p class="text-danger">Login failed: ${response.message || 'Invalid credentials.'}</p>`);
                 }
