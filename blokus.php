@@ -26,6 +26,7 @@ require_once "lib/version.php";
 require_once "lib/router.php";
 require_once "lib/lobbys.php";
 require_once "lib/boreds.php";
+require_once "lib/leaderboard.php";
 
 
 // Initialize router
@@ -36,6 +37,12 @@ $router = new Router();
 $router->add('GET', 'v1', 'getApiVersion');  // Mapping GET /v1 to getApiVersion function
 $router->add('GET', 'accounts', 'show_users');  // Mapping GET /accounts to show_users function
 $router->add('GET', 'accounts/{id}', 'getUserProfile');  // Mapping GET /accounts/{id} to getUserProfile function
+
+////////////Leaderboard Functions//////////
+////////////////////////////////////////
+$router->add('GET', 'leaderboard', 'getLeaderboard');  // Mapping GET /v1 to getApiVersion function
+////////////////////////////////////////
+////////////////////////////////////////
 
 
 //////////User Functions//////////
@@ -57,21 +64,22 @@ $router->add('GET', 'boards/{board_id}', 'getBored');  //
 ////////////////////////////////
 ///////////////////////////////
 
-//lobby functions
+
+//////////Lobby Functions//////////
+////////////////////////////////
 $router->add('GET', 'lobbys', 'getLobbies');
-
-
- $router->add('POST', 'lobbys/create', function($input) { //Figure out how we can test this one too
+$router->add('POST', 'lobbys/create', function($input) { //Figure out how we can test this one too
     createLobby((int)$input['userId'], $input['gameType'], (int)$input['maxPlayers'], $input['createdAt']);
 });
-
-
-
-
-// //works
 $router->add('POST', 'lobbys/leave', function() {
     leaveLobby();
 });
+////////////////////////////////
+////////////////////////////////
+
+
+
+
 
 //games functions
 
