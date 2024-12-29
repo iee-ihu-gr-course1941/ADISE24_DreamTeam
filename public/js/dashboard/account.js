@@ -2,6 +2,7 @@
 async function fetchAccountInfo() {
     try {
         // Make a request to the session API to get login status and username
+        console.log('Fetching account info...');
         const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/session', {
             method: 'GET',
             headers: {
@@ -9,26 +10,31 @@ async function fetchAccountInfo() {
             }
         });
 
+        // Log the response status and the response itself
+        console.log('Response status:', response.status);
         if (!response.ok) {
             throw new Error('Failed to fetch account info');
         }
 
+        // Parse the JSON response and log it
         const data = await response.json();
-        console.log(data);  // Log the response to check its structure
+        console.log('Received data:', data);
 
         const usernameElement = document.getElementById('username');
         const logoutButton = document.getElementById('logoutButton');
 
+        // Check if the user is logged in and update the DOM accordingly
         if (data.loggedIn) {
-            // User is logged in, display their username
+            console.log('User is logged in. Username:', data.username);
             usernameElement.textContent = data.username;
             logoutButton.style.display = 'block';
         } else {
-            // User is not logged in, show 'Guest'
+            console.log('User is not logged in. Showing "Guest".');
             usernameElement.textContent = 'Guest';
             logoutButton.style.display = 'none';
         }
     } catch (error) {
+        // Log any errors that occur during the fetch
         console.error('Error fetching account information:', error);
     }
 }
@@ -36,14 +42,15 @@ async function fetchAccountInfo() {
 // Function to handle logout
 async function handleLogout() {
     try {
+        console.log('Attempting to log out...');
         const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/logout', {
             method: 'POST',
             credentials: 'include' // Send cookies with the request
         });
 
         if (response.ok) {
-            // Successfully logged out
-            fetchAccountInfo(); // Refresh account info
+            console.log('Successfully logged out');
+            fetchAccountInfo(); // Refresh account info after logout
             window.location.href = 'login.html';  // Redirect to login page
         } else {
             console.error('Logout failed');
@@ -54,7 +61,4 @@ async function handleLogout() {
 }
 
 // Event listener for logout button
-document.getElementById('logoutButton').addEventListener('click', handleLogout);
-
-// Fetch account info when the page loads
-document.addEventListener('DOMContentLoaded', fetchAccountInfo);
+document.getElementById('logoutButton').addEventListener('click', handle
