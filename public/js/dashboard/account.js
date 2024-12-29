@@ -1,19 +1,24 @@
-
-
 // Function to fetch and display account information
 async function fetchAccountInfo() {
     try {
-        // Get username from cookie
-        const username = getCookie('username');
+        // Make a request to the session API to get login status and username
+        const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/session', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json' // Optional, in case you need specific headers
+            }
+        });
+
+        const data = await response.json();
         const usernameElement = document.getElementById('username');
         const logoutButton = document.getElementById('logoutButton');
 
-        if (username) {
-            // User is logged in
-            usernameElement.textContent = username;
+        if (data.loggedIn) {
+            // User is logged in, display their username
+            usernameElement.textContent = data.username;
             logoutButton.style.display = 'block';
         } else {
-            // User is not logged in
+            // User is not logged in, show 'Guest'
             usernameElement.textContent = 'Guest';
             logoutButton.style.display = 'none';
         }
@@ -27,12 +32,11 @@ async function handleLogout() {
     try {
         const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/logout', {
             method: 'POST',
-            credentials: 'include'
+            credentials: 'include' // Send cookies with the request
         });
 
         if (response.ok) {
             // Successfully logged out
-            deleteCookie("username"); // Clear the username cookie
             fetchAccountInfo(); // Refresh account info
             window.location.href = 'login.html';  // Redirect to login page
         } else {
