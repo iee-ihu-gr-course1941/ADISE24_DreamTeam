@@ -1,4 +1,4 @@
-// Function to fetch and display account information
+// Function to fetch and display account information using session
 async function fetchAccountInfo() {
     try {
         // Make a request to the session API to get login status and username
@@ -6,11 +6,11 @@ async function fetchAccountInfo() {
         const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/session', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json' // Optional, in case you need specific headers
-            }
+                'Content-Type': 'application/json', // Optional, in case you need specific headers
+            },
+            credentials: 'same-origin', // Ensures the session cookie is sent to the same origin
         });
 
-        // Log the response status and the response itself
         console.log('Response status:', response.status);
         if (!response.ok) {
             throw new Error('Failed to fetch account info');
@@ -39,13 +39,13 @@ async function fetchAccountInfo() {
     }
 }
 
-// Function to handle logout
+// Function to handle logout using session
 async function handleLogout() {
     try {
         console.log('Attempting to log out...');
         const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/logout', {
             method: 'POST',
-            credentials: 'include' // Send cookies with the request
+            credentials: 'same-origin', // Sends the session cookie to the server
         });
 
         if (response.ok) {
@@ -61,4 +61,7 @@ async function handleLogout() {
 }
 
 // Event listener for logout button
-document.getElementById('logoutButton').addEventListener('click', handle
+document.getElementById('logoutButton').addEventListener('click', handleLogout);
+
+// Fetch account info when the page loads
+document.addEventListener('DOMContentLoaded', fetchAccountInfo);
