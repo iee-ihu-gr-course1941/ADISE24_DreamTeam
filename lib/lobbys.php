@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 function getLobbies() {
     $pdo = getDatabaseConnection();
     try {
-        $sql = "SELECT * FROM game_lobbies";
+        $sql = "CALL GetGames();";
         $stmt = $pdo->query($sql);
         $lobbies = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($lobbies, JSON_PRETTY_PRINT);
@@ -17,13 +17,13 @@ function getLobbies() {
 }
 
 //works
-function createLobby() {
+function createLobby($userId, $gameType, $maxPlayers, $createdAt) {
     $pdo = getDatabaseConnection();
 
-    $userId = 2;
+    /*$userId = 2;
     $gameType = 'middle';
     $maxPlayers = 4;
-    $createdAt = date('Y-m-d H:i:s');
+    $createdAt = date('Y-m-d H:i:s');*/
 
     try {
         $sql = "INSERT INTO game_lobbies (player1_id, game_type, max_players, created_at) 
@@ -129,5 +129,61 @@ function leaveLobby() {
 //         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
 //     }
 // }
+
+// Handle all API requests
+function handleRequest() {
+    // Check if the action parameter is set
+    if (isset($_GET['action'])) {
+        $action = $_GET['action'];
+
+        // Handle based on the action
+        switch ($action) {
+            case 'getLobbies':
+                echo json_encode(getLobbies());
+                break;
+
+            case 'createLobby':
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userId'])) { // Use $_POST for POST data
+                    $userId = (int) $_POST['userId'];
+                    echo json_encode(createLobby($userId));
+                } else {
+                    echo json_encode(['error' => 'User ID is required']);
+                }
+                break;
+
+            case 'joinLobby':
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userId'], $_POST['lobbyId'])) {
+                    echo json_encode(joinLobby($_POST['userId'], $_POST['lobbyId']));
+                } else {
+                    echo json_encode(['error' => 'User ID and Lobby ID are required']);
+                }
+                break;
+
+            case 'leaveLobby':
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userId'], $_POST['lobbyId'])) {
+                    echo json_encode(leaveLobby($_POST['userId'], $_POST['lobbyId']));
+                } else {
+                    echo json_encode(['error' => 'User ID and Lobby ID are required']);
+                }
+                break;
+
+            case 'getLobbyDetails':
+                if (isset($_GET['lobbyId'])) {
+                    echo json_encode(getLobbyDetails($_GET['lobbyId']));
+                } else {
+                    echo json_encode(['error' => 'Lobby ID is required']);
+                }
+                break;
+
+            default:
+                echo json_encode(['error' => 'Invalid action']);
+                break;
+        }
+    } else {
+        echo json_encode(['error' => 'Action parameter is missing']);
+    }
+}
+
+handleRequest();
 
 ?>
