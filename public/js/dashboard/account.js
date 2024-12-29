@@ -9,7 +9,13 @@ async function fetchAccountInfo() {
             }
         });
 
+        if (!response.ok) {
+            throw new Error('Failed to fetch account info');
+        }
+
         const data = await response.json();
+        console.log(data);  // Log the response to check its structure
+
         const usernameElement = document.getElementById('username');
         const logoutButton = document.getElementById('logoutButton');
 
