@@ -16,7 +16,7 @@ $(document).ready(function () {
             success: function (response) {
                 $('#debugInfo').append(`<p>Response received from server: <pre>${JSON.stringify(response)}</pre></p>`);
 
-                if (response.success) {
+                if (response.loggedIn) {
                     // Set cookies for user ID and username on successful login
                     document.cookie = `user_id=${response.user_id}; path=/; max-age=3600`; // 1 hour expiration
                     document.cookie = `username=${response.username}; path=/; max-age=3600`;
@@ -61,7 +61,7 @@ $(document).ready(function () {
             success: function (response) {
                 $('#debugInfo').append(`<p>Response received from server: <pre>${JSON.stringify(response)}</pre></p>`);
 
-                if (response.success) {
+                if (response.loggedIn) {
                     // Set cookies for user ID and username after registration
                     document.cookie = `user_id=${response.user_id}; path=/; max-age=3600`; // 1 hour expiration
                     document.cookie = `username=${response.username}; path=/; max-age=3600`;
