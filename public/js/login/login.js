@@ -17,9 +17,14 @@ $(document).ready(function () {
                 $('#debugInfo').append(`<p>Response received from server: <pre>${JSON.stringify(response)}</pre></p>`);
 
                 if (response.success) {
-                    // Set cookies for user ID and username
+                    // Set cookies for user ID and username on successful login
                     document.cookie = `user_id=${response.user_id}; path=/; max-age=3600`; // 1 hour expiration
                     document.cookie = `username=${response.username}; path=/; max-age=3600`;
+
+                    // Optional: Set additional cookies like session token if provided
+                    if (response.session_token) {
+                        document.cookie = `session_token=${response.session_token}; path=/; max-age=3600`;
+                    }
 
                     $('#debugInfo').append(`<p class="text-success">Login successful. Redirecting to dashboard.html...</p>`);
                     window.location.href = 'dashboard.html'; // Redirect to dashboard after login
@@ -57,6 +62,15 @@ $(document).ready(function () {
                 $('#debugInfo').append(`<p>Response received from server: <pre>${JSON.stringify(response)}</pre></p>`);
 
                 if (response.success) {
+                    // Set cookies for user ID and username after registration
+                    document.cookie = `user_id=${response.user_id}; path=/; max-age=3600`; // 1 hour expiration
+                    document.cookie = `username=${response.username}; path=/; max-age=3600`;
+
+                    // Optional: Set additional cookies like session token if provided
+                    if (response.session_token) {
+                        document.cookie = `session_token=${response.session_token}; path=/; max-age=3600`;
+                    }
+
                     $('#debugInfo').append(`<p class="text-success">Registration successful. You can now log in.</p>`);
                     $('#registerForm')[0].reset(); // Clear the registration form
                     $('#registerForm').hide();

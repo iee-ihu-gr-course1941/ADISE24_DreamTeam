@@ -1,6 +1,8 @@
 # Ignore config 
-/config/config.php
 lib/db_upass.php
+.htaccess
+ADISE24_DreamTeam.conf
+
 
 
 

@@ -20,28 +20,26 @@
 
     <!-- JavaScript to check login status -->
     <script>
-        // Function to check if the user is logged in
+        // Function to get a cookie value by name
+        function getCookie(name) {
+            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            if (match) {
+                return match[2];
+            }
+            return null;
+        }
+
+        // Function to check if the user is logged in by checking cookies
         function checkIfLoggedIn() {
-            fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/session', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json' // You can add more headers if needed
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Redirect based on login status
-                if (data.loggedIn) {
-                    window.location.href = 'dashboard.html'; // Redirect to dashboard if logged in
-                } else {
-                    window.location.href = 'login.html'; // Redirect to login if not logged in
-                }
-            })
-            .catch(error => {
-                console.error('Error checking login status:', error);
-                // Redirect to login page as a fallback if an error occurs
-                window.location.href = 'login.html';
-            });
+            const userId = getCookie('user_id');  // Get user_id cookie
+            const username = getCookie('username'); // Get username cookie
+
+            // If both user_id and username are present, we assume the user is logged in
+            if (userId && username) {
+                window.location.href = 'dashboard.html'; // Redirect to dashboard if logged in
+            } else {
+                window.location.href = 'login.html'; // Redirect to login if not logged in
+            }
         }
 
         // Call the function on page load to check login status

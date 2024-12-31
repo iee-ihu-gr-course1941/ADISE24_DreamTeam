@@ -1,56 +1,52 @@
-// Function to fetch user information (username, user_id, loggedIn status)
-async function fetchUserData() {
-    const usernameElement = document.querySelector('#username');
+// Utility function to get a specific cookie value by name
+function getCookieValue(cookieName) {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        const [key, value] = cookie.trim().split('=');
+        if (key === cookieName) {
+            return decodeURIComponent(value);
+        }
+    }
+    return null;
+}
+
+// Initialize account information using cookies
+function initializeAccount() {
+    const username = getCookieValue('username');
+    const userId = getCookieValue('user_id');
     const logoutButton = document.querySelector('#logoutButton');
 
-    try {
-        // Fetch data from the user API
-        const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/session');  // Replace with your actual API URL
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch user data');
-        }
-
-        const userData = await response.json(); // Parse the response
-
-        // Check if the user is logged in
-        if (userData.loggedIn) {
-            // If logged in, display the username
-            usernameElement.textContent = userData.username;
-
-            // Show the logout button
-            logoutButton.style.display = 'inline-block';
-        } else {
-            // If not logged in, display 'Guest' and hide the logout button
-            usernameElement.textContent = 'Guest';
-            logoutButton.style.display = 'none';
-        }
-    } catch (error) {
-        console.error(error);
-        // In case of an error, show a fallback message
-        usernameElement.textContent = 'Error fetching user data';
+    if (username && userId) {
+        // If cookies exist, display username and show logout button
+        document.querySelector('#username').textContent = username;
+        logoutButton.style.display = 'inline-block';
+    } else {
+        // If cookies do not exist, display "Guest" and hide logout button
+        document.querySelector('#username').textContent = 'Guest';
+        logoutButton.style.display = 'none';
     }
 }
 
-// Event listener for logout button (can be extended to perform actual logout)
-document.querySelector('#logoutButton')?.addEventListener('click', async () => {
-    try {
-        const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/users/logout', { method: 'POST' });  // Replace with your actual logout URL
+// Handle logout functionality
+function handleLogout() {
+    const logoutButton = document.querySelector('#logoutButton');
 
-        if (!response.ok) {
-            throw new Error('Logout failed');
-        }
+    logoutButton.addEventListener('click', () => {
+        // Clear relevant cookies
+        document.cookie = 'user_id=; path=/; max-age=0';
+        document.cookie = 'username=; path=/; max-age=0';
+        document.cookie = 'session_token=; path=/; max-age=0';
 
-        // On successful logout, reset to guest state
+        // Update UI to show guest state
         document.querySelector('#username').textContent = 'Guest';
-        document.querySelector('#logoutButton').style.display = 'none';
+        logoutButton.style.display = 'none';
 
-        alert('Successfully logged out!');
-    } catch (error) {
-        console.error(error);
-        alert('Failed to log out');
-    }
+        alert('You have been logged out.');
+    });
+}
+
+// Initialize account functionality on DOM content loaded
+document.addEventListener('DOMContentLoaded', () => {
+    initializeAccount();
+    handleLogout();
 });
-
-// Call the fetchUserData function when the page loads
-document.addEventListener('DOMContentLoaded', fetchUserData);
