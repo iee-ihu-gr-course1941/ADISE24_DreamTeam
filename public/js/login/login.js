@@ -29,7 +29,7 @@ $(document).ready(function () {
                     }
 
                     $('#debugInfo').append(`<p class="text-success">Login successful. Redirecting to dashboard.html...</p>`);
-                   // window.location.href = 'dashboard.html'; // Redirect to dashboard after login
+                    window.location.href = 'dashboard.html'; // Redirect to dashboard after login
                 } else {
                     $('#debugInfo').append(`<p class="text-danger">Login failed: ${response.message || 'Invalid credentials.'}</p>`);
                 }

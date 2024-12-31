@@ -54,7 +54,7 @@ function loginUser($username, $password) {
                     'success' => true,
                     'message' => 'Login successful',
                     'user_id' => $user['user_id'],
-                    'username' => $user['username']
+                    'username' => $user['username'],
                 ]);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
