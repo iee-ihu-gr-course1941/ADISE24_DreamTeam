@@ -1,50 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blokus Game</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-
-<body>
-    <div class="container text-center mt-5">
-        <h1>Welcome to Blokus Game</h1>
-        <p>Please wait while we check your login status...</p>
-    </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- JavaScript to check login status -->
-    <script>
-        // Function to get a cookie value by name
-        function getCookie(name) {
-            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-            if (match) {
-                return match[2];
-            }
-            return null;
-        }
-
-        // Function to check if the user is logged in by checking cookies
-        function checkIfLoggedIn() {
-            const userId = getCookie('user_id');  // Get user_id cookie
-            const username = getCookie('username'); // Get username cookie
-
-            // If both user_id and username are present, we assume the user is logged in
-            if (userId && username) {
-                window.location.href = 'dashboard.html'; // Redirect to dashboard if logged in
-            } else {
-                window.location.href = 'login.html'; // Redirect to login if not logged in
-            }
-        }
-
-        // Call the function on page load to check login status
-        document.addEventListener('DOMContentLoaded', checkIfLoggedIn);
-    </script>
-</body>
-
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Blokus Game</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="container text-center mt-5">
+            <h1>Welcome to Blokus Game</h1>
+            <p>Please wait while we check your login status...</p>
+        </div>
+        <!-- Sciprts that cheks if user is logged in and redirects him to the correct page -->
+        <script src="js/index/index.js"></script>
+    </body>
 </html>
