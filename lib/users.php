@@ -50,7 +50,12 @@ function loginUser($username, $password) {
                 // If login is successful, store the user details in session
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['username'] = $user['username'];
-                echo json_encode(['success' => true, 'message' => 'Login successful']);
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Login successful',
+                    'user_id' => $user['user_id'],
+                    'username' => $user['username']
+                ]);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
             }

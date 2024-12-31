@@ -15,8 +15,10 @@ $(document).ready(function () {
             data: JSON.stringify({ username: username, password: password }),
             success: function (response) {
                 $('#debugInfo').append(`<p>Response received from server: <pre>${JSON.stringify(response)}</pre></p>`);
+                console.log("Setting cookies:", response.user_id, response.username);
 
-                if (response.loggedIn) {
+
+                if (response.success) {
                     // Set cookies for user ID and username on successful login
                     document.cookie = `user_id=${response.user_id}; path=/; max-age=3600`; // 1 hour expiration
                     document.cookie = `username=${response.username}; path=/; max-age=3600`;
@@ -27,7 +29,7 @@ $(document).ready(function () {
                     }
 
                     $('#debugInfo').append(`<p class="text-success">Login successful. Redirecting to dashboard.html...</p>`);
-                    window.location.href = 'dashboard.html'; // Redirect to dashboard after login
+                   // window.location.href = 'dashboard.html'; // Redirect to dashboard after login
                 } else {
                     $('#debugInfo').append(`<p class="text-danger">Login failed: ${response.message || 'Invalid credentials.'}</p>`);
                 }
@@ -61,7 +63,7 @@ $(document).ready(function () {
             success: function (response) {
                 $('#debugInfo').append(`<p>Response received from server: <pre>${JSON.stringify(response)}</pre></p>`);
 
-                if (response.loggedIn) {
+                if (response.success) {
                     // Set cookies for user ID and username after registration
                     document.cookie = `user_id=${response.user_id}; path=/; max-age=3600`; // 1 hour expiration
                     document.cookie = `username=${response.username}; path=/; max-age=3600`;
