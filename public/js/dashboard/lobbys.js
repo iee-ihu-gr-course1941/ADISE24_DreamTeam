@@ -24,13 +24,13 @@
             const ul = document.createElement('ul');
             ul.classList.add('list-group');
 
-            lobbies.forEach(lobby => {
+            lobbies.forEach(lobbys => {
                 const li = document.createElement('li');
                 li.className = 'list-group-item d-flex justify-content-between align-items-center';
 
                 li.innerHTML = `
                     <span>
-                        <strong>Lobby #${lobby.game_id},</strong> - <strong>Player1(Host):</strong> ${lobby.host}, <strong>Player2:</strong> ${lobby.player2}, <strong>Player3:</strong> ${lobby.player3}, <strong>Player4:</strong> ${lobby.player4}, <strong>Game Status:</strong> ${lobby.game_status}
+                        <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, <strong>Player2:</strong> ${lobbys.player2}, <strong>Player3:</strong> ${lobbys.player3}, <strong>Player4:</strong> ${lobbys.player4}, <strong>Game Status:</strong> ${lobbys.game_status}
                     </span>
                     <button class="btn btn-primary btn-sm">Join</button>
                 `;
@@ -44,7 +44,7 @@
 
                 // Optional: Add functionality for the "Join" button
                 li.querySelector('button').addEventListener('click', () => {
-                    window.location.href = `game.html?lobby_id=${lobby.id}`;
+                    window.location.href = `game.html?lobby_id=${lobbys.id}`;
                 });
 
                 ul.appendChild(li);
