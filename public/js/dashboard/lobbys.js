@@ -28,19 +28,19 @@
                 const li = document.createElement('li');
                 li.className = 'list-group-item d-flex justify-content-between align-items-center';
 
-                li.innerHTML = `
-                    <span>
-                        <strong>Lobby #${lobby.id}</strong> - Player1(Host): ${lobby.host}, Player2: ${lobby.player2}, Player3: ${lobby.player3}, Player4: ${lobby.player4}
-                    </span>
-                    <button class="btn btn-primary btn-sm">Join</button>
-                `;
-
                 // li.innerHTML = `
                 //     <span>
-                //         <strong>Lobby #${lobby.id}</strong> - Game Type: ${lobby.game_type}, Max Players: ${lobby.max_players}
+                //         <strong>Lobby #${lobby.id}</strong> - Player1(Host): ${lobby.host}, Player2: ${lobby.player2}, Player3: ${lobby.player3}, Player4: ${lobby.player4}
                 //     </span>
                 //     <button class="btn btn-primary btn-sm">Join</button>
                 // `;
+
+                li.innerHTML = `
+                    <span>
+                        <strong>Lobby #${lobby.id}</strong> - Game Type: ${lobby.game_type}, Max Players: ${lobby.max_players}
+                    </span>
+                    <button class="btn btn-primary btn-sm">Join</button>
+                `;
 
                 // Optional: Add functionality for the "Join" button
                 li.querySelector('button').addEventListener('click', () => {
