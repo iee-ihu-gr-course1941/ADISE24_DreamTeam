@@ -30,15 +30,27 @@
 
                 li.innerHTML = `
                     <span>
-                        <strong>Lobby #${lobbys.game_id},</strong> - 
-                        <strong>Player1(Host):</strong> ${lobbys.host}, 
-                        <strong>Player2:</strong> ${lobbys.player2}, 
-                        <strong>Player3:</strong> ${lobbys.player3}, 
-                        Player4: ${lobbys.player4}, 
-                        Game Status: ${lobbys.game_status}
+                        <strong>Lobby #${lobby.game_id}</strong> - 
+                        <strong>Player1(Host):</strong> ${lobby.host}, 
+                        <strong>Player2:</strong> ${lobby.player2 || 'N/A'}, 
+                        <strong>Player3:</strong> ${lobby.player3 || 'N/A'}, 
+                        <strong>Player4:</strong> ${lobby.player4 || 'N/A'}, 
+                        Game Status: ${lobby.game_status}
                     </span>
-                    <button class="btn btn-primary btn-sm">Join</button>
+                    <button class="btn btn-primary btn-sm" data-game-id="${lobby.game_id}">Join</button>
                 `;
+
+                // li.innerHTML = `
+                //     <span>
+                //         <strong>Lobby #${lobbys.game_id},</strong> - 
+                //         <strong>Player1(Host):</strong> ${lobbys.host}, 
+                //         <strong>Player2:</strong> ${lobbys.player2}, 
+                //         <strong>Player3:</strong> ${lobbys.player3}, 
+                //         Player4: ${lobbys.player4}, 
+                //         Game Status: ${lobbys.game_status}
+                //     </span>
+                //     <button class="btn btn-primary btn-sm">Join</button>
+                // `;
 
                 // li.innerHTML = `
                 //     <span>
