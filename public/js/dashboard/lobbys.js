@@ -30,7 +30,7 @@
 
                 li.innerHTML = `
                     <span>
-                        <strong>Lobby #${lobby.id}</strong> - Player1(Host): ${lobby.host}, Player2: ${lobby.player2}, Player3: ${lobby.player3}, Player4: ${lobby.player4}, Game Status: ${lobby.game_status}                  }
+                        <strong>Lobby #${lobbys.id}</strong> - Player1(Host): ${lobbys.host}, Player2: ${lobbys.player2}, Player3: ${lobbys.player3}, Player4: ${lobbys.player4}, Game Status: ${lobbys.game_status}                  }
                     </span>
                     <button class="btn btn-primary btn-sm">Join</button>
                 `;
