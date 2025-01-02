@@ -28,24 +28,24 @@
                 const li = document.createElement('li');
                 li.className = 'list-group-item d-flex justify-content-between align-items-center';
 
-                // li.innerHTML = `
-                //     <span>
-                //         <strong>Lobby #${lobbys.game_id},</strong> - 
-                //         <strong>Player1(Host):</strong> ${lobbys.host}, 
-                //         <strong>Player2:</strong> ${lobbys.player2}, 
-                //         <strong>Player3:</strong> ${lobbys.player3}, 
-                //         Player4: ${lobbys.player4}, 
-                //         Game Status: ${lobbys.game_status}
-                //     </span>
-                //     <button class="btn btn-primary btn-sm">Join</button>
-                // `;
-
                 li.innerHTML = `
                     <span>
-                        <strong>Lobby #${lobby.id}</strong> - Game Type: ${lobby.game_type}, Max Players: ${lobby.max_players}
+                        <strong>Lobby #${lobbys.game_id},</strong> - 
+                        <strong>Player1(Host):</strong> ${lobbys.host}, 
+                        <strong>Player2:</strong> ${lobbys.player2}, 
+                        <strong>Player3:</strong> ${lobbys.player3}, 
+                        Player4: ${lobbys.player4}, 
+                        Game Status: ${lobbys.game_status}
                     </span>
                     <button class="btn btn-primary btn-sm">Join</button>
                 `;
+
+                // li.innerHTML = `
+                //     <span>
+                //         <strong>Lobby #${lobby.id}</strong> - Game Type: ${lobby.game_type}, Max Players: ${lobby.max_players}
+                //     </span>
+                //     <button class="btn btn-primary btn-sm">Join</button>
+                // `;
 
                 // Optional: Add functionality for the "Join" button
                 li.querySelector('button').addEventListener('click', () => {
