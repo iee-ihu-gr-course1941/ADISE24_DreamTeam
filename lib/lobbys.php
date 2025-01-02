@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 function getLobbies() {
     $pdo = getDatabaseConnection();
     try {
-        $sql = "CALL GetGames();";
+        $sql = "CALL GetGames2();";
         $stmt = $pdo->query($sql);
         $lobbies = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($lobbies, JSON_PRETTY_PRINT);
