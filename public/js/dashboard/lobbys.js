@@ -36,7 +36,7 @@
                 `;
 
                 li.querySelector('button').addEventListener('click', async () => {
-                    const lobbyId = lobby.game_id;
+                    const lobbyId = lobbys.game_id;
                     const userId = CURRENT_USER_ID;
                 
                     try {
@@ -59,7 +59,7 @@
                 
                         if (result.isInLobby) {
                             alert('You are already in this lobby!');
-                            window.location.href = `game.html?lobby_id=${lobbyId}`;
+                            window.location.href = `game.html?lobby_id=${lobbys.game_id}`;
                             return;
                         }
                 
@@ -67,7 +67,7 @@
                             alert('The lobby is full. You cannot join.');
                             return;
                         }
-                        
+
                         const joinResponse = await fetch(`https://your-api-endpoint.com/joinLobby`, {
                             method: 'POST',
                             headers: {
