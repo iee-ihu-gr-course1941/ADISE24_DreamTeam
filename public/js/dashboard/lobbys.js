@@ -40,7 +40,7 @@
                     const userId = CURRENT_USER_ID;
                 
                     try {
-                        const checkResponse = await fetch(`https://your-api-endpoint.com/checkLobbyStatus`, {
+                        const checkResponse = await fetch(`https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -68,7 +68,7 @@
                             return;
                         }
                 
-                        const joinResponse = await fetch(`https://your-api-endpoint.com/joinLobby`, {
+                        const joinResponse = await fetch(`https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
