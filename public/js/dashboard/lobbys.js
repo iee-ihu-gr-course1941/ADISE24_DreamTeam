@@ -67,6 +67,7 @@
                             alert('The lobby is full. You cannot join.');
                             return;
                         }
+                
                         const joinResponse = await fetch(`https://your-api-endpoint.com/joinLobby`, {
                             method: 'POST',
                             headers: {
