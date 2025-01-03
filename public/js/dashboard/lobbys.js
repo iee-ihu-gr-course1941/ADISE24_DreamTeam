@@ -68,7 +68,7 @@
                             return;
                         }
                 
-                        const joinResponse = await fetch(`https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys`, {
+                        const joinResponse = await fetch(`https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys/join`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',

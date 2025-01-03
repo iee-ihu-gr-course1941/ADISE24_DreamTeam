@@ -74,6 +74,10 @@ $router->add('POST', 'lobbys/create', function($input) { //Figure out how we can
 $router->add('POST', 'lobbys/leave', function() {
     leaveLobby();
 });
+
+$router->add('POST, lobbys/join', function($input){
+    joinLobby((int)$input['userId'], $input['lobbyId']);
+});
 ////////////////////////////////
 ////////////////////////////////
 
