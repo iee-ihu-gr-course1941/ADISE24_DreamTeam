@@ -39,17 +39,17 @@
                     const lobbyId = lobbys.game_id;
                     const userId = CURRENT_USER_ID;
                 
-                    try {
-                        const checkResponse = await fetch(`https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                lobby_id: lobbyId,
-                                user_id: userId,
-                            }),
-                        });
+                    // try {
+                    //     const checkResponse = await fetch(`https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys`, {
+                    //         method: 'POST',
+                    //         headers: {
+                    //             'Content-Type': 'application/json',
+                    //         },
+                    //         body: JSON.stringify({
+                    //             lobby_id: lobbyId,
+                    //             user_id: userId,
+                    //         }),
+                    //     });
                 
                         if (!checkResponse.ok) {
                             throw new Error('Failed to check lobby status');
@@ -85,10 +85,10 @@
                 
                         alert('Successfully joined the lobby!');
                         window.location.href = `game.html?lobby_id=${lobbyId}`;
-                    } catch (error) {
-                        console.error(error);
-                        alert('An error occurred. Please try again later.');
-                    }
+                    // } catch (error) {
+                    //     console.error(error);
+                    //     alert('An error occurred. Please try again later.');
+                    // }
                 });
                 
 
