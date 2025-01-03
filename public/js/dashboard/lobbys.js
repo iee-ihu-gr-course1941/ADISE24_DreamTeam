@@ -38,7 +38,7 @@
 
                 // Optional: Add functionality for the "Join" button
                 li.querySelector('button').addEventListener('click', () => {
-                    window.location.href = `game.html?lobby_id=${lobbys.id}`;
+                    window.location.href = `game.html?lobby_id=${lobbys.game_id}`;
                 });
 
                 ul.appendChild(li);
