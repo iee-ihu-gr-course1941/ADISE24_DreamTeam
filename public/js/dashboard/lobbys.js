@@ -59,7 +59,7 @@
                 
                         if (result.isInLobby) {
                             alert('You are already in this lobby!');
-                            window.location.href = `game.html?lobby_id=${lobbys.game_id}`;
+                            window.location.href = `game.html?lobby_id=${lobbyId}`;
                             return;
                         }
                 
@@ -67,7 +67,6 @@
                             alert('The lobby is full. You cannot join.');
                             return;
                         }
-
                         const joinResponse = await fetch(`https://your-api-endpoint.com/joinLobby`, {
                             method: 'POST',
                             headers: {
