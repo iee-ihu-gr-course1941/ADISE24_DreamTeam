@@ -34,70 +34,14 @@
                     </span>
                     <button class="btn btn-primary btn-sm">Join</button>
                 `;
+                
 
-                li.querySelector('button').addEventListener('click', async () => {
-                    const lobbyId = lobbys.game_id;
-                    const userId = CURRENT_USER_ID;
-                
-                    try {
-                        const checkResponse = await fetch(`https://your-api-endpoint.com/checkLobbyStatus`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                lobby_id: lobbyId,
-                                user_id: userId,
-                            }),
-                        });
-                
-                        if (!checkResponse.ok) {
-                            throw new Error('Failed to check lobby status');
-                        }
-                
-                        const result = await checkResponse.json();
-                
-                        if (result.isInLobby) {
-                            alert('You are already in this lobby!');
-                            window.location.href = `game.html?lobby_id=${lobbyId}`;
-                            return;
-                        }
-                
-                        if (result.isFull) {
-                            alert('The lobby is full. You cannot join.');
-                            return;
-                        }
-                
-                        const joinResponse = await fetch(`https://your-api-endpoint.com/joinLobby`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                lobby_id: lobbyId,
-                                user_id: userId,
-                            }),
-                        });
-                
-                        if (!joinResponse.ok) {
-                            throw new Error('Failed to join the lobby');
-                        }
-                
-                        alert('Successfully joined the lobby!');
-                        window.location.href = `game.html?lobby_id=${lobbyId}`;
-                    } catch (error) {
-                        console.error(error);
-                        alert('An error occurred. Please try again later.');
-                    }
+                //Optional: Add functionality for the "Join" button
+                li.querySelector('button').addEventListener('click', () => {
+                    window.location.href = `game.html?lobby_id=${lobbys.id}`;
                 });
-                
 
-                // Optional: Add functionality for the "Join" button
-                // li.querySelector('button').addEventListener('click', () => {
-                //     window.location.href = `game.html?lobby_id=${lobbys.id}`;
-                // });
-
-                // ul.appendChild(li);
+                ul.appendChild(li);
             });
 
             lobbyList.appendChild(ul);
