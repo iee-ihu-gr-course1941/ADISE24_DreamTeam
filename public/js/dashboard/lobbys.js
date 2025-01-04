@@ -49,7 +49,7 @@
                 try {
                     // Check if the player is already in the lobby or if it's full
                     const checkResponse = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys', {
-                        method: 'POST',
+                        method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
                         },
