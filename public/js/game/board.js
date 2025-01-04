@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Fetch the JSON data from the server
-    fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/boards/14') // Change the URL with the appropriate board_id
+    fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/boards/14') // Use the correct board_id
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -20,11 +20,11 @@ function renderBoard(board) {
     boardContainer.innerHTML = ''; // Clear the container before rendering the new board
 
     // Loop through the rows and columns of the board
-    board.forEach((row, rowIndex) => {
+    board.forEach((row) => {
         const rowDiv = document.createElement('div'); // Create a row container
         rowDiv.classList.add('d-flex'); // Use Bootstrap flexbox for rows
 
-        row.forEach((cell, colIndex) => {
+        row.forEach((cell) => {
             const cellDiv = document.createElement('div');
             cellDiv.classList.add('col', 'p-0'); // Use Bootstrap columns for the grid, no padding
 
