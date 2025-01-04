@@ -60,7 +60,7 @@ $router->add('GET', 'users/session', 'checkSession');  // GET /users/session -> 
 
 //////////Bored Functions//////////
 /////////////////////////////////
-$router->add('GET', 'boards/{board_id}', 'getBoard');  // 
+$router->add('GET', 'boards/{id}', 'getBoard');  // 
 ////////////////////////////////
 ///////////////////////////////
 
