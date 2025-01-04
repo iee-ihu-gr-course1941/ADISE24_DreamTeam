@@ -41,7 +41,7 @@
                 
                     try {
                         // Make a POST request to check and join the lobby
-                        const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/lobbys', {
+                        const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys/join', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
