@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Fetch the JSON data from the server
-    fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/boards/1') // Change the URL with the appropriate board_id
+    fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/boards/14') // Change the URL with the appropriate board_id
         .then(response => response.json())
         .then(data => {
             if (data.success) {
