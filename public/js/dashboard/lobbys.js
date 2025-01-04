@@ -1,4 +1,4 @@
-<script src="./account.js"></script>
+<script src="js/dashboard/account.js"></script>
     // Function to fetch and display lobbies
     async function fetchLobbies() {
         const lobbyList = document.getElementById('lobby-list');
