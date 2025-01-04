@@ -70,25 +70,36 @@ function joinLobby($userId, $lobbyId) {
     $pdo = getDatabaseConnection();
 
     try {
-        $sql = "SELECT * FROM game_lobbies WHERE id = ? AND status = 'waiting'";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$lobbyId]);
-        $lobby = $stmt->fetch(PDO::FETCH_ASSOC);
+        $checkUserSql = "SELECT COUNT(*) as count FROM game_players WHERE game_id = :game_id AND user_id = :user_id";
+        $checkUserStmt = $pdo->prepare($checkUserSql);
+        $checkUserStmt->execute(['game_id' => $lobbyId, 'user_id' => $userId]);
+        $userInLobby = $checkUserStmt->fetch(PDO::FETCH_ASSOC)['count'];
 
-        if ($lobby) {
-            $sql = "UPDATE game_lobbies SET player1_id = ?, status = 'full' WHERE id = ?";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([$userId, $lobbyId]);
-
-            echo json_encode(['success' => true, 'message' => 'You have joined the lobby']);
+        if ($userInLobby > 0) {
+            echo json_encode(['success' => false, 'message' => 'You are already in this lobby.']);
             return;
         }
 
-        echo json_encode(['error' => 'Lobby is not available or already full']);
+        $checkFullSql = "SELECT COUNT(*) as count FROM game_players WHERE game_id = :game_id";
+        $checkFullStmt = $pdo->prepare($checkFullSql);
+        $checkFullStmt->execute(['game_id' => $lobbyId]);
+        $currentPlayers = $checkFullStmt->fetch(PDO::FETCH_ASSOC)['count'];
+
+        if ($currentPlayers >= 4) {
+            echo json_encode(['success' => false, 'message' => 'The lobby is full.']);
+            return;
+        }
+
+        $joinGameSql = "CALL Blokus_db.joinGame(:user_id, :game_id)";
+        $joinGameStmt = $pdo->prepare($joinGameSql);
+        $joinGameStmt->execute(['user_id' => $userId, 'game_id' => $lobbyId]);
+
+        echo json_encode(['success' => true, 'message' => 'You have successfully joined the lobby.']);
     } catch (PDOException $e) {
-        echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+        echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
     }
 }
+
 
 //works
 function leaveLobby() {
