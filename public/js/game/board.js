@@ -1,20 +1,40 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Fetch the board data from the API
-    fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/boards/14')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Parse each string row in the board into an actual array
-                const parsedBoard = data.board.map(row => JSON.parse(row));
-                renderBoard(parsedBoard);
-            } else {
-                console.error('Error fetching board:', data.message);
-            }
-        })
-        .catch(error => console.error('Error loading board data:', error));
-});
+// Function to extract the lobby_id from the URL
+function getLobbyIdFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('lobby_id'); // Extract the 'lobby_id' from the query string
+}
 
-// Function to render the board
+// Function to fetch and display the board for the given lobby_id
+async function fetchAndRenderBoard(lobbyId) {
+    const boardContainer = document.getElementById('blokus-board');
+    boardContainer.innerHTML = '<p class="text-center">Loading board...</p>'; // Show loading message
+
+    try {
+        // Fetch the board data from the server
+        const response = await fetch(`https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/boards/${lobbyId}`);
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch board data');
+        }
+
+        const data = await response.json(); // Parse JSON data
+        boardContainer.innerHTML = ''; // Clear loading message
+
+        if (!data.success) {
+            boardContainer.innerHTML = '<p class="text-center text-muted">Board not found.</p>';
+            return;
+        }
+
+        // Parse the board rows (strings) into arrays
+        const board = data.board.map(row => JSON.parse(row));
+        renderBoard(board); // Render the board
+    } catch (error) {
+        console.error(error);
+        boardContainer.innerHTML = '<p class="text-center text-danger">Failed to load board. Please try again later.</p>';
+    }
+}
+
+// Function to render the Blokus board
 function renderBoard(board) {
     const boardContainer = document.getElementById('blokus-board');
     boardContainer.innerHTML = ''; // Clear the container before rendering
@@ -36,3 +56,13 @@ function renderBoard(board) {
         });
     });
 }
+
+// On page load, extract the lobby_id and fetch the board
+document.addEventListener('DOMContentLoaded', () => {
+    const lobbyId = getLobbyIdFromUrl(); // Get lobby_id from the URL
+    if (lobbyId) {
+        fetchAndRenderBoard(lobbyId); // Fetch and render the board
+    } else {
+        document.getElementById('blokus-board').innerHTML = '<p class="text-center text-danger">Invalid lobby ID.</p>';
+    }
+});
