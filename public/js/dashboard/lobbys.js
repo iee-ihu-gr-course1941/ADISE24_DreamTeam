@@ -40,8 +40,7 @@
                 const lobbyId = lobbys.game_id;
                 const userId = getCookieValue('user_id');
                 if(userId){
-                    '<span>Current userID: ${userId}</span>'
-                    
+                    console.log('Current userID: ', userId);
                 }
                 else{
                     console.log('User ID not found.');
