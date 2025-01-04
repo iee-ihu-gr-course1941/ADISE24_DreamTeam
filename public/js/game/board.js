@@ -1,45 +1,38 @@
+document.addEventListener("DOMContentLoaded", function() {
+    // Fetch the board data from the API
+    fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/boards/14')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Parse each string row in the board into an actual array
+                const parsedBoard = data.board.map(row => JSON.parse(row));
+                renderBoard(parsedBoard);
+            } else {
+                console.error('Error fetching board:', data.message);
+            }
+        })
+        .catch(error => console.error('Error loading board data:', error));
+});
+
+// Function to render the board
 function renderBoard(board) {
-    const boardContainer = document.getElementById('blokus-board'); // Get the container for the board
-    boardContainer.innerHTML = ''; // Clear the container before rendering the new board
+    const boardContainer = document.getElementById('blokus-board');
+    boardContainer.innerHTML = ''; // Clear the container before rendering
 
-    // Loop through the rows and columns of the board
-    board.forEach((row) => {
-        const rowDiv = document.createElement('div'); // Create a row container
-        rowDiv.classList.add('d-flex', 'justify-content-center'); // Use Bootstrap flexbox for rows
-
-        row.forEach((cell) => {
+    // Loop through each row and cell in the board
+    board.forEach(row => {
+        row.forEach(cell => {
             const cellDiv = document.createElement('div');
-            cellDiv.classList.add('cell'); // Add a CSS class for consistent styling
+            cellDiv.classList.add('cell'); // Add the base cell class
 
-            // Apply the background color based on the cell value
-            switch (cell) {
-                case 0:
-                    cellDiv.style.backgroundColor = 'white'; // Empty space
-                    break;
-                case 1:
-                    cellDiv.style.backgroundColor = 'red'; // Player 1
-                    break;
-                case 2:
-                    cellDiv.style.backgroundColor = 'blue'; // Player 2
-                    break;
-                case 3:
-                    cellDiv.style.backgroundColor = 'green'; // Player 3
-                    break;
-                case 4:
-                    cellDiv.style.backgroundColor = 'yellow'; // Player 4
-                    break;
-                default:
-                    cellDiv.style.backgroundColor = 'white'; // Default empty
+            // Add the appropriate background color based on the cell value
+            if (cell === 0) {
+                cellDiv.classList.add('bg-white'); // White for 0
+            } else if (cell === 1) {
+                cellDiv.classList.add('bg-red'); // Red for 1
             }
 
-            // Style the grid cell
-            cellDiv.style.border = '1px solid black';
-            cellDiv.style.width = '30px'; // Set fixed width
-            cellDiv.style.height = '30px'; // Set fixed height
-
-            rowDiv.appendChild(cellDiv); // Add the cell to the row
+            boardContainer.appendChild(cellDiv); // Add the cell to the board container
         });
-
-        boardContainer.appendChild(rowDiv); // Add the row to the container
     });
 }
