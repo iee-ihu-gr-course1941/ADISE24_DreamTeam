@@ -25,7 +25,7 @@ require_once "lib/users.php";
 require_once "lib/version.php";
 require_once "lib/router.php";
 require_once "lib/lobbys.php";
-require_once "lib/boreds.php";
+require_once "lib/board.php";
 require_once "lib/leaderboard.php";
 
 
@@ -60,7 +60,7 @@ $router->add('GET', 'users/session', 'checkSession');  // GET /users/session -> 
 
 //////////Bored Functions//////////
 /////////////////////////////////
-$router->add('GET', 'boards/{board_id}', 'getBored');  // 
+$router->add('GET', 'boards/{board_id}', 'getBoard');  // 
 ////////////////////////////////
 ///////////////////////////////
 
