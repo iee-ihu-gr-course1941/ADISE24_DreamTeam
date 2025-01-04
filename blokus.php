@@ -76,7 +76,6 @@
     });
 
     $router->add('POST', 'lobbys/join', function($input) {
-        // Validate input parameters
         if (!isset($input['userId']) || !isset($input['lobbyId'])) {
             echo json_encode(['error' => 'Missing required parameters: userId or lobbyId']);
             return;
@@ -85,7 +84,6 @@
         $userId = (int)$input['userId'];
         $lobbyId = (int)$input['lobbyId'];
     
-        // Call the joinLobby function with sanitized inputs
         joinLobby($userId, $lobbyId);
     });
     
