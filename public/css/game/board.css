@@ -1,0 +1,27 @@
+#blokus-board {
+    display: grid;
+    grid-template-columns: repeat(20, 30px); /* 20 columns, each 30px */
+    gap: 2px; /* Space between cells */
+  }
+  .board-cell {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    border: 1px black
+  }
+
+  .bg-light-danger {
+    background-color: #f8d7da; /* Light Red */
+}
+
+.bg-light-primary {
+    background-color: #cce5ff; /* Light Blue */
+}
+
+.bg-light-success {
+    background-color: #d4edda; /* Light Green */
+}
+
+.bg-light-warning {
+    background-color: #fff3cd; /* Light Yellow */
+}

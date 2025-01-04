@@ -1,95 +1,95 @@
 <?php
 
-// Allow requests from any origin
-header("Access-Control-Allow-Origin: *");
-
-// Allow the required methods
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-
-// Allow headers like Content-Type
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    // Allow preflight request
+    // Allow requests from any origin
     header("Access-Control-Allow-Origin: *");
+
+    // Allow the required methods
     header("Access-Control-Allow-Methods: POST, OPTIONS");
+
+    // Allow headers like Content-Type
     header("Access-Control-Allow-Headers: Content-Type, Authorization");
-    http_response_code(200); // Preflight successful
-    exit();
-}
-
-require_once "lib/dbconnect.php";
-require_once "lib/accounts.php";   // Assuming you have user-related functions
-require_once "lib/users.php";
-require_once "lib/version.php";
-require_once "lib/router.php";
-require_once "lib/lobbys.php";
-require_once "lib/board.php";
-require_once "lib/leaderboard.php";
 
 
-// Initialize router
-$router = new Router();
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        // Allow preflight request
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: POST, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization");
+        http_response_code(200); // Preflight successful
+        exit();
+    }
+
+    require_once "lib/dbconnect.php";
+    require_once "lib/accounts.php";   // Assuming you have user-related functions
+    require_once "lib/users.php";
+    require_once "lib/version.php";
+    require_once "lib/router.php";
+    require_once "lib/lobbys.php";
+    require_once "lib/board.php";
+    require_once "lib/leaderboard.php";
 
 
-// Add routes with associated functions
-$router->add('GET', 'v1', 'getApiVersion');  // Mapping GET /v1 to getApiVersion function
-$router->add('GET', 'accounts', 'show_users');  // Mapping GET /accounts to show_users function
-$router->add('GET', 'accounts/{id}', 'getUserProfile');  // Mapping GET /accounts/{id} to getUserProfile function
-
-////////////Leaderboard Functions//////////
-////////////////////////////////////////
-$router->add('GET', 'leaderboard', 'getLeaderboard');  
-////////////////////////////////////////
-////////////////////////////////////////
+    // Initialize router
+    $router = new Router();
 
 
-//////////User Functions//////////
-/////////////////////////////////
-$router->add('POST', 'users/register', function($input) {
-	registerUser($input['username'], $input['password']);
-});
-$router->add('POST', 'users/login', function($input) {
-    loginUser($input['username'], $input['password']);
-});
-$router->add('POST', 'users/logout', 'logoutUser');  // POST /users/logout -> logoutUser function
-$router->add('GET', 'users/session', 'checkSession');  // GET /users/session -> checkSession function
-////////////////////////////////
-///////////////////////////////
+    // Add routes with associated functions
+    $router->add('GET', 'v1', 'getApiVersion');  // Mapping GET /v1 to getApiVersion function
+    $router->add('GET', 'accounts', 'show_users');  // Mapping GET /accounts to show_users function
+    $router->add('GET', 'accounts/{id}', 'getUserProfile');  // Mapping GET /accounts/{id} to getUserProfile function
 
-//////////Bored Functions//////////
-/////////////////////////////////
-$router->add('GET', 'boards/{id}', 'getBoard');  // 
-////////////////////////////////
-///////////////////////////////
+    ////////////Leaderboard Functions//////////
+    ////////////////////////////////////////
+    $router->add('GET', 'leaderboard', 'getLeaderboard');  
+    ////////////////////////////////////////
+    ////////////////////////////////////////
 
 
-//////////Lobby Functions//////////
-////////////////////////////////
-$router->add('GET', 'lobbys', 'getLobbies');
-$router->add('POST', 'lobbys/create', function($input) { //Figure out how we can test this one too
-    createLobby((int)$input['userId'], $input['gameType'], (int)$input['maxPlayers'], $input['createdAt']);
-});
-$router->add('POST', 'lobbys/leave', function() {
-    leaveLobby();
-});
+    //////////User Functions//////////
+    /////////////////////////////////
+    $router->add('POST', 'users/register', function($input) {
+        registerUser($input['username'], $input['password']);
+    });
+    $router->add('POST', 'users/login', function($input) {
+        loginUser($input['username'], $input['password']);
+    });
+    $router->add('POST', 'users/logout', 'logoutUser');  // POST /users/logout -> logoutUser function
+    $router->add('GET', 'users/session', 'checkSession');  // GET /users/session -> checkSession function
+    ////////////////////////////////
+    ///////////////////////////////
 
-$router->add('POST', 'lobbys/join', function($input){
-    joinLobby((int)$input['userId'], $input['lobbyId']);
-});
-////////////////////////////////
-////////////////////////////////
-
-
-
-
-
-//games functions
+    //////////Bored Functions//////////
+    /////////////////////////////////
+    $router->add('GET', 'boards/{id}', 'getBoard');  // 
+    ////////////////////////////////
+    ///////////////////////////////
 
 
-// Handle the request
-$input = json_decode(file_get_contents('php://input'), true);
-$router->routeRequest($input);
+    //////////Lobby Functions//////////
+    ////////////////////////////////
+    $router->add('GET', 'lobbys', 'getLobbies');
+    $router->add('POST', 'lobbys/create', function($input) { //Figure out how we can test this one too
+        createLobby((int)$input['userId'], $input['gameType'], (int)$input['maxPlayers'], $input['createdAt']);
+    });
+    $router->add('POST', 'lobbys/leave', function() {
+        leaveLobby();
+    });
+
+    $router->add('POST', 'lobbys/join', function($input){
+        joinLobby((int)$input['userId'], $input['lobbyId']);
+    });
+    ////////////////////////////////
+    ////////////////////////////////
+
+
+
+
+
+    //games functions
+
+
+    // Handle the request
+    $input = json_decode(file_get_contents('php://input'), true);
+    $router->routeRequest($input);
 
 ?>

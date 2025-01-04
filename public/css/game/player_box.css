@@ -1,0 +1,50 @@
+.player-box {
+    position: relative;
+    border: 2px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+    height: 400px;
+    width: 400px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 5px;
+    overflow: hidden; /* Hide scrollbars */
+  }
+  
+  .player-box::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in WebKit browsers */
+  }
+  
+  .player-box {
+    -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+  }
+  
+.tetris-piece {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);  /* 5 columns for each piece */
+}
+
+.block {
+    width: 20px;
+    height: 20px;
+    margin: 1px;
+}
+
+.player1 .block {
+    background-color: red;
+}
+
+.player2 .block {
+    background-color: blue;
+}
+
+.player3 .block {
+    background-color: green;
+}
+
+.player4 .block {
+    background-color: yellow;
+}
