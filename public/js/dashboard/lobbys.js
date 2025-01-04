@@ -1,4 +1,4 @@
-
+<script src="./account.js"></script>
     // Function to fetch and display lobbies
     async function fetchLobbies() {
         const lobbyList = document.getElementById('lobby-list');
@@ -34,15 +34,82 @@
                     </span>
                     <button class="btn btn-primary btn-sm">Join</button>
                 `;
+
+                // Add functionality for the "Join" button
+            li.querySelector('button').addEventListener('click', async () => {
+                const lobbyId = lobbys.game_id;
+                const userId = getCookieValue('user_id');
+                if(userId){
+                    console.log('Current userID: ', userId);
+                }
+                else{
+                    console.log('User ID not found.');
+                }
+
+                try {
+                    // Check if the player is already in the lobby or if it's full
+                    const checkResponse = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            lobby_id: lobbyId,
+                            user_id: userId,
+                        }),
+                    });
+
+                    if (!checkResponse.ok) {
+                        throw new Error('Failed to check lobby status');
+                    }
+
+                    const result = await checkResponse.json();
+
+                    if (result.isInLobby) {
+                        alert('You are already in this lobby!');
+                        window.location.href = `game.html?lobby_id=${lobbyId}`;
+                        return;
+                    }
+
+                    if (result.isFull) {
+                        alert('The lobby is full. You cannot join.');
+                        return;
+                    }
+
+                    // If checks pass, allow the player to join
+                    const joinResponse = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys/joijn', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            lobby_id: lobbyId,
+                            user_id: userId,
+                        }),
+                    });
+
+                    if (!joinResponse.ok) {
+                        throw new Error('Failed to join the lobby');
+                    }
+
+                    alert('Successfully joined the lobby!');
+                    window.location.href = `game.html?lobby_id=${lobbyId}`;
+                } catch (error) {
+                    console.error(error);
+                    alert('An error occurred. Please try again later.');
+                }
+            });
+
+            ul.appendChild(li);
+        });
                 
 
                 // Optional: Add functionality for the "Join" button
-                li.querySelector('button').addEventListener('click', () => {
-                    window.location.href = `game.html?lobby_id=${lobbys.game_id}`;
-                });
+                // li.querySelector('button').addEventListener('click', () => {
+                //     window.location.href = `game.html?lobby_id=${lobbys.game_id}`;
+                // });
 
-                ul.appendChild(li);
-            });
+                // ul.appendChild(li);
 
             lobbyList.appendChild(ul);
         } catch (error) {
