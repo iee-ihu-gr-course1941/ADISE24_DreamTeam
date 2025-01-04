@@ -3,14 +3,14 @@
     grid-template-columns: repeat(20, 30px);
     gap: 2px;
 }
+/* CSS for consistent grid cell design */
 .cell {
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 30px;
-    border: 1px solid #ccc;
-}
+    display: inline-block;
+    width: 30px; /* Fixed width */
+    height: 30px; /* Fixed height */
+    box-sizing: border-box; /* Ensures padding/border are included in dimensions */
+    border: 1px solid black; /* Border for grid cells */
+  }
 .R{ background-color: red; }
 .B { background-color: blue; }
 .G { background-color: green; }
