@@ -54,13 +54,15 @@
                 });
 
                 const result = await response.json();
+                alert(result.message);
+                window.location.href = `game.html?lobby_id=${lobbyId}`;
 
-                if (response.ok && result.success) {
-                    alert(result.message);
-                    window.location.href = `game.html?lobby_id=${lobbyId}`;
-                } else {
-                    alert(result.message || 'Failed to join the lobby.');
-                }
+                // if (response.ok && result.success) {
+                //     alert(result.message);
+                //     window.location.href = `game.html?lobby_id=${lobbyId}`;
+                // } else {
+                //     alert(result.message || 'Failed to join the lobby.');
+                // }
             } catch (error) {
                 console.error('Error:', error);
                 alert('Failed to join the lobby. Please try again later.');
