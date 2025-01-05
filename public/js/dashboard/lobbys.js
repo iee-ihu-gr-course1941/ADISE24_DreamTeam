@@ -75,7 +75,7 @@
                 // ul.appendChild(li);
         });
 
-            lobbyList.appendChild(ul);
+        lobbyList.appendChild(ul);
         } catch (error) {
             console.error(error);
             lobbyList.innerHTML = '<p class="text-center text-danger">Failed to load lobbies. Please try again later.</p>';
