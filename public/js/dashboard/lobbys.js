@@ -32,11 +32,15 @@
                 <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, <strong>Player2:</strong> ${lobbys.player2}, <strong>Player3:</strong> ${lobbys.player3}, <strong>Player4:</strong> ${lobbys.player4}, <strong>Game Status:</strong> ${lobbys.game_status}
             </span>
             <button class="btn btn-primary btn-sm" data-lobby-id="${lobbys.game_id}">Join</button>
+            <button class="btn btn-primary btn-sm start-btn" data-lobby-id="${lobbys.game_id}">Start</button>
         `;
 
-        //<button class="btn btn-primary btn-sm">Start</button>
+        
 
-        //li.querySelector('button').addEventListener('click', async (event) => {
+        li.querySelector('.start-btn').addEventListener('click', async (event) => {
+            alert(result.message);
+            window.location.href = `game.html?lobby_id=${lobbyId}`;
+        });
 
         li.querySelector('button').addEventListener('click', async (event) => {
             const userId = getCookieValue('user_id'); // Get the current user's ID
