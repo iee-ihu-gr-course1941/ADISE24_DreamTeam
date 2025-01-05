@@ -1,4 +1,3 @@
-<Script src='js/dashboard/account.js'></Script>
     // Function to fetch and display lobbies
     async function fetchLobbies() {
         const lobbyList = document.getElementById('lobby-list');
@@ -29,50 +28,47 @@
                 li.className = 'list-group-item d-flex justify-content-between align-items-center';
 
                 li.innerHTML = `
-                    <span>
-                        <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, <strong>Player2:</strong> ${lobbys.player2}, <strong>Player3:</strong> ${lobbys.player3}, <strong>Player4:</strong> ${lobbys.player4}, <strong>Game Status:</strong> ${lobbys.game_status}
-                    </span>
-                    <button class="btn btn-primary btn-sm">Join</button>
-                `;
+            <span>
+                <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, <strong>Player2:</strong> ${lobbys.player2}, <strong>Player3:</strong> ${lobbys.player3}, <strong>Player4:</strong> ${lobbys.player4}, <strong>Game Status:</strong> ${lobbys.game_status}
+            </span>
+            <button class="btn btn-primary btn-sm" data-lobby-id="${lobbys.game_id}">Join</button>
+        `;
 
-                li.querySelector('button').addEventListener('click', async () => {
-                    const userId = getCookieValue('user_id'); // Get the current user's ID from cookies
-                    const lobbyId = lobbys.game_id; // Get the lobby ID
-                
-                    try {
-                        // Make a POST request to check and join the lobby
-                        const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys/join', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                user_id: userId,
-                                lobby_id: lobbyId,
-                            }),
-                        });
-                
-                        const result = await response.json();
-                
-                        if (result.success) {
-                            alert(result.message); // Success message
-                            window.location.href = `game.html?lobby_id=${lobbyId}`;
-                        } else {
-                            alert(result.message); // Failure message (e.g., already in lobby or lobby full)
-                        }
-                    } catch (error) {
-                        console.error('Error:', error);
-                        alert('Failed to join the lobby. Please try again later.');
-                    }
+        li.querySelector('button').addEventListener('click', async (event) => {
+            const userId = getCookieValue('user_id'); // Get the current user's ID
+            //const lobbyId = event.target.getAttribute('data-lobby-id'); // Get the lobby ID
+            const lobbyId = lobbys.game_id;
+
+            if (!userId) {
+                alert('User not logged in or user ID not found!');
+                return;
+            }
+
+            try {
+                const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys/join', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userId, lobbyId }),
                 });
 
+                const result = await response.json();
 
-                // Optional: Add functionality for the "Join" button
-                // li.querySelector('button').addEventListener('click', () => {
-                //     window.location.href = `game.html?lobby_id=${lobbys.game_id}`;
-                // });
+                if (response.ok && result.success) {
+                    alert(result.message);
+                    window.location.href = `game.html?lobby_id=${lobbyId}`;
+                } else {
+                    alert(result.message || 'Failed to join the lobby.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to join the lobby. Please try again later.');
+            }
+        });
 
-                // ul.appendChild(li);
+        ul.appendChild(li);
+
         });
 
         lobbyList.appendChild(ul);
