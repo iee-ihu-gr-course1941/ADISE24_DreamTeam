@@ -50,7 +50,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ userId, lobbyId }),
+                    body: JSON.stringify({ lobbyId, userId }),
                 });
 
                 const result = await response.json();
