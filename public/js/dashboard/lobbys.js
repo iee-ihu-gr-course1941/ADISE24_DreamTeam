@@ -34,10 +34,14 @@
             <button class="btn btn-primary btn-sm" data-lobby-id="${lobbys.game_id}">Join</button>
         `;
 
+        //<button class="btn btn-primary btn-sm">Start</button>
+
+        //li.querySelector('button').addEventListener('click', async (event) => {
+
         li.querySelector('button').addEventListener('click', async (event) => {
             const userId = getCookieValue('user_id'); // Get the current user's ID
-            const lobbyId = event.target.getAttribute('data-lobby-id'); // Get the lobby ID
-            //const lobbyId = lobbys.game_id;
+            //const lobbyId = event.target.getAttribute('data-lobby-id'); // Get the lobby ID
+            const lobbyId = lobbys.game_id;
 
             if (!userId) {
                 alert('User not logged in or user ID not found!');
