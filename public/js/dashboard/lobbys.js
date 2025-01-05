@@ -35,9 +35,9 @@
                     <button class="btn btn-primary btn-sm">Join</button>
                 `;
 
-                li.querySelector('button').addEventListener('click', async () => {
-                    const userId = getCookieValue('user_id'); // Get the current user's ID from cookies
-                    const lobbyId = lobbys.game_id; // Get the lobby ID
+                // li.querySelector('button').addEventListener('click', async () => {
+                //     const userId = getCookieValue('user_id'); // Get the current user's ID from cookies
+                //     const lobbyId = lobbys.game_id; // Get the lobby ID
                 
                     // try {
                     //     // Make a POST request to check and join the lobby
@@ -64,7 +64,7 @@
                     //     console.error('Error:', error);
                     //     alert('Failed to join the lobby. Please try again later.');
                     // }
-                });
+                // });
 
 
                 // Optional: Add functionality for the "Join" button
