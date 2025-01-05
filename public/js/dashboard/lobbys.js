@@ -35,36 +35,36 @@
                     <button class="btn btn-primary btn-sm">Join</button>
                 `;
 
-                // li.querySelector('button').addEventListener('click', async () => {
-                //     const userId = getCookieValue('user_id'); // Get the current user's ID from cookies
-                //     const lobbyId = lobbys.game_id; // Get the lobby ID
+                li.querySelector('button').addEventListener('click', async () => {
+                    const userId = getCookieValue('user_id'); // Get the current user's ID from cookies
+                    const lobbyId = lobbys.game_id; // Get the lobby ID
                 
-                    // try {
-                    //     // Make a POST request to check and join the lobby
-                    //     const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys/join', {
-                    //         method: 'POST',
-                    //         headers: {
-                    //             'Content-Type': 'application/json',
-                    //         },
-                    //         body: JSON.stringify({
-                    //             user_id: userId,
-                    //             lobby_id: lobbyId,
-                    //         }),
-                    //     });
+                    try {
+                        // Make a POST request to check and join the lobby
+                        const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys/join', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                user_id: userId,
+                                lobby_id: lobbyId,
+                            }),
+                        });
                 
-                    //     const result = await response.json();
+                        const result = await response.json();
                 
-                    //     if (result.success) {
-                    //         alert(result.message); // Success message
-                    //         window.location.href = `game.html?lobby_id=${lobbyId}`;
-                    //     } else {
-                    //         alert(result.message); // Failure message (e.g., already in lobby or lobby full)
-                    //     }
-                    // } catch (error) {
-                    //     console.error('Error:', error);
-                    //     alert('Failed to join the lobby. Please try again later.');
-                    // }
-                // });
+                        if (result.success) {
+                            alert(result.message); // Success message
+                            window.location.href = `game.html?lobby_id=${lobbyId}`;
+                        } else {
+                            alert(result.message); // Failure message (e.g., already in lobby or lobby full)
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Failed to join the lobby. Please try again later.');
+                    }
+                });
 
 
                 // Optional: Add functionality for the "Join" button
