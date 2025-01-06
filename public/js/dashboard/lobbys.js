@@ -28,11 +28,11 @@
                 li.className = 'list-group-item d-flex justify-content-between align-items-center';
 
                 li.innerHTML = `
-            <span>
-                <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, <strong>Player2:</strong> ${lobbys.player2}, <strong>Player3:</strong> ${lobbys.player3}, <strong>Player4:</strong> ${lobbys.player4}, <strong>Game Status:</strong> ${lobbys.game_status}
-            </span>
-            <button class="btn btn-primary btn-sm" data-lobby-id="${lobbys.game_id}">Join</button>
-            <button class="btn btn-primary btn-sm start-btn" data-lobby-id="${lobbys.game_id}">Start</button>
+                <span>
+                    <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, <strong>Player2:</strong> ${lobbys.player2}, <strong>Player3:</strong> ${lobbys.player3}, <strong>Player4:</strong> ${lobbys.player4}, <strong>Game Status:</strong> ${lobbys.game_status}
+                </span>
+                <button class="btn btn-primary btn-sm" data-lobby-id="${lobbys.game_id}">Join</button>
+                <button class="btn btn-primary btn-sm start-btn" data-lobby-id="${lobbys.game_id}">Start</button>
         `;
 
         li.querySelector('button').addEventListener('click', async (event) => {
@@ -51,7 +51,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ user_id: userId, lobby_id: lobbyId }),
+                    body: JSON.stringify({ lobby_id: lobbyId, user_id: userId }), //user_id: userId
                 });
 
                 const result = await response.json();
