@@ -35,17 +35,6 @@
             <button class="btn btn-primary btn-sm start-btn" data-lobby-id="${lobbys.game_id}">Start</button>
         `;
 
-        
-
-        li.querySelector('.start-btn').addEventListener('click', async (event) => {
-            if (response.ok && result.success) {
-                alert(result.message);
-                window.location.href = `game.html?lobby_id=${lobbyId}`;
-            } else {
-                alert(result.message || 'Failed to join the lobby.');
-            }
-        });
-
         li.querySelector('button').addEventListener('click', async (event) => {
             const userId = getCookieValue('user_id'); // Get the current user's ID
             //const lobbyId = event.target.getAttribute('data-lobby-id'); // Get the lobby ID
@@ -69,15 +58,24 @@
                 // alert(result.message);
                 // window.location.href = `game.html?lobby_id=${lobbyId}`;
 
-                // if (response.ok && result.success) {
-                //     alert(result.message);
-                //     window.location.href = `game.html?lobby_id=${lobbyId}`;
-                // } else {
-                //     alert(result.message || 'Failed to join the lobby.');
-                // }
+                if (response.ok && result.success) {
+                    alert(result.message);
+                    // window.location.href = `game.html?lobby_id=${lobbyId}`;
+                } else {
+                    alert(result.message || 'Failed to join the lobby.');
+                }
             } catch (error) {
                 console.error('Error:', error);
                 alert('Failed to join the lobby. Please try again later.');
+            }
+        });
+
+        li.querySelector('.start-btn').addEventListener('click', async (event) => {
+            if (response.ok && result.success) {
+                alert(result.message);
+                window.location.href = `game.html?lobby_id=${lobbyId}`;
+            } else {
+                alert(result.message || 'Failed to join the lobby.');
             }
         });
 
