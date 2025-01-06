@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blokus Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Game Title -->
+        <h1>Blokus Game</h1>
+
+        <!-- Player Turn -->
+        <h4>
+            Current Player: <span id="currentPlayer" class="current-player">1</span>
+        </h4>
+        <div id="scoreDisplay" class="score-display"></div>
+        
+
+        <!-- Game Board -->
+        <div id="board" class="board"></div>
+
+        <!-- Player Pieces Section -->
+        <div id="playerPieces">
+            <h4>Player Pieces:</h4>
+            <div id="piecesContainer"></div>
+        </div>
+    </div>
+
+    <!-- Game Logic Script -->
+    <script src="script.js"></script>
+</body>
+</html>
