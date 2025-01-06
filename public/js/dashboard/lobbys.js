@@ -55,12 +55,9 @@
                 });
 
                 const result = await response.json();
-                // alert(result.message);
-                // window.location.href = `game.html?lobby_id=${lobbyId}`;
 
                 if (response.ok && result.success) {
                     alert(result.message);
-                    // window.location.href = `game.html?lobby_id=${lobbyId}`;
                 } else {
                     alert(result.message || 'Failed to join the lobby.');
                 }
@@ -71,13 +68,34 @@
         });
 
         li.querySelector('.start-btn').addEventListener('click', async (event) => {
-            if (response.ok && result.success) {
-                alert(result.message);
-                window.location.href = `game.html?lobby_id=${lobbyId}`;
-            } else {
-                alert(result.message || 'Failed to join the lobby.');
+            const lobbyId = event.target.getAttribute('data-lobby-id'); // Get the lobby ID from the button
+        
+            try {
+                // Make a POST request to start the game
+                const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/board/{id}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ lobby_id: lobbyId }), // Send the lobby ID in the request body
+                });
+        
+                // Parse the JSON response
+                const result = await response.json();
+        
+                // Check the response and handle it
+                if (response.ok && result.success) {
+                    alert(result.message); // Show success message
+                    window.location.href = `game.html?lobby_id=${lobbyId}`; // Redirect to the game page
+                } else {
+                    alert(result.message || 'Failed to start the game.'); // Show failure message
+                }
+            } catch (error) {
+                console.error('Error starting game:', error);
+                alert('An error occurred while starting the game. Please try again.');
             }
         });
+        
 
         ul.appendChild(li);
 
