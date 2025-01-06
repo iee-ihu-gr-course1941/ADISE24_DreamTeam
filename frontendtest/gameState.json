@@ -1,0 +1,60 @@
+{
+    "board": [
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+    ],
+    "players": {
+        "1": {
+            "pieces": [
+                "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10",
+                "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20", "P21"
+            ],
+            "score": 0,
+            "color": "#FF0000"
+        },
+        "2": {
+            "pieces": [
+                "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10",
+                "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20", "P21"
+            ],
+            "score": 0,
+            "color": "#00FF00"
+        },
+        "3": {
+            "pieces": [
+                "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10",
+                "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20", "P21"
+            ],
+            "score": 0,
+            "color": "#0000FF"
+        },
+        "4": {
+            "pieces": [
+                "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10",
+                "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20", "P21"
+            ],
+            "score": 0,
+            "color": "#FFFF00"
+        }
+    },
+    "turn": 1,
+    "skippedPlayers": []
+}
