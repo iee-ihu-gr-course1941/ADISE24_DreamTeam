@@ -38,7 +38,6 @@
         
 
         li.querySelector('.start-btn').addEventListener('click', async (event) => {
-            alert(result.message);
             window.location.href = `game.html?lobby_id=${lobbyId}`;
         });
 
