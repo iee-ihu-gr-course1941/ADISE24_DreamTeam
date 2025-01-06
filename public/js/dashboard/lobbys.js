@@ -38,7 +38,12 @@
         
 
         li.querySelector('.start-btn').addEventListener('click', async (event) => {
-            window.location.href = `game.html?lobby_id=${lobbyId}`;
+            if (response.ok && result.success) {
+                alert(result.message);
+                window.location.href = `game.html?lobby_id=${lobbyId}`;
+            } else {
+                alert(result.message || 'Failed to join the lobby.');
+            }
         });
 
         li.querySelector('button').addEventListener('click', async (event) => {
@@ -64,12 +69,12 @@
                 // alert(result.message);
                 // window.location.href = `game.html?lobby_id=${lobbyId}`;
 
-                if (response.ok && result.success) {
-                    alert(result.message);
-                    window.location.href = `game.html?lobby_id=${lobbyId}`;
-                } else {
-                    alert(result.message || 'Failed to join the lobby.');
-                }
+                // if (response.ok && result.success) {
+                //     alert(result.message);
+                //     window.location.href = `game.html?lobby_id=${lobbyId}`;
+                // } else {
+                //     alert(result.message || 'Failed to join the lobby.');
+                // }
             } catch (error) {
                 console.error('Error:', error);
                 alert('Failed to join the lobby. Please try again later.');
