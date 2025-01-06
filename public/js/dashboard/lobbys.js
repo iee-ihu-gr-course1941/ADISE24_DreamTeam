@@ -51,7 +51,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ lobby_id: lobbyId, user_id: userId }), //user_id: userId
+                    body: JSON.stringify({ user_id: userId, lobby_id: lobbyId }),
                 });
 
                 const result = await response.json();
