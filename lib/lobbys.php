@@ -93,7 +93,7 @@ function joinLobby($userId, $gameId) {
             return;
         }
 
-        $joinGameSql = "CALL Blokus_db.joinGame(:user_id, :game_id)";
+        $joinGameSql = "CALL Blokus_db.joinGame(:game_id, :user_id)";
         $joinGameStmt = $pdo->prepare($joinGameSql);
 
         // Debugging: Log the parameters being passed
@@ -155,6 +155,4 @@ function leaveLobby() {
 //         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
 //     }
 // }
-
-// Handle all API requests
 ?>
