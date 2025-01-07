@@ -66,13 +66,16 @@ function createLobby($userId, $gameType, $maxPlayers, $createdAt) {
 //     }
 // }
 
-function joinLobby($userId, $lobbyId) {
+function joinLobby($userId, $gameId) {
     $pdo = getDatabaseConnection();
 
     try {
+        // Debugging log
+        error_log("joinLobby called with user_id = $userId and game_id = $gameId");
+
         $checkUserSql = "SELECT COUNT(*) as count FROM game_players WHERE game_id = :game_id AND user_id = :user_id";
         $checkUserStmt = $pdo->prepare($checkUserSql);
-        $checkUserStmt->execute(['game_id' => $lobbyId, 'user_id' => $userId]);
+        $checkUserStmt->execute(['game_id' => $gameId, 'user_id' => $userId]);
         $userInLobby = $checkUserStmt->fetch(PDO::FETCH_ASSOC)['count'];
 
         if ($userInLobby > 0) {
@@ -82,7 +85,7 @@ function joinLobby($userId, $lobbyId) {
 
         $checkFullSql = "SELECT COUNT(*) as count FROM game_players WHERE game_id = :game_id";
         $checkFullStmt = $pdo->prepare($checkFullSql);
-        $checkFullStmt->execute(['game_id' => $lobbyId]);
+        $checkFullStmt->execute(['game_id' => $gameId]);
         $currentPlayers = $checkFullStmt->fetch(PDO::FETCH_ASSOC)['count'];
 
         if ($currentPlayers >= 4) {
@@ -92,13 +95,25 @@ function joinLobby($userId, $lobbyId) {
 
         $joinGameSql = "CALL Blokus_db.joinGame(:user_id, :game_id)";
         $joinGameStmt = $pdo->prepare($joinGameSql);
-        $joinGameStmt->execute(['user_id' => $userId, 'game_id' => $lobbyId]);
 
-        echo json_encode(['success' => true, 'message' => 'You have successfully joined the lobby.']);
+        // Debugging: Log the parameters being passed
+        error_log("Executing stored procedure with user_id = $userId, game_id = $gameId");
+
+        try {
+            $joinGameStmt->execute(['user_id' => $userId, 'game_id' => $gameId]);
+            echo json_encode(['success' => true, 'message' => 'You have successfully joined the lobby.']);
+        } catch (PDOException $e) {
+            error_log("Stored procedure error: " . $e->getMessage());
+            echo json_encode(['success' => false, 'message' => 'Failed to join the lobby. Please contact support.']);
+        }
+
     } catch (PDOException $e) {
+        // Log any unexpected database errors
+        error_log("Database error: " . $e->getMessage());
         echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
     }
 }
+
 
 
 //works
