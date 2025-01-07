@@ -81,4 +81,34 @@ function updatePlayerMove($gameId, $playerId, $move) {
         return false;
     }
 }
+
+function createLobby($gameName) {
+    global $pdo;
+
+    try {
+        // Ξεκινάμε συναλλαγή
+        $pdo->beginTransaction();
+
+        // Εισάγουμε νέο παιχνίδι στη βάση δεδομένων
+        $sql = "INSERT INTO games (game_name, board_state, current_turn, created_at) VALUES (?, ?, ?, NOW())";
+        $stmt = $pdo->prepare($sql);
+        $initialBoardState = json_encode([]); // Αρχικό state του board
+        $initialTurn = null; // Κανένας παίκτης δεν έχει σειρά στην αρχή
+        $stmt->execute([$gameName, $initialBoardState, $initialTurn]);
+
+        // Παίρνουμε το ID του νέου παιχνιδιού
+        $gameId = $pdo->lastInsertId();
+
+        // Ολοκληρώνουμε τη συναλλαγή
+        $pdo->commit();
+
+        return $gameId;
+    } catch (Exception $e) {
+        // Αν υπάρξει σφάλμα, κάνουμε rollback
+        $pdo->rollBack();
+        error_log("Failed to create lobby: " . $e->getMessage());
+        return false;
+    }
+}
+
 ?>
