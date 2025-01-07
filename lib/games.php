@@ -81,7 +81,7 @@ function updatePlayerMove($gameId, $playerId, $move) {
         return false;
     }
 }
-
+//Dokimi connection me API 
 function createLobby($gameName) {
     global $pdo;
 
