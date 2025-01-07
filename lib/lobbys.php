@@ -70,9 +70,9 @@ function joinLobby($userId, $lobbyId) {
     $pdo = getDatabaseConnection();
 
     try {
-        $checkUserSql = "SELECT COUNT(*) as count FROM game_players WHERE lobby_id = :lobby_id AND user_id = :user_id";
+        $checkUserSql = "SELECT COUNT(*) as count FROM game_players WHERE game_id = :game_id AND user_id = :user_id";
         $checkUserStmt = $pdo->prepare($checkUserSql);
-        $checkUserStmt->execute(['lobby_id' => $lobbyId, 'user_id' => $userId]);
+        $checkUserStmt->execute(['game_id' => $lobbyId, 'user_id' => $userId]);
         $userInLobby = $checkUserStmt->fetch(PDO::FETCH_ASSOC)['count'];
 
         if ($userInLobby > 0) {
@@ -90,9 +90,9 @@ function joinLobby($userId, $lobbyId) {
             return;
         }
 
-        $joinGameSql = "CALL Blokus_db.joinGame(:user_id, :lobby_id)";
+        $joinGameSql = "CALL Blokus_db.joinGame(:user_id, :game_id)";
         $joinGameStmt = $pdo->prepare($joinGameSql);
-        $joinGameStmt->execute(['user_id' => $userId, 'lobby_id' => $lobbyId]);
+        $joinGameStmt->execute(['user_id' => $userId, 'game_id' => $lobbyId]);
 
         echo json_encode(['success' => true, 'message' => 'You have successfully joined the lobby.']);
     } catch (PDOException $e) {
