@@ -101,16 +101,16 @@
                             joinButton.disabled = true;
                             joinButton.style.display = 'none';
 
-                            if(userId === lobbys.host){
+                            if(userId !== null){
                                 readyButton1.style.display = 'inline-block';
                             }
-                            if(userId === lobbys.player2){
+                            if (lobbys.player2 !== null) {
                                 readyButton2.style.display = 'inline-block';
                             }
-                            if(userId === lobbys.player3){
+                            if (lobbys.player3 !== null) {
                                 readyButton3.style.display = 'inline-block';
                             }
-                            if(userId === lobbys.player4){
+                            if (lobbys.player4 !== null) {
                                 readyButton4.style.display = 'inline-block';
                             }
                             // readyButton.style.display = 'inline-block';
