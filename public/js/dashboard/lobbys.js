@@ -61,9 +61,10 @@
                 const result = await response.json();
 
                 if (response.ok && result.success) {
+                    alert(result.message);
                     const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys');
+                    const result = await response.json();
                     if(response.ok){
-                        alert(result.message);
                         joinButton.disabled = true;
                         joinButton.style.display = 'none';
                         readyButton.style.display = 'inline-block';
