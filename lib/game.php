@@ -140,10 +140,15 @@ function getPlayerPieces($gameId, $playerId) {
 
         $pieces = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        echo json_encode(['success' => true, 'pieces' => $pieces], JSON_PRETTY_PRINT);
+        if ($pieces) {
+            echo json_encode(['success' => true, 'pieces' => $pieces], JSON_PRETTY_PRINT);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'No pieces found for this player'], JSON_PRETTY_PRINT);
+        }
     } catch (PDOException $e) {
         echo json_encode(['error' => 'Database error in getPlayerPieces(): ' . $e->getMessage()]);
     }
 }
+
 
 ?>
