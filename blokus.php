@@ -68,6 +68,8 @@
     //////////Lobby Functions//////////
     ////////////////////////////////
     $router->add('GET', 'lobbys', 'getLobbies');
+    $router->add('GET', 'lobbys/{id}', 'getLobbies');
+
     $router->add('POST', 'lobbys/create', function($input) { //Figure out how we can test this one too
         createLobby((int)$input['userId'], $input['gameType'], (int)$input['maxPlayers'], $input['createdAt']);
     });
