@@ -102,16 +102,16 @@
                             joinButton.style.display = 'none';
 
                             if(userId == lobbys.host){
-                                readyButton.style.display = 'inline-block';
+                                readyButton1.style.display = 'inline-block';
                             }
                             else if(userId == lobbys.player2){
-                                readyButton.style.display = 'inline-block';
+                                readyButton2.style.display = 'inline-block';
                             }
                             else if(userId == lobbys.player3){
-                                readyButton.style.display = 'inline-block';
+                                readyButton3.style.display = 'inline-block';
                             }
                             else if(userId == lobbys.player4){
-                                readyButton.style.display = 'inline-block';
+                                readyButton4.style.display = 'inline-block';
                             }
                             // readyButton.style.display = 'inline-block';
                             // readyButton.disabled = false;
