@@ -34,7 +34,7 @@ function placePiece($gameId, $playerId, $piece, $position) {
     $pdo = getDatabaseConnection();
 
     try {
-        $sql = "CALL PlacePiece(:gameId, :playerId, :piece, :row, :col);"; // Assuming a stored procedure for placing a piece
+        $sql = "CALL PlacePiece(:gameId, :playerId, :piece, :row, :col);";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
         $stmt->bindParam(':playerId', $playerId, PDO::PARAM_INT);
@@ -49,6 +49,7 @@ function placePiece($gameId, $playerId, $piece, $position) {
         echo json_encode(['error' => 'Database error in placePiece(): ' . $e->getMessage()]);
     }
 }
+
 
 /**
  * End the game by game ID.
