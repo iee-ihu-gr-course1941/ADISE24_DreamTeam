@@ -94,35 +94,44 @@
                             body: JSON.stringify({ userId, lobbyId }),
                         });
 
+                        location.reload();
+
                         const result = await response.json();
 
-                        if (response.ok && result.success) {
-                            alert(result.message);
-                            joinButton.disabled = true;
-                            joinButton.style.display = 'none';
-
-                            if(userId == userId){
-                                readyButton1.style.display = 'inline-block';
-                            }
-                            if (lobbys.player2 == userId) {
-                                readyButton2.style.display = 'inline-block';
-                            }
-                            if (lobbys.player3 == userId) {
-                                readyButton3.style.display = 'inline-block';
-                            }
-                            if (lobbys.player4 == userId) {
-                                readyButton4.style.display = 'inline-block';
-                            }
-                            // readyButton.style.display = 'inline-block';
-                            // readyButton.disabled = false;
-                        } else {
-                            alert(result.message || 'Failed to join the lobby.');
-                        }
+                        
                     } catch (error) {
                         console.error('Error:', error);
                         alert('Failed to join the lobby. Please try again later.');
                     }
+
+                    if (response.ok && result.success) {
+                        alert(result.message);
+                        joinButton.disabled = true;
+                        joinButton.style.display = 'none';
+    
+                        if(userId == userId){
+                            readyButton1.style.display = 'inline-block';
+                        }
+                        if (lobbys.player2 == userId) {
+                            readyButton2.style.display = 'inline-block';
+                        }
+                        if (lobbys.player3 == userId) {
+                            readyButton3.style.display = 'inline-block';
+                        }
+                        if (lobbys.player4 == userId) {
+                            readyButton4.style.display = 'inline-block';
+                        }
+                        // readyButton.style.display = 'inline-block';
+                        // readyButton.disabled = false;
+                    } else {
+                        alert(result.message || 'Failed to join the lobby.');
+                    }
                 });
+
+                
+
+
+               
 
                 // const userId = getCookieValue('user_id');
                 // if(userId == lobbys.host){
