@@ -87,7 +87,7 @@ function getGameStatus($gameId) {
     $pdo = getDatabaseConnection();
 
     try {
-        $sql = "CALL GetGameStatus(:gameId);"; // Assuming a stored procedure for fetching game status
+        $sql = "CALL GetGameStatus(:gameId);";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
         $stmt->execute();
@@ -111,7 +111,7 @@ function checkDeadlock($gameId) {
     $pdo = getDatabaseConnection();
 
     try {
-        $sql = "CALL CheckDeadlock(:gameId);"; // Assuming a stored procedure for checking deadlock
+        $sql = "CALL CheckDeadlock(:gameId);";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
         $stmt->execute();
@@ -124,6 +124,7 @@ function checkDeadlock($gameId) {
     }
 }
 
+
 /**
  * Get the pieces available for a player.
  */
@@ -131,7 +132,7 @@ function getPlayerPieces($gameId, $playerId) {
     $pdo = getDatabaseConnection();
 
     try {
-        $sql = "CALL GetPlayerPieces(:gameId, :playerId);"; // Assuming a stored procedure for fetching player pieces
+        $sql = "CALL GetPlayerPieces(:gameId, :playerId);";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
         $stmt->bindParam(':playerId', $playerId, PDO::PARAM_INT);
@@ -144,4 +145,5 @@ function getPlayerPieces($gameId, $playerId) {
         echo json_encode(['error' => 'Database error in getPlayerPieces(): ' . $e->getMessage()]);
     }
 }
+
 ?>

@@ -117,10 +117,18 @@
         endGame((int)$gameId);
     });
     
-    $router->add('GET', 'games/{id}/status', 'getGameStatus'); // Get the current status of the game
-    $router->add('GET', 'games/{id}/deadlock', 'checkDeadlock'); // Check for deadlock in the game
-    $router->add('GET', 'games/{id}/players/{playerId}/pieces', 'getPlayerPieces'); // Get the available pieces for a player
-
+    $router->add('GET', 'games/{id}/status', function($gameId) {
+        getGameStatus((int)$gameId);
+    });
+    
+    $router->add('GET', 'games/{id}/deadlock', function($gameId) {
+        checkDeadlock((int)$gameId);
+    });
+    
+    $router->add('GET', 'games/{id}/players/{playerId}/pieces', function($gameId, $playerId) {
+        getPlayerPieces((int)$gameId, (int)$playerId);
+    });
+    
 
 
     // Handle the request
