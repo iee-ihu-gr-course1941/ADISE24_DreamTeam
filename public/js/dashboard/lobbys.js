@@ -76,10 +76,15 @@
         });
 
         li.querySelector('.start-btn').addEventListener('click', async (event) => {
-            const lobbyId = event.target.getAttribute('data-lobby-id'); // Get the lobby ID from the button
+            const lobbyId = event.target.getAttribute('data-lobby-id');
             window.location.href = `game.html?lobby_id=${lobbyId}`;
         });
-        
+
+        li.querySelector('.ready-btn').addEventListener('click', async (event) => {
+            readyButton.disabled = true;
+            readyButton.innerText = 'Ready (Checked)';
+            // checkIfAllPlayersReady(lobbyId);
+        });        
 
         ul.appendChild(li);
 
