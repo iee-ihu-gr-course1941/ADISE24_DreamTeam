@@ -29,69 +29,130 @@
 
                 li.innerHTML = `
                 <span>
-                    <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, <strong>Player2:</strong> ${lobbys.player2}, <strong>Player3:</strong> ${lobbys.player3}, <strong>Player4:</strong> ${lobbys.player4}, <strong>Game Status:</strong> ${lobbys.game_status}
+                    <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, 
                 </span>
+                
+                <button class="btn btn-primary btn-sm ready-btn1" style="display:none;" data-user-id="${lobbys.user_id}">Ready</button>
+
+                <span> 
+                    <strong>Player2:</strong> ${lobbys.player2}, 
+                </span>
+
+                <button class="btn btn-primary btn-sm ready-btn2" style="display:none;" data-user-id="${lobbys.user_id}">Ready</button>
+
+                <span>
+                    <strong>Player3:</strong> ${lobbys.player3}, 
+                </span>
+
+                <button class="btn btn-primary btn-sm ready-btn3" style="display:none;" data-user-id="${lobbys.user_id}">Ready</button>
+
+                <span>
+                    <strong>Player4:</strong> ${lobbys.player4}, 
+                </span>
+
+                <button class="btn btn-primary btn-sm ready-btn4" style="display:none;" data-user-id="${lobbys.user_id}">Ready</button>
+
+                <span>
+                    <strong>Game Status:</strong> ${lobbys.game_status}
+                </span>
+
                 <button class="btn btn-primary btn-sm join-btn" data-lobby-id="${lobbys.game_id}">Join</button>
-                <button class="btn btn-primary btn-sm ready-btn" style="display:none;" data-user-id="${lobbys.user_id}">Ready</button>
                 <button class="btn btn-primary btn-sm start-btn" style="display:none;" data-lobby-id="${lobbys.game_id}">Start</button>
-        `;
+                `;
 
-        const joinButton = li.querySelector('.join-btn');
-        const readyButton = li.querySelector('.ready-btn');
-        const startButton = li.querySelector('.start-btn');
+                // li.innerHTML = `
+                // <span>
+                //     <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, <strong>Player2:</strong> ${lobbys.player2}, <strong>Player3:</strong> ${lobbys.player3}, <strong>Player4:</strong> ${lobbys.player4}, <strong>Game Status:</strong> ${lobbys.game_status}
+                // </span>
+                // <button class="btn btn-primary btn-sm join-btn" data-lobby-id="${lobbys.game_id}">Join</button>
+                // <button class="btn btn-primary btn-sm ready-btn" style="display:none;" data-user-id="${lobbys.user_id}">Ready</button>
+                // <button class="btn btn-primary btn-sm start-btn" style="display:none;" data-lobby-id="${lobbys.game_id}">Start</button>
+                // `;
 
-        li.querySelector('button').addEventListener('click', async (event) => {
-            const userId = getCookieValue('user_id');
-            const lobbyId = lobbys.game_id;
+                const joinButton = li.querySelector('.join-btn');
+                const readyButton = li.querySelector('.ready-btn');
+                const startButton = li.querySelector('.start-btn');
 
-            if (!userId) {
-                alert('User not logged in or user ID not found!');
-                return;
-            }
+                li.querySelector('button').addEventListener('click', async (event) => {
+                    const userId = getCookieValue('user_id');
+                    const lobbyId = lobbys.game_id;
 
-            try {
-                const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys/join', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ userId, lobbyId }),
+                    if (!userId) {
+                        alert('User not logged in or user ID not found!');
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys/join', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ userId, lobbyId }),
+                        });
+
+                        const result = await response.json();
+
+                        if (response.ok && result.success) {
+                            alert(result.message);
+                            joinButton.disabled = true;
+                            joinButton.style.display = 'none';
+                            
+                            if(userId == lobbys.host){
+                                startButton.style.display = 'inline-block';
+                            }
+                            else if(userId == lobbys.player2){
+                                startButton.style.display = 'inline-block';
+                            }
+                            else if(userId == lobbys.player3){
+                                startButton.style.display = 'inline-block';
+                            }
+                            else if(userId == lobbys.player4){
+                                startButton.style.display = 'inline-block';
+                            }
+                            // readyButton.style.display = 'inline-block';
+                            // readyButton.disabled = false;
+                        } else {
+                            alert(result.message || 'Failed to join the lobby.');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Failed to join the lobby. Please try again later.');
+                    }
                 });
 
-                const result = await response.json();
+                // const userId = getCookieValue('user_id');
+                // if(userId == lobbys.host){
+                //     startButton.style.display = 'inline-block';
+                // }
+                // else if(userId == lobbys.player2){
+                //     startButton.style.display = 'inline-block';
+                // }
+                // else if(userId == lobbys.player3){
+                //     startButton.style.display = 'inline-block';
+                // }
+                // else if(userId == lobbys.player4){
+                //     startButton.style.display = 'inline-block';
+                // }
 
-                if (response.ok && result.success) {
-                    alert(result.message);
-                    joinButton.disabled = true;
-                    joinButton.style.display = 'none';
-                    readyButton.style.display = 'inline-block';
-                    readyButton.disabled = false;
-                } else {
-                    alert(result.message || 'Failed to join the lobby.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Failed to join the lobby. Please try again later.');
-            }
-        });
+                li.querySelector('.ready-btn').addEventListener('click', async (event) => {
+                    readyButton.disabled = true;
+                    readyButton.innerText = 'Ready (Checked)';
+                    startButton.style.display = 'inline-block';
+                    // checkIfAllPlayersReady(lobbyId);
+                });
 
-        li.querySelector('.start-btn').addEventListener('click', async (event) => {
-            const lobbyId = event.target.getAttribute('data-lobby-id');
-            window.location.href = `game2.html?lobby_id=${lobbyId}`;
-        });
+                li.querySelector('.start-btn').addEventListener('click', async (event) => {
+                    const lobbyId = event.target.getAttribute('data-lobby-id');
+                    window.location.href = `game2.html?lobby_id=${lobbyId}`;
+                });
+                     
 
-        li.querySelector('.ready-btn').addEventListener('click', async (event) => {
-            readyButton.disabled = true;
-            readyButton.innerText = 'Ready (Checked)';
-            startButton.style.display = 'inline-block';
-            // checkIfAllPlayersReady(lobbyId);
-        });        
+                ul.appendChild(li);
 
-        ul.appendChild(li);
+            });
 
-        });
-
-        lobbyList.appendChild(ul);
+            lobbyList.appendChild(ul);
         } catch (error) {
             console.error(error);
             lobbyList.innerHTML = '<p class="text-center text-danger">Failed to load lobbies. Please try again later.</p>';
