@@ -9,7 +9,7 @@ header('Content-Type: application/json');
 function getGameState($gameId) {
     $pdo = getDatabaseConnection();
     try {
-        $sql = "CALL GetGameState(:gameId);"; // Assuming a stored procedure for fetching game state
+        $sql = "CALL GetGameState(:gameId);";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
         $stmt->execute();
@@ -25,6 +25,7 @@ function getGameState($gameId) {
         echo json_encode(['error' => 'Database error in getGameState(): ' . $e->getMessage()]);
     }
 }
+
 
 /**
  * Place a piece on the board.
