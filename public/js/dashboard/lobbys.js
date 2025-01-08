@@ -61,6 +61,7 @@
                 const result = await response.json();
 
                 if (response.ok && result.success) {
+                    location.reload();
                     alert(result.message);
                     joinButton.disabled = true;
                     joinButton.style.display = 'none';
