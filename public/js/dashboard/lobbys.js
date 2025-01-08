@@ -70,10 +70,10 @@
                 // `;
 
                 const joinButton = li.querySelector('.join-btn');
-                // const readyButton1 = li.querySelector('.ready-btn1');
-                // const readyButton2 = li.querySelector('.ready-btn2');
-                // const readyButton3 = li.querySelector('.ready-btn3');
-                // const readyButton4 = li.querySelector('.ready-btn4');
+                const readyButton1 = li.querySelector('.ready-btn1');
+                const readyButton2 = li.querySelector('.ready-btn2');
+                const readyButton3 = li.querySelector('.ready-btn3');
+                const readyButton4 = li.querySelector('.ready-btn4');
                 const startButton = li.querySelector('.start-btn');
 
                 li.querySelector('button').addEventListener('click', async (event) => {
@@ -138,12 +138,12 @@
                 //     startButton.style.display = 'inline-block';
                 // }
 
-                li.querySelector('.ready-btn').addEventListener('click', async (event) => {
-                    readyButton.disabled = true;
-                    readyButton.innerText = 'Ready (Checked)';
-                    startButton.style.display = 'inline-block';
-                    // checkIfAllPlayersReady(lobbyId);
-                });
+                // li.querySelector('.ready-btn').addEventListener('click', async (event) => {
+                //     readyButton.disabled = true;
+                //     readyButton.innerText = 'Ready (Checked)';
+                //     startButton.style.display = 'inline-block';
+                //     // checkIfAllPlayersReady(lobbyId);
+                // });
 
                 li.querySelector('.start-btn').addEventListener('click', async (event) => {
                     const lobbyId = event.target.getAttribute('data-lobby-id');
