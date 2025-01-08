@@ -101,13 +101,13 @@
                             joinButton.disabled = true;
                             joinButton.style.display = 'none';
 
-                            if(userId == lobbys.host){
+                            if(userId === lobbys.host){
                                 readyButton1.style.display = 'inline-block';
                             }
-                            else if(userId == lobbys.player2){
+                            else if(userId === lobbys.player2){
                                 readyButton2.style.display = 'inline-block';
                             }
-                            else if(userId == lobbys.player3){
+                            else if(userId === lobbys.player3){
                                 readyButton3.style.display = 'inline-block';
                             }
                             else{
