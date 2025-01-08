@@ -79,6 +79,7 @@ function endGame($gameId) {
     }
 }
 
+
 /**
  * Get the current status of a game.
  */

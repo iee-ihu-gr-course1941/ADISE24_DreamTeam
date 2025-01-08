@@ -113,9 +113,10 @@
     });
     
      // Place a piece on the board
-    $router->add('POST', 'games/{id}/end', function($params) {
-        endGame($params['id']);
-    }); // End the game
+     $router->add('POST', 'games/{id}/end', function($gameId, $input) {
+        endGame((int)$gameId);
+    });
+    
     $router->add('GET', 'games/{id}/status', 'getGameStatus'); // Get the current status of the game
     $router->add('GET', 'games/{id}/deadlock', 'checkDeadlock'); // Check for deadlock in the game
     $router->add('GET', 'games/{id}/players/{playerId}/pieces', 'getPlayerPieces'); // Get the available pieces for a player
