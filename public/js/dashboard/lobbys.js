@@ -110,7 +110,7 @@
                             else if(userId == lobbys.player3){
                                 readyButton3.style.display = 'inline-block';
                             }
-                            else if(userId == lobbys.player4){
+                            else{
                                 readyButton4.style.display = 'inline-block';
                             }
                             // readyButton.style.display = 'inline-block';
