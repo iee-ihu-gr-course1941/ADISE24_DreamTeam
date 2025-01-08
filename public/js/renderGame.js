@@ -17,25 +17,35 @@ function enableCellPreview() {
     });
 }
 
-
 export async function initializeGame(gameId) {
-    gameState = await fetchGameState(gameId);
+    console.log('Initializing game with ID:', gameId);
 
-    if (!gameState) {
-        console.error('Failed to initialize game');
+    // Fetch game state from the API
+    const response = await fetch(`https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/games/${gameId}`);
+    const data = await response.json();
+
+    if (!data.success) {
+        console.error('Failed to fetch game state:', data.message);
+        document.getElementById('board').innerHTML = '<p class="text-danger">Failed to load game state.</p>';
         return;
     }
 
-    renderBoard();           // Render the board
-    renderPlayerPieces();    // Render player pieces
-    updateTurnDisplay();     // Update turn display
-    enableCellPreview();     // Enable hover-based preview for placement
+    gameState = data.gameState;
+
+    // Parse the board state (convert JSON string into a 2D array)
+    const board = JSON.parse(gameState.board_state).map(row => JSON.parse(row));
+    console.log('Parsed board:', board);
+
+    // Render the board and other components
+    renderBoard(board);
+    renderPlayerPieces(gameState.players);
+    updateTurnDisplay(gameState.current_turn_user_id);
+    enablePreview();
 }
 
-
-function renderBoard() {
+function renderBoard(board) {
     const boardElement = document.getElementById('board');
-    boardElement.innerHTML = '';
+    boardElement.innerHTML = ''; // Clear previous board
 
     for (let row = 0; row < 20; row++) {
         for (let col = 0; col < 20; col++) {
@@ -44,47 +54,32 @@ function renderBoard() {
             cell.dataset.row = row;
             cell.dataset.col = col;
 
-            if (gameState.board[row][col]) {
+            // Check if the cell is occupied
+            if (board[row][col]) {
                 cell.classList.add('occupied');
-                cell.style.backgroundColor = getPlayerColor(gameState.board[row][col]);
+                cell.style.backgroundColor = getPlayerColor(board[row][col]);
             }
 
             cell.addEventListener('click', () => handleCellClick(row, col));
             boardElement.appendChild(cell);
         }
     }
+    console.log('Board rendered successfully');
 }
 
-async function renderPlayerPieces() {
+
+function renderPlayerPieces(players) {
     const piecesContainer = document.getElementById('piecesContainer');
-    piecesContainer.innerHTML = '';
+    piecesContainer.innerHTML = ''; // Clear previous pieces
 
-    const playerId = gameState.turn;
-    const pieces = await fetchPlayerPieces(gameState.game_id, playerId);
-
-    pieces.forEach(piece => {
-        const pieceData = JSON.parse(piece.piece_data);
-        const pieceElement = document.createElement('div');
-        pieceElement.classList.add('player-piece');
-        pieceElement.dataset.piece = piece.piece_id;
-
-        pieceData.shape.forEach(row => {
-            const rowElement = document.createElement('div');
-            rowElement.classList.add('piece-row');
-            row.forEach(cell => {
-                const cellElement = document.createElement('div');
-                cellElement.classList.add('piece-cell');
-                if (cell === 1) {
-                    cellElement.style.backgroundColor = gameState.players[playerId].color;
-                }
-                rowElement.appendChild(cellElement);
-            });
-            pieceElement.appendChild(rowElement);
-        });
-
-        pieceElement.addEventListener('click', () => selectPiece(piece.piece_id));
-        piecesContainer.appendChild(pieceElement);
+    players.forEach(player => {
+        const playerDiv = document.createElement('div');
+        playerDiv.classList.add('player-piece');
+        playerDiv.textContent = `${player.username} (${player.position}) - Score: ${player.score}`;
+        piecesContainer.appendChild(playerDiv);
     });
+
+    console.log('Player pieces rendered successfully');
 }
 
 function selectPiece(pieceId) {
@@ -114,15 +109,23 @@ async function handleCellClick(row, col) {
         initializeGame(gameState.game_id);
     }
 }
-
 function updateTurnDisplay() {
     const currentPlayerElement = document.getElementById('currentPlayer');
-    currentPlayerElement.textContent = `Player ${gameState.turn}`;
-    currentPlayerElement.style.color = getPlayerColor(gameState.turn);
+    const currentPlayer = gameState.players.find(player => player.user_id === gameState.current_turn_user_id);
+
+    if (currentPlayer) {
+        currentPlayerElement.textContent = `Current Player: ${currentPlayer.username}`;
+        currentPlayerElement.style.color = currentPlayer.color || 'black'; // Use player color or default to black
+    } else {
+        currentPlayerElement.textContent = 'Current Player: Undefined';
+        currentPlayerElement.style.color = 'black';
+    }
 }
 
+
 function getPlayerColor(playerId) {
-    return gameState.players[playerId].color;
+    const player = gameState.players.find(player => player.user_id === playerId);
+    return player ? player.color : '#000';
 }
 
 function enablePreview() {
@@ -170,9 +173,6 @@ function previewPiecePlacement(row, col) {
         });
     });
 }
-
-
-
 
 function removePreview() {
     document.querySelectorAll('.cell').forEach(cell => {

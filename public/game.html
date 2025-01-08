@@ -67,15 +67,11 @@
   <script type="module">
     import { initializeGame } from './js/renderGame.js';
 
-    // Extract game ID from URL (example: ?game_id=16)
-    function getGameIdFromUrl() {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get('game_id');
-    }
+    // Hardcode game ID for testing
+    const gameId = 17; // Replace this with your test game ID
 
     // Initialize the game
     document.addEventListener('DOMContentLoaded', () => {
-      const gameId = getGameIdFromUrl();
       if (gameId) {
         initializeGame(gameId);
       } else {
