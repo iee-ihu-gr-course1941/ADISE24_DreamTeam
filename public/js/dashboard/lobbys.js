@@ -70,7 +70,10 @@
                 // `;
 
                 const joinButton = li.querySelector('.join-btn');
-                const readyButton = li.querySelector('.ready-btn');
+                const readyButton1 = li.querySelector('.ready-btn1');
+                const readyButton2 = li.querySelector('.ready-btn2');
+                const readyButton3 = li.querySelector('.ready-btn3');
+                const readyButton4 = li.querySelector('.ready-btn4');
                 const startButton = li.querySelector('.start-btn');
 
                 li.querySelector('button').addEventListener('click', async (event) => {
@@ -97,18 +100,18 @@
                             alert(result.message);
                             joinButton.disabled = true;
                             joinButton.style.display = 'none';
-                            
+
                             if(userId == lobbys.host){
-                                startButton.style.display = 'inline-block';
+                                readyButton.style.display = 'inline-block';
                             }
                             else if(userId == lobbys.player2){
-                                startButton.style.display = 'inline-block';
+                                readyButton.style.display = 'inline-block';
                             }
                             else if(userId == lobbys.player3){
-                                startButton.style.display = 'inline-block';
+                                readyButton.style.display = 'inline-block';
                             }
                             else if(userId == lobbys.player4){
-                                startButton.style.display = 'inline-block';
+                                readyButton.style.display = 'inline-block';
                             }
                             // readyButton.style.display = 'inline-block';
                             // readyButton.disabled = false;
