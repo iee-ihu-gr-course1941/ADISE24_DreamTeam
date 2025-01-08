@@ -33,7 +33,7 @@ async function fetchLobbies() {
                     <strong>Status:</strong> ${lobby.game_status}
                 </span>
                 <button class="btn btn-primary btn-sm join-btn" data-lobby-id="${lobby.game_id}">Join</button>
-                <button class="btn btn-success btn-sm start-btn" style="display: none;" data-lobby-id="${lobby.game_id}">Start</button>
+                <button class="btn btn-success btn-sm start-btn" data-lobby-id="${lobby.game_id}">Start</button>
             `;
 
             const joinButton = li.querySelector('.join-btn');
@@ -65,10 +65,8 @@ async function fetchLobbies() {
                         joinButton.disabled = true;
                         joinButton.style.display = 'none';
 
-                        // Show the Start button if the current user is the host
-                        if (userId == lobby.host) {
-                            startButton.style.display = 'inline-block';
-                        }
+                        // Always show the Start button for all users
+                        startButton.style.display = 'inline-block';
                     } else {
                         alert(result.message || 'Failed to join the lobby.');
                     }
@@ -93,12 +91,3 @@ async function fetchLobbies() {
         lobbyList.innerHTML = '<p class="text-center text-danger">Failed to load lobbies. Please try again later.</p>';
     }
 }
-
-// Helper function to get a value from cookies
-function getCookieValue(name) {
-    const cookie = document.cookie.split('; ').find(row => row.startsWith(name + '='));
-    return cookie ? cookie.split('=')[1] : null;
-}
-
-// Call the fetchLobbies function when the page loads
-document.addEventListener('DOMContentLoaded', fetchLobbies);
