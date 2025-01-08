@@ -8,15 +8,23 @@ header('Content-Type: application/json');
  */
 function getGameState($gameId) {
     $pdo = getDatabaseConnection();
+
     try {
+        // Call stored procedure
         $sql = "CALL GetGameState(:gameId);";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
         $stmt->execute();
 
+        // Fetch game details
         $gameState = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // Move to the next result set to fetch player details
+        $stmt->nextRowset();
+        $players = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         if ($gameState) {
+            $gameState['players'] = $players;
             echo json_encode(['success' => true, 'gameState' => $gameState], JSON_PRETTY_PRINT);
         } else {
             echo json_encode(['success' => false, 'message' => 'Game not found'], JSON_PRETTY_PRINT);

@@ -100,7 +100,10 @@
     //games functions
 
     // Game Functions
-    $router->add('GET', 'games/{id}', 'getGameState'); // Fetch the state of a game
+    $router->add('GET', 'games/{id}', function($gameId) {
+        getGameState((int)$gameId);
+    });
+    
     $router->add('POST', 'games/{id}/place-piece', function($gameId, $input) {
         // Validate input
         if (!isset($input['playerId'], $input['piece'], $input['position'])) {
