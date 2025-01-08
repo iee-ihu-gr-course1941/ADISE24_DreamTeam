@@ -62,11 +62,13 @@
 
                 if (response.ok && result.success) {
                     const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys');
-                    alert(result.message);
-                    joinButton.disabled = true;
-                    joinButton.style.display = 'none';
-                    readyButton.style.display = 'inline-block';
-                    readyButton.disabled = false;
+                    if(response.ok){
+                        alert(result.message);
+                        joinButton.disabled = true;
+                        joinButton.style.display = 'none';
+                        readyButton.style.display = 'inline-block';
+                        readyButton.disabled = false;
+                    }
                 } else {
                     alert(result.message || 'Failed to join the lobby.');
                 }
