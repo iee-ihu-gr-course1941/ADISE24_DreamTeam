@@ -101,16 +101,16 @@
                             joinButton.disabled = true;
                             joinButton.style.display = 'none';
 
-                            if(userId === userId){
+                            if(userId == userId){
                                 readyButton1.style.display = 'inline-block';
                             }
-                            if (lobbys.player2 === userId) {
+                            if (lobbys.player2 == userId) {
                                 readyButton2.style.display = 'inline-block';
                             }
-                            if (lobbys.player3 === userId) {
+                            if (lobbys.player3 == userId) {
                                 readyButton3.style.display = 'inline-block';
                             }
-                            if (lobbys.player4 === userId) {
+                            if (lobbys.player4 == userId) {
                                 readyButton4.style.display = 'inline-block';
                             }
                             // readyButton.style.display = 'inline-block';
