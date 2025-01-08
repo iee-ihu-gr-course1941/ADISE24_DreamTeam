@@ -76,7 +76,7 @@
                 const readyButton4 = li.querySelector('.ready-btn4');
                 const startButton = li.querySelector('.start-btn');
 
-                li.querySelector('button').addEventListener('click', async (event) => {
+                li.querySelector('.join-btn').addEventListener('click', async (event) => {
                     const userId = getCookieValue('user_id');
                     const lobbyId = lobbys.game_id;
 
