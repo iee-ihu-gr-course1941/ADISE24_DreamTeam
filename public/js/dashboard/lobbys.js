@@ -102,16 +102,16 @@
                             joinButton.style.display = 'none';
 
                             if(userId === lobbys.host){
-                                readyButton1.style.display = 'inline-block';
+                                document.querySelector('.ready-btn1').style.display = 'inline-block';
                             }
                             else if(userId === lobbys.player2){
-                                readyButton2.style.display = 'inline-block';
+                                document.querySelector('.ready-btn2').style.display = 'inline-block';
                             }
                             else if(userId === lobbys.player3){
-                                readyButton3.style.display = 'inline-block';
+                                document.querySelector('.ready-btn3').style.display = 'inline-block';
                             }
                             else{
-                                readyButton4.style.display = 'inline-block';
+                                document.querySelector('.ready-btn4').style.display = 'inline-block';
                             }
                             // readyButton.style.display = 'inline-block';
                             // readyButton.disabled = false;
