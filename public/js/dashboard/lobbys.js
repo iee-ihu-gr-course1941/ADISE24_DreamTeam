@@ -62,10 +62,10 @@
 
                 if (response.ok && result.success) {
                     alert(result.message);
-                    joinButton.disabled = true;
-                    joinButton.style.display = 'none';
-                    readyButton.style.display = 'inline-block';
-                    readyButton.disabled = false;
+                    // joinButton.disabled = true;
+                    // joinButton.style.display = 'none';
+                    // readyButton.style.display = 'inline-block';
+                    // readyButton.disabled = false;
                 } else {
                     alert(result.message || 'Failed to join the lobby.');
                 }
