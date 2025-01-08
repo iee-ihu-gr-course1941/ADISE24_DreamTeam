@@ -70,10 +70,10 @@
                 // `;
 
                 const joinButton = li.querySelector('.join-btn');
-                // const readyButton1 = li.querySelector('.ready-btn1');
-                // const readyButton2 = li.querySelector('.ready-btn2');
-                // const readyButton3 = li.querySelector('.ready-btn3');
-                // const readyButton4 = li.querySelector('.ready-btn4');
+                const readyButton1 = li.querySelector('.ready-btn1');
+                const readyButton2 = li.querySelector('.ready-btn2');
+                const readyButton3 = li.querySelector('.ready-btn3');
+                const readyButton4 = li.querySelector('.ready-btn4');
                 const startButton = li.querySelector('.start-btn');
 
                 li.querySelector('button').addEventListener('click', async (event) => {
