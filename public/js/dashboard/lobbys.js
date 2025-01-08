@@ -105,13 +105,13 @@
                             if(userId == lobbys.host){
                                 readyButton1.style.display = 'inline-block';
                             }
-                            else if(userId == lobbys.player2){
+                            if(userId == lobbys.player2){
                                 readyButton2.style.display = 'inline-block';
                             }
-                            else if(userId == lobbys.player3){
+                            if(userId == lobbys.player3){
                                 readyButton3.style.display = 'inline-block';
                             }
-                            else{
+                            if(userId == lobbys.player4){
                                 readyButton4.style.display = 'inline-block';
                             }
                             // readyButton.style.display = 'inline-block';
