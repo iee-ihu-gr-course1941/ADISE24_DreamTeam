@@ -100,7 +100,8 @@
                             alert(result.message);
                             joinButton.disabled = true;
                             joinButton.style.display = 'none';
-
+                            const userId = getCookieValue('user_id');
+                            
                             if(userId === lobbys.host){
                                 readyButton1.style.display = 'inline-block';
                             }
