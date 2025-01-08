@@ -101,9 +101,17 @@
 
     // Game Functions
     $router->add('GET', 'games/{id}', 'getGameState'); // Fetch the state of a game
-    $router->add('POST', 'games/{id}/place-piece', function($input, $params) {
-        placePiece($params['id'], $input['playerId'], $input['piece'], $input['position']);
+    $router->add('POST', 'games/{id}/place-piece', function($gameId, $input) {
+        // Validate input
+        if (!isset($input['playerId'], $input['piece'], $input['position'])) {
+            echo json_encode(['error' => 'Missing required parameters: playerId, piece, or position']);
+            return;
+        }
+    
+        // Call the placePiece function
+        placePiece((int)$gameId, (int)$input['playerId'], $input['piece'], $input['position']);
     });
+    
      // Place a piece on the board
     $router->add('POST', 'games/{id}/end', function($params) {
         endGame($params['id']);
