@@ -16,6 +16,26 @@ function getLobbies() {
     }
 }
 
+function getLobby($lobby_id) {
+    $pdo = getDatabaseConnection();
+    try {
+        $sql = "CALL GetLobby(:lobby_id);"; // Assuming a stored procedure exists for this
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':lobby_id', $lobby_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $lobby = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($lobby) {
+            echo json_encode($lobby, JSON_PRETTY_PRINT);
+        } else {
+            echo json_encode(['error' => 'Lobby not found'], JSON_PRETTY_PRINT);
+        }
+    } catch (PDOException $e) {
+        echo json_encode(['error' => 'Error in getLobby(): ' . $e->getMessage()]);
+    }
+}
+
+
 //works
 function createLobby($userId, $gameType, $maxPlayers, $createdAt) {
     $pdo = getDatabaseConnection();
