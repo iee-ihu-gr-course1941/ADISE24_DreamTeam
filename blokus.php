@@ -27,6 +27,7 @@
     require_once "lib/lobbys.php";
     require_once "lib/board.php";
     require_once "lib/leaderboard.php";
+    require_once "lib/game.php";
 
 
     // Initialize router
@@ -97,6 +98,19 @@
 
 
     //games functions
+
+    // Game Functions
+    $router->add('GET', 'games/{id}', 'getGameState'); // Fetch the state of a game
+    $router->add('POST', 'games/{id}/place-piece', function($input, $params) {
+        placePiece($params['id'], $input['playerId'], $input['piece'], $input['position']);
+    }); // Place a piece on the board
+    $router->add('POST', 'games/{id}/end', function($params) {
+        endGame($params['id']);
+    }); // End the game
+    $router->add('GET', 'games/{id}/status', 'getGameStatus'); // Get the current status of the game
+    $router->add('GET', 'games/{id}/deadlock', 'checkDeadlock'); // Check for deadlock in the game
+    $router->add('GET', 'games/{id}/players/{playerId}/pieces', 'getPlayerPieces'); // Get the available pieces for a player
+
 
 
     // Handle the request
