@@ -32,25 +32,25 @@
                     <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, 
                 </span>
                 
-                <button class="btn btn-primary btn-sm ready-btn1" style="display:none;" data-user-id="${lobbys.user_id}">Ready</button>
+                <button class="btn btn-primary btn-sm ready-btn1" style="display:none;" data-user-id="${lobbys.host}">Ready</button>
 
                 <span> 
                     <strong>Player2:</strong> ${lobbys.player2}, 
                 </span>
 
-                <button class="btn btn-primary btn-sm ready-btn2" style="display:none;" data-user-id="${lobbys.user_id}">Ready</button>
+                <button class="btn btn-primary btn-sm ready-btn2" style="display:none;" data-user-id="${lobbys.player2}">Ready</button>
 
                 <span>
                     <strong>Player3:</strong> ${lobbys.player3}, 
                 </span>
 
-                <button class="btn btn-primary btn-sm ready-btn3" style="display:none;" data-user-id="${lobbys.user_id}">Ready</button>
+                <button class="btn btn-primary btn-sm ready-btn3" style="display:none;" data-user-id="${lobbys.player3}">Ready</button>
 
                 <span>
                     <strong>Player4:</strong> ${lobbys.player4}, 
                 </span>
 
-                <button class="btn btn-primary btn-sm ready-btn4" style="display:none;" data-user-id="${lobbys.user_id}">Ready</button>
+                <button class="btn btn-primary btn-sm ready-btn4" style="display:none;" data-user-id="${lobbys.player4}">Ready</button>
 
                 <span>
                     <strong>Game Status:</strong> ${lobbys.game_status}
