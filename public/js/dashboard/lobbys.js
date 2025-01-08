@@ -77,12 +77,13 @@
 
         li.querySelector('.start-btn').addEventListener('click', async (event) => {
             const lobbyId = event.target.getAttribute('data-lobby-id');
-            window.location.href = `game.html?lobby_id=${lobbyId}`;
+            window.location.href = `game2.html?lobby_id=${lobbyId}`;
         });
 
         li.querySelector('.ready-btn').addEventListener('click', async (event) => {
             readyButton.disabled = true;
             readyButton.innerText = 'Ready (Checked)';
+            startButton.style.display = 'inline-block';
             // checkIfAllPlayersReady(lobbyId);
         });        
 
