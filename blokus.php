@@ -103,7 +103,8 @@
     $router->add('GET', 'games/{id}', 'getGameState'); // Fetch the state of a game
     $router->add('POST', 'games/{id}/place-piece', function($input, $params) {
         placePiece($params['id'], $input['playerId'], $input['piece'], $input['position']);
-    }); // Place a piece on the board
+    });
+     // Place a piece on the board
     $router->add('POST', 'games/{id}/end', function($params) {
         endGame($params['id']);
     }); // End the game
