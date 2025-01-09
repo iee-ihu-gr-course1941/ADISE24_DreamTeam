@@ -67,15 +67,17 @@
   <script type="module">
     import { initializeGame } from './js/renderGame.js';
 
-    // Hardcode game ID for testing
-    const gameId = 17; // Replace this with your test game ID
-
-    // Initialize the game
+    // Extract lobby_id from the URL
     document.addEventListener('DOMContentLoaded', () => {
-      if (gameId) {
-        initializeGame(gameId);
+      const urlParams = new URLSearchParams(window.location.search);
+      const lobbyId = urlParams.get('lobby_id');
+
+      if (lobbyId) {
+        console.log(`Lobby ID: ${lobbyId}`);
+        initializeGame(lobbyId);
       } else {
-        document.getElementById('board').innerHTML = '<p class="text-danger">Invalid game ID.</p>';
+        console.error('No lobby_id found in the URL.');
+        document.getElementById('board').innerHTML = '<p class="text-danger">Invalid lobby ID.</p>';
       }
     });
   </script>
