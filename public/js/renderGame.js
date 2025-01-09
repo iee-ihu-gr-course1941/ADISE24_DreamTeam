@@ -36,12 +36,18 @@ export async function initializeGame(gameId) {
     const board = JSON.parse(gameState.board_state).map(row => JSON.parse(row));
     console.log('Parsed board:', board);
 
+    // Fetch and render player pieces
+    for (const player of gameState.players) {
+        player.pieces = await fetchPlayerPieces(gameId, player.user_id); // Fetch pieces from API
+    }
+
     // Render the board and other components
     renderBoard(board);
     renderPlayerPieces(gameState.players);
     updateTurnDisplay(gameState.current_turn_user_id);
     enablePreview();
 }
+
 
 function renderBoard(board) {
     const boardElement = document.getElementById('board');
@@ -75,12 +81,27 @@ function renderPlayerPieces(players) {
     players.forEach(player => {
         const playerDiv = document.createElement('div');
         playerDiv.classList.add('player-piece');
-        playerDiv.textContent = `${player.username} (${player.position}) - Score: ${player.score}`;
+        playerDiv.innerHTML = `<strong>${player.username} (${player.position})</strong> - Score: ${player.score}`;
+
+        // Render each player's pieces
+        const piecesList = document.createElement('ul');
+        player.pieces.forEach(pieceId => {
+            const pieceItem = document.createElement('li');
+            pieceItem.textContent = pieceId;
+            pieceItem.dataset.piece = pieceId;
+            pieceItem.classList.add('piece-item');
+
+            pieceItem.addEventListener('click', () => selectPiece(pieceId));
+            piecesList.appendChild(pieceItem);
+        });
+
+        playerDiv.appendChild(piecesList);
         piecesContainer.appendChild(playerDiv);
     });
 
     console.log('Player pieces rendered successfully');
 }
+
 
 function selectPiece(pieceId) {
     document.querySelectorAll('.player-piece').forEach(pieceElement => {
