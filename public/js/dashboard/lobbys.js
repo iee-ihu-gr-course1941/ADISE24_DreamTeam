@@ -69,9 +69,9 @@
                 const startButton = li.querySelector('.start-btn');
                 
                 const CurrentuserId = getCookieValue('user_id');
-                if (lobbys.host === CurrentuserId) {
-                    readyButton1.style.display = 'inline-block';
-                }
+                // if (lobbys.host === CurrentuserId) {
+                //     readyButton1.style.display = 'inline-block';
+                // }
 
                 li.querySelector('.join-btn').addEventListener('click', async (event) => {
                     const userId = getCookieValue('user_id');
@@ -158,7 +158,7 @@
                 ul.appendChild(li);
 
             });
-            const CurrentuserId = getCookieValue('user_id');
+            
             if (lobbys.host === CurrentuserId) {
                 readyButton1.style.display = 'inline-block';
             }
