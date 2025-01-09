@@ -27,51 +27,43 @@
                 const li = document.createElement('li');
                 li.className = 'list-group-item d-flex justify-content-between align-items-center';
 
-            //     li.innerHTML = `
-            //     <span>
-            //         <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, 
-            //     </span>
-                
-            //     <button class="btn btn-primary btn-sm ready-btn1" style="display:none;" data-user-id="${lobbys.host}">Ready</button>
-
-            //     <span> 
-            //         <strong>Player2:</strong> ${lobbys.player2}, 
-            //     </span>
-
-            //     <button class="btn btn-primary btn-sm ready-btn2" style="display:none;" data-user-id="${lobbys.player2}">Ready</button>
-
-            //     <span>
-            //         <strong>Player3:</strong> ${lobbys.player3}, 
-            //     </span>
-
-            //     <button class="btn btn-primary btn-sm ready-btn3" style="display:none;" data-user-id="${lobbys.player3}">Ready</button>
-
-            //     <span>
-            //         <strong>Player4:</strong> ${lobbys.player4}, 
-            //     </span>
-
-            //     <button class="btn btn-primary btn-sm ready-btn4" style="display:none;" data-user-id="${lobbys.player4}">Ready</button>
-
-            //     <span>
-            //         <strong>Game Status:</strong> ${lobbys.game_status}
-            //     </span>
-
-            //     <button class="btn btn-primary btn-sm join-btn" data-lobby-id="${lobbys.game_id}">Join</button>
-            //     <button class="btn btn-primary btn-sm start-btn" style="display:none;" data-lobby-id="${lobbys.game_id}">Start</button>
-            //     `;
-
                 li.innerHTML = `
                 <span>
-                    <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, <strong>Player2:</strong> ${lobbys.player2}, <strong>Player3:</strong> ${lobbys.player3}, <strong>Player4:</strong> ${lobbys.player4}, <strong>Game Status:</strong> ${lobbys.game_status}
+                    <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, 
                 </span>
+                <button class="btn btn-primary btn-sm ready-btn1" style="display:inline-block;" data-user-id="${lobbys.host}">Ready</button>
+
+                <span> 
+                    <strong>Player2:</strong> ${lobbys.player2}, 
+                </span>
+                <span>
+                    <strong>Player3:</strong> ${lobbys.player3}, 
+                </span>
+
+                <span>
+                    <strong>Player4:</strong> ${lobbys.player4}, 
+                </span>
+                <span>
+                    <strong>Game Status:</strong> ${lobbys.game_status}
+                </span>
+
                 <button class="btn btn-primary btn-sm join-btn" data-lobby-id="${lobbys.game_id}">Join</button>
                 <button class="btn btn-primary btn-sm ready-btn" style="display:none;" data-user-id="${lobbys.user_id}">Ready</button>
                 <button class="btn btn-primary btn-sm start-btn" style="display:none;" data-lobby-id="${lobbys.game_id}">Start</button>
                 `;
 
+                // li.innerHTML = `
+                // <span>
+                //     <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, <strong>Player2:</strong> ${lobbys.player2}, <strong>Player3:</strong> ${lobbys.player3}, <strong>Player4:</strong> ${lobbys.player4}, <strong>Game Status:</strong> ${lobbys.game_status}
+                // </span>
+                // <button class="btn btn-primary btn-sm join-btn" data-lobby-id="${lobbys.game_id}">Join</button>
+                // <button class="btn btn-primary btn-sm ready-btn" style="display:none;" data-user-id="${lobbys.user_id}">Ready</button>
+                // <button class="btn btn-primary btn-sm start-btn" style="display:none;" data-lobby-id="${lobbys.game_id}">Start</button>
+                // `;
+
                 const joinButton = li.querySelector('.join-btn');
                 const readyButton = li.querySelector('.ready-btn');
-                // const readyButton2 = li.querySelector('.ready-btn2');
+                const readyButton1 = li.querySelector('.ready-btn1');
                 // const readyButton3 = li.querySelector('.ready-btn3');
                 // const readyButton4 = li.querySelector('.ready-btn4');
                 const startButton = li.querySelector('.start-btn');
