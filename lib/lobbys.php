@@ -176,23 +176,24 @@ function leaveLobby() {
 //     }
 // }
 
-function deleteLobby(){
+function deleteLobby($gameId){
     $pdo = getDatabaseConnection();
-    $gameId = 5;
-
     try{
-        $sql = "DELETE FROM games WHERE game_id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$gameId]);
+        $deleteGameSql = "CALL Blokus_db.DeleteGame(:game_id)";
+        $deleteGameStmt = $pdo->prepare($deleteGameSql);
 
-        if ($stmt->rowCount() > 0) {
-            echo json_encode(['success' => true, 'message' => "Lobby with ID $gameId deleted successfully"]);
-        } else {
-            echo json_encode(['success' => false, 'message' => "No lobby found with ID $gameId"]);
+        try {
+            $deleteGameStmt->execute(['game_id' => $gameId]);
+            echo json_encode(['success' => true, 'message' => "You have successfully delete the lobby with ID $gameId."]);
+        } catch (PDOException $e) {
+            error_log("Stored procedure error: " . $e->getMessage());
+            echo json_encode(['success' => false, 'message' => 'Failed to delete the lobby. Please contact support.']);
         }
     }
-    catch (PDOException $e) {
-        echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
-    }
+         catch (PDOException $e) {
+            // Log any unexpected database errors
+            error_log("Database error: " . $e->getMessage());
+            echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
+        }
 }
 ?>

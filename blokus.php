@@ -79,8 +79,14 @@
         leaveLobby();
     });
 
-    $router->add('Post', 'lobbys/delete', function(){
-        deleteLobby();
+    $router->add('Post', 'lobbys/delete', function($input){
+        if (!isset($input['gameId'])) {
+            echo json_encode(['error' => 'Missing required parameters: gameId']);
+            return;
+        }
+        $gameId = (int)$input['gameId'];
+    
+        deleteLobby($gameId);
     });
 
     $router->add('POST', 'lobbys/join', function($input) {
