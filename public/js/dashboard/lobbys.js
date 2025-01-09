@@ -28,8 +28,8 @@
                 li.className = 'list-group-item d-flex justify-content-between align-items-center';
 
                 li.innerHTML = `
-                <div>
-                    <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host} 
+                <div style="margin-right: 10px;">
+                    <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}
                 </div>
                 <div style="margin-inline-end: auto;">
                     <button class="btn btn-primary btn-sm ready-btn1" style="display:inline-block;" data-user-id="${lobbys.host}">Ready</button>
