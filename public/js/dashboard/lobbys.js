@@ -69,7 +69,7 @@
                 const startButton = li.querySelector('.start-btn');
                 
                 const CurrentuserId = getCookieValue('user_id');
-                if (CurrentuserId !== lobbys.host){
+                if (CurrentuserId != lobbys.host){
                     readyButton1.style.display = 'none';
                 }
                 else{
