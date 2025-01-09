@@ -139,10 +139,10 @@ function joinLobby($userId, $gameId) {
 //works
 function leaveLobby() {
     $pdo = getDatabaseConnection();
-    $lobbyId = 4;
+    $lobbyId = 5;
 
     try {
-        $sql = "DELETE FROM game_lobbies WHERE id = ?";
+        $sql = "DELETE FROM game_players WHERE game_id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$lobbyId]);
 
