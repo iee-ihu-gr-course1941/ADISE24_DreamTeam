@@ -76,6 +76,35 @@
                 // const readyButton4 = li.querySelector('.ready-btn4');
                 const startButton = li.querySelector('.start-btn');
 
+                async function readyButton() {
+                    try{
+                        const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys');
+                        if (response.ok){
+                            if(userId == userId){
+                                readyButton.style.display = 'inline-block';
+                            }
+                            if (lobbys.player2 == userId) {
+                                readyButton.style.display = 'inline-block';
+                            }
+                            if (lobbys.player3 == userId) {
+                                readyButton.style.display = 'inline-block';
+                            }
+                            if (lobbys.player4 == userId) {
+                                readyButton.style.display = 'inline-block';
+                            }
+                        }
+                        const lobbies = await response.json(); // Parse JSON data
+                        lobbyList.innerHTML = ''; // Clear loading message
+                    }
+                    catch (error) {
+                        console.error('Error:', error);
+                        alert('Something is wrong, try again later.');
+                    }                    
+                }
+
+                readyButton();
+                
+
                 li.querySelector('.join-btn').addEventListener('click', async (event) => {
                     const userId = getCookieValue('user_id');
                     const lobbyId = lobbys.game_id;
