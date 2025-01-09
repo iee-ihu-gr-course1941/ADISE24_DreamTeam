@@ -68,6 +68,14 @@
                 // const readyButton4 = li.querySelector('.ready-btn4');
                 const startButton = li.querySelector('.start-btn');
                 
+                const CurrentuserId = getCookieValue('user_id');
+                if (CurrentuserId !== lobbys.host){
+                    readyButton1.style.display = 'none';
+                }
+                else{
+                    joinButton.style.display = 'none';
+                }
+                
 
                 li.querySelector('.join-btn').addEventListener('click', async (event) => {
                     const userId = getCookieValue('user_id');
