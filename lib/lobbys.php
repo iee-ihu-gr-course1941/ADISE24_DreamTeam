@@ -142,7 +142,7 @@ function leaveLobby() {
     $lobbyId = 5;
 
     try {
-        $sql = "DELETE FROM games WHERE game_id = ?";
+        $sql = "DELETE FROM game_players WHERE user_id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$lobbyId]);
 
@@ -175,4 +175,24 @@ function leaveLobby() {
 //         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
 //     }
 // }
+
+function deleteLobby(){
+    $pdo = getDatabaseConnection();
+    $gemeId = 5;
+
+    try{
+        $sql = "DELETE FROM games WHERE game_id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$gameId]);
+
+        if ($stmt->rowCount() > 0) {
+            echo json_encode(['success' => true, 'message' => "Lobby with ID $gameId deleted successfully"]);
+        } else {
+            echo json_encode(['success' => false, 'message' => "No lobby found with ID $gameId"]);
+        }
+    }
+    catch (PDOException $e) {
+        echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+    }
+}
 ?>

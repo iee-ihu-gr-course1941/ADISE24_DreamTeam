@@ -74,8 +74,13 @@
     $router->add('POST', 'lobbys/create', function($input) { //Figure out how we can test this one too
         createLobby((int)$input['userId'], $input['gameType'], (int)$input['maxPlayers'], $input['createdAt']);
     });
+
     $router->add('POST', 'lobbys/leave', function() {
         leaveLobby();
+    });
+
+    $router->add('Post', 'lobbys/delete', function(){
+        deleteLobby();
     });
 
     $router->add('POST', 'lobbys/join', function($input) {
