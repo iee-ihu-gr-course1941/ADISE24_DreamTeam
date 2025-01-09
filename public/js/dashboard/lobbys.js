@@ -32,7 +32,6 @@
                     <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, 
                 </span>
                 <button class="btn btn-primary btn-sm ready-btn1" style="display:inline-block;" data-user-id="${lobbys.host}">Ready</button>
-
                 <span> 
                     <strong>Player2:</strong> ${lobbys.player2}, <strong>Player3:</strong> ${lobbys.player3}, <strong>Player4:</strong> ${lobbys.player4}, <strong>Game Status:</strong> ${lobbys.game_status}
                 </span>
