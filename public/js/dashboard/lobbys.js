@@ -29,9 +29,9 @@
 
                 li.innerHTML = `
                 <span>
-                    <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.user_id}, 
+                    <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, 
                 </span>
-                <button class="btn btn-primary btn-sm ready-btn1" style="display:inline-block;" data-user-id="${lobbys.host}">Ready</button>
+                <button class="btn btn-primary btn-sm ready-btn1" style="display:inline-block;" data-user-id="${lobbys.user_id}">Ready</button>
 
                 <span> 
                     <strong>Player2:</strong> ${lobbys.player2}, 
