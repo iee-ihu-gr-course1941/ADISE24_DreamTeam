@@ -4,6 +4,7 @@ require_once 'helper.php';
 
 header('Content-Type: application/json');
 
+//===============DONE===============
 function getLobbies() {
     $pdo = getDatabaseConnection();
     try {
@@ -36,7 +37,7 @@ function getLobby($lobby_id) {
 }
 
 
-//works
+//===============UNKNOWN===============
 function createLobby($userId, $gameType, $maxPlayers, $createdAt) {
     $pdo = getDatabaseConnection();
 
@@ -69,23 +70,7 @@ function createLobby($userId, $gameType, $maxPlayers, $createdAt) {
     }
 }
 
-//Issue with parameters
-// function createLobby($userId) {
-//     $pdo = getDatabaseConnection();
-//     try {
-//         $sql = "INSERT INTO game_lobbies (player1_id) VALUES (:userId)";
-//         $stmt = $pdo->prepare($sql);
-//         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-//         $stmt->execute();
-
-//         $lobbyId = $pdo->lastInsertId();
-
-//         echo json_encode(['lobby_id' => (int)$lobbyId]); 
-//     } catch (PDOException $e) {
-//         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
-//     }
-// }
-
+//===============DONE===============
 function joinLobby($userId, $gameId) {
     $pdo = getDatabaseConnection();
 
@@ -134,28 +119,7 @@ function joinLobby($userId, $gameId) {
     }
 }
 
-
-
-//works
-// function leaveLobby() {
-//     $pdo = getDatabaseConnection();
-//     $lobbyId = 5;
-
-//     try {
-//         $sql = "DELETE FROM game_players WHERE user_id = ?";
-//         $stmt = $pdo->prepare($sql);
-//         $stmt->execute([$lobbyId]);
-
-//         if ($stmt->rowCount() > 0) {
-//             echo json_encode(['success' => true, 'message' => "Lobby with ID $lobbyId deleted successfully"]);
-//         } else {
-//             echo json_encode(['success' => false, 'message' => "No lobby found with ID $lobbyId"]);
-//         }
-//     } catch (PDOException $e) {
-//         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
-//     }
-// }
-
+//===============DONE===============
 function leaveLobby($lobbyId, $userId) {
     $pdo = getDatabaseConnection();
     try {
@@ -178,6 +142,7 @@ function leaveLobby($lobbyId, $userId) {
 
 }
 
+//===============DONE===============
 function deleteLobby($gameId){
     $pdo = getDatabaseConnection();
     try{
