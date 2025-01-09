@@ -130,6 +130,7 @@
                 });
 
                 li.querySelector('.ready-btn1').addEventListener('click', async (event) => {
+                    joinButton.style.display = 'none';
                     readyButton1.disabled = true;
                     readyButton1.innerText = 'Ready (Checked)';
                     startButton.style.display = 'inline-block';
