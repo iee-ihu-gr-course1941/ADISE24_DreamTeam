@@ -77,10 +77,11 @@
                 const startButton = li.querySelector('.start-btn');
 
                 async function readyButton() {
+                    const userId = getCookieValue('user_id');
                     try{
                         const response = await fetch('https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/lobbys');
                         if (response.ok){
-                            if(userId == userId){
+                            if(lobbys.host == userId){
                                 readyButton.style.display = 'inline-block';
                             }
                             if (lobbys.player2 == userId) {
