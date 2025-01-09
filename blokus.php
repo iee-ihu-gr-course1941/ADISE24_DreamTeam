@@ -75,8 +75,15 @@
         createLobby((int)$input['userId'], $input['gameType'], (int)$input['maxPlayers'], $input['createdAt']);
     });
 
-    $router->add('POST', 'lobbys/leave', function() {
-        leaveLobby();
+    $router->add('POST', 'lobbys/leave', function($input) {
+        if (!isset($input['gameId']) && !isset($input['userId'])) {
+            echo json_encode(['error' => 'Missing required parameters: gameId']);
+            return;
+        }
+        $gameId = (int)$input['gameId'];
+        $userId = (int)$input['userId'];
+    
+        leaveLobby($gameId, $userId);
     });
 
     $router->add('Post', 'lobbys/delete', function($input){
