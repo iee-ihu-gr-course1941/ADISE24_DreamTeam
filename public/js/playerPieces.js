@@ -3,6 +3,8 @@ export async function fetchPlayerPieces(gameId, playerId) {
         const response = await fetch(`https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/games/${gameId}/players/${playerId}/pieces`);
         const data = await response.json();
 
+        console.log('API Response:', data); // Log the API response
+
         if (!data.success) {
             throw new Error('Failed to fetch player pieces');
         }
