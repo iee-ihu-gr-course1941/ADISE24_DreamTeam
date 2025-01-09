@@ -158,6 +158,10 @@
                 ul.appendChild(li);
 
             });
+            const CurrentuserId = getCookieValue('user_id');
+            if (lobbys.host === CurrentuserId) {
+                readyButton1.style.display = 'inline-block';
+            }
 
             lobbyList.appendChild(ul);
         } catch (error) {
