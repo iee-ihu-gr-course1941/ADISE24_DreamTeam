@@ -139,8 +139,8 @@
                 });
 
                 li.querySelector('.ready-btn1').addEventListener('click', async (event) => {
-                    readyButton.disabled = true;
-                    readyButton.innerText = 'Ready (Checked)';
+                    readyButton1.disabled = true;
+                    readyButton1.innerText = 'Ready (Checked)';
                     startButton.style.display = 'inline-block';
                     // checkIfAllPlayersReady(lobbyId);
                 });
