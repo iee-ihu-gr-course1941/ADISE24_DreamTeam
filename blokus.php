@@ -27,6 +27,7 @@
     require_once "lib/lobbys.php";
     require_once "lib/board.php";
     require_once "lib/leaderboard.php";
+    require_once "lib/game.php";
 
 
     // Initialize router
@@ -97,6 +98,40 @@
 
 
     //games functions
+
+    // Game Functions
+    $router->add('GET', 'games/{id}', function($gameId) {
+        getGameState((int)$gameId);
+    });
+    
+    $router->add('POST', 'games/{id}/place-piece', function($gameId, $input) {
+        // Validate input
+        if (!isset($input['playerId'], $input['piece'], $input['position'])) {
+            echo json_encode(['error' => 'Missing required parameters: playerId, piece, or position']);
+            return;
+        }
+    
+        // Call the placePiece function
+        placePiece((int)$gameId, (int)$input['playerId'], $input['piece'], $input['position']);
+    });
+    
+     // Place a piece on the board
+     $router->add('POST', 'games/{id}/end', function($gameId, $input) {
+        endGame((int)$gameId);
+    });
+    
+    $router->add('GET', 'games/{id}/status', function($gameId) {
+        getGameStatus((int)$gameId);
+    });
+    
+    $router->add('GET', 'games/{id}/deadlock', function($gameId) {
+        checkDeadlock((int)$gameId);
+    });
+    
+    $router->add('GET', 'games/{id}/players/{playerId}/pieces', function($gameId, $playerId) {
+        getPlayerPieces((int)$gameId, (int)$playerId);
+    });
+    
 
 
     // Handle the request
