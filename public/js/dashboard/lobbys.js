@@ -68,7 +68,7 @@
                 // const readyButton4 = li.querySelector('.ready-btn4');
                 const startButton = li.querySelector('.start-btn');
                 
-                const CurrentuserId = getCookieValue('user_id');
+                //const CurrentuserId = getCookieValue('user_id');
                 // if (lobbys.host === CurrentuserId) {
                 //     readyButton1.style.display = 'inline-block';
                 // }
@@ -158,10 +158,6 @@
                 ul.appendChild(li);
 
             });
-            
-            if (lobbys.host === CurrentuserId) {
-                readyButton1.style.display = 'inline-block';
-            }
 
             lobbyList.appendChild(ul);
         } catch (error) {
