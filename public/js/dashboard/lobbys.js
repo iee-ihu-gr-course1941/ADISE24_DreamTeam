@@ -69,7 +69,7 @@
                 const startButton = li.querySelector('.start-btn');
                 
                 const CurrentuserId = getCookieValue('user_id');
-                if (CurrentuserId === lobbys.host){
+                if (lobbys.host === CurrentuserId){
                     readyButton1.style.display = 'inline-block';
                 }
                 // else{
