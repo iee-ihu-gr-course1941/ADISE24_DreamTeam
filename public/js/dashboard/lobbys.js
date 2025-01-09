@@ -69,13 +69,11 @@
                 const startButton = li.querySelector('.start-btn');
                 
                 const CurrentuserId = getCookieValue('user_id');
-                if (lobbys.host == CurrentuserId){
+                if (CurrentuserId && lobbys.host === CurrentuserId && readyButton1) {
                     readyButton1.style.display = 'inline-block';
+                } else {
+                    console.error('CurrentuserId or readyButton1 is not valid.');
                 }
-                // else{
-                //     joinButton.style.display = 'inline-block';
-                // }
-                
 
                 li.querySelector('.join-btn').addEventListener('click', async (event) => {
                     const userId = getCookieValue('user_id');
