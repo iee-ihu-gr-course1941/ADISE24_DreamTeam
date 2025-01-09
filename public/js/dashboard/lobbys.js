@@ -37,8 +37,9 @@
                 <div> 
                     <strong>Player2:</strong> ${lobbys.player2}, <strong>Player3:</strong> ${lobbys.player3}, <strong>Player4:</strong> ${lobbys.player4}, <strong>Game Status:</strong> ${lobbys.game_status}
                 </div>
-
-                <button class="btn btn-primary btn-sm join-btn" data-lobby-id="${lobbys.game_id}">Join</button>
+                <div>
+                    <button class="btn btn-primary btn-sm join-btn" data-lobby-id="${lobbys.game_id}">Join</button>
+                </div>
                 <button class="btn btn-primary btn-sm ready-btn" style="display:none;" data-user-id="${lobbys.user_id}">Ready</button>
                 <button class="btn btn-primary btn-sm start-btn" style="display:none;" data-lobby-id="${lobbys.game_id}">Start</button>
                 `;
