@@ -178,7 +178,7 @@ function leaveLobby() {
 
 function deleteLobby(){
     $pdo = getDatabaseConnection();
-    $gemeId = 17;
+    $gameId = 5;
 
     try{
         $sql = "DELETE FROM games WHERE game_id = ?";
