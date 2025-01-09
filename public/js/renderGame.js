@@ -78,20 +78,24 @@ function renderPlayerPieces(players) {
     const piecesContainer = document.getElementById('piecesContainer');
     piecesContainer.innerHTML = ''; // Clear previous pieces
 
-    players.forEach(player => {
+    players.forEach(async (player) => {
         const playerDiv = document.createElement('div');
         playerDiv.classList.add('player-piece');
         playerDiv.innerHTML = `<strong>${player.username} (${player.position})</strong> - Score: ${player.score}`;
 
+        // Fetch pieces for this player
+        const playerPieces = await fetchPlayerPieces(player.game_id, player.user_id);
+
         // Render each player's pieces
         const piecesList = document.createElement('ul');
-        player.pieces.forEach(pieceId => {
+        playerPieces.forEach((piece) => {
             const pieceItem = document.createElement('li');
-            pieceItem.textContent = pieceId;
-            pieceItem.dataset.piece = pieceId;
+            pieceItem.textContent = piece.id; // Display piece ID
+            pieceItem.dataset.piece = piece.id;
             pieceItem.classList.add('piece-item');
 
-            pieceItem.addEventListener('click', () => selectPiece(pieceId));
+            // Add click handler to select the piece
+            pieceItem.addEventListener('click', () => selectPiece(piece.id));
             piecesList.appendChild(pieceItem);
         });
 
@@ -101,6 +105,7 @@ function renderPlayerPieces(players) {
 
     console.log('Player pieces rendered successfully');
 }
+
 
 
 function selectPiece(pieceId) {
@@ -164,7 +169,17 @@ function enablePreview() {
 function previewPiecePlacement(row, col) {
     if (!selectedPiece) return; // No piece selected, exit
 
-    const pieceShape = pieceShapes[selectedPiece]; // Get the shape of the selected piece
+    // Find the selected piece's shape from the list
+    const piece = gameState.players
+        .flatMap((player) => player.pieces) // Combine all player pieces
+        .find((p) => p.id === selectedPiece);
+
+    if (!piece) {
+        console.error('Selected piece not found!');
+        return;
+    }
+
+    const pieceShape = piece.shape; // Extract the shape of the selected piece
     const player = gameState.turn; // Current player's turn
 
     pieceShape.forEach((pieceRow, i) => {
@@ -194,6 +209,7 @@ function previewPiecePlacement(row, col) {
         });
     });
 }
+
 
 function removePreview() {
     document.querySelectorAll('.cell').forEach(cell => {
