@@ -29,15 +29,15 @@
 
                 li.innerHTML = `
                 <div>
-                    <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, 
+                    <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}
                 </div>
-                <div>
+                <div style="margin-inline-end: auto;">
                     <button class="btn btn-primary btn-sm ready-btn1" style="display:inline-block;" data-user-id="${lobbys.host}">Ready</button>
                 </div>
                 <div> 
                     <strong>Player2:</strong> ${lobbys.player2}, <strong>Player3:</strong> ${lobbys.player3}, <strong>Player4:</strong> ${lobbys.player4}, <strong>Game Status:</strong> ${lobbys.game_status}
                 </div>
-                <div>
+                <div style="margin-left: auto;">
                     <button class="btn btn-primary btn-sm join-btn" data-lobby-id="${lobbys.game_id}">Join</button>
                 </div>
                 <button class="btn btn-primary btn-sm ready-btn" style="display:none;" data-user-id="${lobbys.user_id}">Ready</button>
