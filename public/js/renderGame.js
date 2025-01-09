@@ -75,31 +75,12 @@ function renderPlayerPieces(players) {
     players.forEach(player => {
         const playerDiv = document.createElement('div');
         playerDiv.classList.add('player-piece');
-
-        const playerId = player.user_id;
-        const pieces = playerPieces[playerId]; // Get pieces for this player
-
         playerDiv.textContent = `${player.username} (${player.position}) - Score: ${player.score}`;
-        
-        // Render player's pieces
-        const piecesList = document.createElement('ul');
-        pieces.forEach(pieceId => {
-            const pieceItem = document.createElement('li');
-            pieceItem.textContent = pieceId;
-            pieceItem.dataset.piece = pieceId;
-            pieceItem.classList.add('piece-item');
-
-            pieceItem.addEventListener('click', () => selectPiece(pieceId));
-            piecesList.appendChild(pieceItem);
-        });
-
-        playerDiv.appendChild(piecesList);
         piecesContainer.appendChild(playerDiv);
     });
 
     console.log('Player pieces rendered successfully');
 }
-
 
 function selectPiece(pieceId) {
     document.querySelectorAll('.player-piece').forEach(pieceElement => {
