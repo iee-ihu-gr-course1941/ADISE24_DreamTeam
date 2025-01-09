@@ -1,18 +1,18 @@
 export async function fetchPlayerPieces(gameId, playerId) {
     try {
-        const response = await fetch(`https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/games/${gameId}/players/${playerId}/pieces`);
+        const response = await fetch(`${base_url}/games/${gameId}/players/${playerId}/pieces`);
         const data = await response.json();
 
-        console.log('API Response:', data); // Log the API response
-
         if (!data.success) {
+            console.error('API Error:', data.message || 'Unknown error');
             throw new Error('Failed to fetch player pieces');
         }
 
-        // Parse the piece_data field from the API response
         if (data.pieces.length > 0) {
-            return JSON.parse(data.pieces[0].piece_data); // Returns the array of pieces
+            // Parse piece_data JSON string from the first piece object
+            return JSON.parse(data.pieces[0].piece_data); // Array of pieces
         } else {
+            console.warn(`No pieces found for player ${playerId} in game ${gameId}`);
             return [];
         }
     } catch (error) {
