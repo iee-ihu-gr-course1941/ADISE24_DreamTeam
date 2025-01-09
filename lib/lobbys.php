@@ -142,7 +142,7 @@ function leaveLobby() {
     $lobbyId = 5;
 
     try {
-        $sql = "DELETE FROM game_players WHERE game_id = ?";
+        $sql = "DELETE FROM games WHERE game_id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$lobbyId]);
 
