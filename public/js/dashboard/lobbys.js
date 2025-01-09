@@ -31,7 +31,7 @@
                 <span>
                     <strong>Lobby #${lobbys.game_id},</strong> - <strong>Player1(Host):</strong> ${lobbys.host}, 
                 </span>
-                <button class="btn btn-primary btn-sm ready-btn1" style="display:inline-block;" data-user-id="${lobbys.user_id}">Ready</button>
+                <button class="btn btn-primary btn-sm ready-btn1" style="display:none;" data-user-id="${lobbys.host}">Ready</button>
 
                 <span> 
                     <strong>Player2:</strong> ${lobbys.player2}, 
@@ -69,12 +69,12 @@
                 const startButton = li.querySelector('.start-btn');
                 
                 const CurrentuserId = getCookieValue('user_id');
-                if (CurrentuserId != lobbys.host){
-                    readyButton1.style.display = 'none';
+                if (CurrentuserId === lobbys.host){
+                    readyButton1.style.display = 'inline-block';
                 }
-                else{
-                    joinButton.style.display = 'none';
-                }
+                // else{
+                //     joinButton.style.display = 'inline-block';
+                // }
                 
 
                 li.querySelector('.join-btn').addEventListener('click', async (event) => {
