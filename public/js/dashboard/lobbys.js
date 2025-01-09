@@ -34,17 +34,7 @@
                 <button class="btn btn-primary btn-sm ready-btn1" style="display:inline-block;" data-user-id="${lobbys.host}">Ready</button>
 
                 <span> 
-                    <strong>Player2:</strong> ${lobbys.player2}, 
-                </span>
-                <span>
-                    <strong>Player3:</strong> ${lobbys.player3}, 
-                </span>
-
-                <span>
-                    <strong>Player4:</strong> ${lobbys.player4}, 
-                </span>
-                <span>
-                    <strong>Game Status:</strong> ${lobbys.game_status}
+                    <strong>Player2:</strong> ${lobbys.player2}, <strong>Player3:</strong> ${lobbys.player3}, <strong>Player4:</strong> ${lobbys.player4}, <strong>Game Status:</strong> ${lobbys.game_status}
                 </span>
 
                 <button class="btn btn-primary btn-sm join-btn" data-lobby-id="${lobbys.game_id}">Join</button>
