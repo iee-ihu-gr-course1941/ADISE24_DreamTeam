@@ -20,8 +20,9 @@ function enableCellPreview() {
 export async function initializeGame(gameId) {
     console.log('Initializing game with ID:', gameId);
 
-    // Fetch game state from the API
-    const response = await fetch(`https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/games/${gameId}`);
+    const response = await fetch(
+        `https://users.iee.ihu.gr/~iee2020202/ADISE24_DreamTeam/blokus.php/games/${gameId}`
+    );
     const data = await response.json();
 
     if (!data.success) {
@@ -32,13 +33,13 @@ export async function initializeGame(gameId) {
 
     gameState = data.gameState;
 
-    // Parse the board state (convert JSON string into a 2D array)
-    const board = JSON.parse(gameState.board_state).map(row => JSON.parse(row));
+    // Parse the board state
+    const board = JSON.parse(gameState.board_state).map((row) => JSON.parse(row));
     console.log('Parsed board:', board);
 
     // Fetch and render player pieces
     for (const player of gameState.players) {
-        player.pieces = await fetchPlayerPieces(gameId, player.user_id); // Fetch pieces from API
+        player.pieces = await fetchPlayerPieces(gameId, player.user_id);
     }
 
     // Render the board and other components
@@ -47,6 +48,7 @@ export async function initializeGame(gameId) {
     updateTurnDisplay(gameState.current_turn_user_id);
     enablePreview();
 }
+
 
 
 function renderBoard(board) {
@@ -83,7 +85,7 @@ function renderPlayerPieces(players) {
         playerDiv.classList.add('player-piece');
         playerDiv.innerHTML = `<strong>${player.username} (${player.position})</strong> - Score: ${player.score}`;
 
-        // Fetch pieces for this player
+        // Fetch and parse pieces for this player
         const playerPieces = await fetchPlayerPieces(player.game_id, player.user_id);
 
         // Render each player's pieces
@@ -105,6 +107,7 @@ function renderPlayerPieces(players) {
 
     console.log('Player pieces rendered successfully');
 }
+
 
 
 
@@ -209,6 +212,7 @@ function previewPiecePlacement(row, col) {
         });
     });
 }
+
 
 
 function removePreview() {
