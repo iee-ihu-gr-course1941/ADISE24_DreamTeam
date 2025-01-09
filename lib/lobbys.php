@@ -156,7 +156,6 @@ function joinLobby($userId, $gameId) {
 //     }
 // }
 
-//Issue with parameters
 function leaveLobby($lobbyId, $userId) {
     $pdo = getDatabaseConnection();
     try {
@@ -164,7 +163,7 @@ function leaveLobby($lobbyId, $userId) {
         $leaveGameStmt = $pdo->prepare($leaveGameSql);
 
         try {
-            $leaveGameStmt->execute(['game_id' => $gameId, 'user_id' => $userId]);
+            $leaveGameStmt->execute(['game_id' => $lobbyId, 'user_id' => $userId]);
             echo json_encode(['success' => true, 'message' => "You have successfully left the lobby with ID $gameId."]);
         } catch (PDOException $e) {
             error_log("Stored procedure error: " . $e->getMessage());
